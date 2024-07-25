@@ -1,10 +1,12 @@
 <template>
     <div class ="container">
-        <div>Video</div>
+        <div>{{ url }}</div>
     </div>
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
+defineProps(["url"]);
 </script>
 
 <style>

@@ -1,10 +1,12 @@
 <template>
     <div class ="container">
-        <div>Formula</div>
+        <div>{{ formula }}</div>
     </div>
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
+defineProps(["formula"]);
 </script>
 
 <style>
