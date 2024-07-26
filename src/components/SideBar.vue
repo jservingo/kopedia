@@ -2,6 +2,8 @@
     <div class="sidebar">
         <h2>Barra lateral</h2>
         <ul>
+            <li><router-link to="/home">Home</router-link></li>
+            <li><router-link to="/course">Course</router-link></li>
             <li><router-link to="/page">Page</router-link></li>
             <li><router-link to="/contador">Contador</router-link></li>
             <li><router-link to="/lista-de-tareas">Lista de Tareas</router-link></li>            

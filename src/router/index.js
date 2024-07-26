@@ -12,6 +12,16 @@ const router = createRouter({
     },
     */
     {
+      path: '/home',
+      name: 'home',
+      component: () => import('../modules/home/components/Home.vue')
+    },
+    {
+      path: '/course',
+      name: 'course',
+      component: () => import('../modules/course/componentes/Course.vue')
+    },
+    {
       path: '/page',
       name: 'page',
       component: () => import('../modules/page/components/Page.vue')
