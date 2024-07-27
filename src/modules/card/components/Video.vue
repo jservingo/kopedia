@@ -1,16 +1,15 @@
 <template>
     <div class ="container">
-        <Header></Header>
-        <Card></Card>
+        <div>{{ url }}</div>
     </div>
 </template>
 
 <script setup>
-import Card from './Card.vue'
-import Header from './Header.vue'
+import { defineProps } from 'vue';
+defineProps(["url"]);
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }

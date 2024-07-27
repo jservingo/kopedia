@@ -1,12 +1,12 @@
 <template>
     <div class ="container">
-        <div>{{ url }}</div>
+        <div>{{ title }}</div>
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
-defineProps(["url"]);
+defineProps(["title"]);
 </script>
 
 <style>

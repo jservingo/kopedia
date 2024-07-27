@@ -18,7 +18,7 @@ import { defineProps } from 'vue';
 defineProps(["item"]);
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }

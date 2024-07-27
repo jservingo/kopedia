@@ -1,6 +1,6 @@
 <template>
     <div class ="container">
-        <h2>Home</h2>
+        <h2>Kopedia home</h2>
         <Header :username="info.username"></Header>
         <CourseBox v-for="course in info.courses" :course="course"></CourseBox>
     </div>

@@ -9,7 +9,7 @@ import { defineProps } from 'vue';
 defineProps(["title"]);
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }

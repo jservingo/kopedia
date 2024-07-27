@@ -18,10 +18,12 @@ import Header from '../components/Header.vue'
 <style>
 .container {
     display: flex;
-
+    width: 900px;
 }
 .content {
     flex: 1;
     padding: 20px;
+    float: right;
+    width: 540px;
 }
 </style>

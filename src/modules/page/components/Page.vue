@@ -1,6 +1,5 @@
 <template>
     <div class ="container">
-        <h2>Page</h2>
         <Header :title="page.title"></Header>
         <Card v-for="card in page.cards" :card="card"></Card>
     </div>
@@ -8,7 +7,7 @@
 
 <script setup>
 import Header from './Header.vue'
-import Card from './Card.vue'
+import Card from '../../card/components/Card.vue'
 import { ref } from 'vue';
 
 const page = ref({
@@ -74,7 +73,7 @@ const page = ref({
 })
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }

@@ -9,7 +9,7 @@ import { defineProps } from 'vue';
 defineProps(["formula"]);
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }

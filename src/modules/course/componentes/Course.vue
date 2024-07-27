@@ -1,6 +1,5 @@
 <template>
     <div class ="container">
-        <h2>Home</h2>
         <Header :title="info.title"></Header>
         <Unit v-for="unit in info.unidades" :unit="unit"></Unit>
     </div>

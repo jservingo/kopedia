@@ -1,6 +1,5 @@
 <template>
     <div class ="container">
-        <h3>Card</h3>
         <Header :title="card.title"></Header>        
         <Item v-for="item in card.items" :item="item"></Item>
     </div>
@@ -15,7 +14,7 @@ import { defineProps } from 'vue';
 defineProps(["card"]);
 </script>
 
-<style>
+<style scoped>
 .container {
     display: block;
 }
