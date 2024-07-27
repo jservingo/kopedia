@@ -33,7 +33,22 @@ const page = ref({
                 },
                 {
                     type: 'formula',
-                    formula: 'formula 1'
+                    formula: `        
+                        <math>             
+                        <mfrac>          
+                            <msup>         
+                            <mi>x</mi>   
+                            <msqrt>      
+                                <mn>5</mn> 
+                            </msqrt>
+                            </msup>
+                            <mrow>         
+                            <mi>α</mi>   
+                            <mo>×</mo>   
+                            <mn>7</mn>   
+                            </mrow>
+                        </mfrac>  
+                        </math>`
                 }
             ]   
         }, 

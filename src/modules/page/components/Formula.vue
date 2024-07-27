@@ -1,6 +1,6 @@
 <template>
     <div class ="container">
-        <div>{{ formula }}</div>
+        <div v-html=formula></div>
     </div>
 </template>
 
