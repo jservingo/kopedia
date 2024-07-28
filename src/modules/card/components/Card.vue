@@ -13,7 +13,7 @@ const props = defineProps(["card","index"]);
 //Change bgColor
 //backgroundColor:bgColor
 const bgColors=["#8ED6D5","#EFC7C5","#B6C8D4","#CFCDE","#8CC9DB","#FDD6AB"]
-const bgColor = bgColors[props.index]
+const bgColor = bgColors[props.index % 6]
 console.log(bgColor)  
 //Change bgGradient
 const bgGradient = computed(() => {

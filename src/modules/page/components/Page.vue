@@ -9,7 +9,10 @@
 import Header from './Header.vue'
 import Card from '../../card/components/Card.vue'
 import { ref } from 'vue';
-
+/*
+const data = fs.readFileSync('../../../../public/000001-01-01.json')
+const page = ref(JSON.parse(data))
+*/    
 const page = ref({
     id: 1,
     id_course: 1,

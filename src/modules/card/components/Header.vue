@@ -29,7 +29,7 @@ function greet() {
     font-size: 18px;
 }
 .btn-display {
-    width:
+    width: 25px;
     font-size: 18px;
 }
 </style>
