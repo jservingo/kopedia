@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-text">
         <div>{{ text }}</div>
     </div>
 </template>
@@ -10,7 +10,8 @@ defineProps(["text"]);
 </script>
 
 <style scoped>
-.container {
+.container-text {
     display: block;
+    font-size: 15px;
 }
 </style>

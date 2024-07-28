@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-video">
         <div>{{ url }}</div>
     </div>
 </template>
@@ -9,8 +9,9 @@ import { defineProps } from 'vue';
 defineProps(["url"]);
 </script>
 
-<style scoped>
-.container {
+<style>
+.container-video {
     display: block;
+    font-size: 15px;
 }
 </style>

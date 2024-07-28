@@ -1,7 +1,7 @@
 <template>
-    <div class ="container">
+    <div class ="container-page">
         <Header :title="page.title"></Header>
-        <Card v-for="card in page.cards" :card="card"></Card>
+        <Card v-for="(card,index) in page.cards" :card="card" :index="index"></Card>
     </div>
 </template>
 
@@ -74,7 +74,8 @@ const page = ref({
 </script>
 
 <style scoped>
-.container {
+.container-page {
     display: block;
+    font-size: 22px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-formula">
         <div v-html=formula></div>
     </div>
 </template>
@@ -9,8 +9,9 @@ import { defineProps } from 'vue';
 defineProps(["formula"]);
 </script>
 
-<style scoped>
-.container {
+<style>
+.container-formula {
     display: block;
+    font-size: 15px;
 }
 </style>

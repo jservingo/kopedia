@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-audio">
         <div>{{ url }}</div>
     </div>
 </template>
@@ -10,7 +10,8 @@ defineProps(["url"]);
 </script>
 
 <style>
-.container {
+.container-audio {
     display: block;
+    font-size: 15px;
 }
 </style>

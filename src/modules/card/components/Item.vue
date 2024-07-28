@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-item">
         <Audio v-if="item.type=='audio'" :url="item.url"></Audio>
         <Formula v-if="item.type=='formula'" :formula="item.formula"></Formula>
         <Image v-if="item.type=='image'" :url="item.url"></Image>
@@ -18,8 +18,8 @@ import { defineProps } from 'vue';
 defineProps(["item"]);
 </script>
 
-<style scoped>
-.container {
+<style>
+.container-item {
     display: block;
 }
 </style>
