@@ -9,21 +9,12 @@
 <script setup>
 import Header from './Header.vue'
 import CourseBox from './CourseBox.vue'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import useHome from '../../../composables/useHome';
 
-const info = ref({
-    id: 1,
-    username: 'demo',
-    courses: [
-        {
-            id: 1,
-            title: 'Matematicas - Curso de Prueba',        
-        }, 
-        {
-            id: 2,
-            title: 'Ingles - Curso de Prueba',
-        }, 
-    ]
+const { info, getInfo } = useHome()
+onMounted(() => {
+    getInfo()
 })
 </script>
 
