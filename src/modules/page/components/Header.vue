@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-page-header">
         <div>{{ title }}</div>
     </div>
 </template>
@@ -9,8 +9,10 @@ import { defineProps } from 'vue';
 defineProps(["title"]);
 </script>
 
-<style scoped>
-.container {
+<style>
+.container-page-header {
     display: block;
+    font-size: 22px;
+    color: whitesmoke;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <div class ="container">
-        <div>{{ page.title }}</div>
+    <div class ="container-unit-page">
+        <div >{{ page.title }}</div>
     </div>
 </template>
 
@@ -10,7 +10,9 @@ defineProps(["page"]);
 </script>
 
 <style>
-.container {
+.container-unit-page {
     display: block;
+    font-size: 15px;
+    color: var(--color-text);
 }
 </style>

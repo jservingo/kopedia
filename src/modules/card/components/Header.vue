@@ -1,5 +1,5 @@
 <template>
-    <div class ="container-header">
+    <div class ="container-card-header">
         <button @click="$emit('displayItems')"  class="btn-display">{{ btnDisplay }}</button> {{ title }}
     </div>
 </template>
@@ -22,11 +22,12 @@ function greet() {
 */
 </script>
 
-<style scoped>
-.container-header {
+<style>
+.container-card-header {
     display: block;
     width: 100%;
-    font-size: 18px;
+    font-size: 17px;
+    color:floralwhite;
 }
 .btn-display {
     width: 25px;

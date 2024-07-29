@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-course">
         <div>{{ title }}</div>
     </div>
 </template>
@@ -10,7 +10,9 @@ defineProps(["title"]);
 </script>
 
 <style>
-.container {
+.container-course {
     display: block;
+    font-size: 20px;
+    color: whitesmoke;
 }
 </style>

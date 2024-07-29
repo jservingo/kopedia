@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-unit">
         <div>{{ unit.title }}</div>
         <Page v-for="(page,index) in unit.pages" :page="page" :index="index"></Page>
     </div>
@@ -12,7 +12,9 @@ defineProps(["unit"]);
 </script>
 
 <style>
-.container {
+.container-unit {
     display: block;
+    font-size: 17px;
+    color:cadetblue;
 }
 </style>

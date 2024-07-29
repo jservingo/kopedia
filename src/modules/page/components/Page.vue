@@ -20,6 +20,5 @@ onMounted(() => {
 <style scoped>
 .container-page {
     display: block;
-    font-size: 22px;
 }
 </style>
