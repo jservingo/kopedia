@@ -1,5 +1,5 @@
 <template>
-    <div class ="container">
+    <div class ="container-home-header">
         <div>{{ username }}</div>
     </div>
 </template>
@@ -10,7 +10,9 @@ defineProps(["username"]);
 </script>
 
 <style>
-.container {
+.container-home-header {
     display: block;
+    font-size: 22px;
+    color: whitesmoke;
 }
 </style>

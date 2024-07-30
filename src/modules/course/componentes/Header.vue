@@ -12,7 +12,7 @@ defineProps(["title"]);
 <style>
 .container-course {
     display: block;
-    font-size: 20px;
+    font-size: 22px;
     color: whitesmoke;
 }
 </style>

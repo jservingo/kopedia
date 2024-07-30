@@ -1,17 +1,18 @@
 <template>
-    <div class="container-card" :style="{background:bgGradient }">
-        <Header :title="card.title" :display="display" @display-items="displayItems"></Header>        
-        <Item v-for="item in card.items" :item="item" v-show="display"></Item>
+    <div class ="container-unit" :style="{background:bgGradient }">
+        <Header :title="unit.title" :display="display" @display-items="displayItems"></Header>
+        <Page v-for="(page) in unit.pages" :page="page" v-show="display"></Page>
     </div>
 </template>
 
 <script setup>
 import Header from './Header.vue'
-import Item from './Item.vue'
+import Page from './Page.vue'
 import { defineProps, ref, computed } from 'vue';
-const props = defineProps(["card","index"]);
+const props = defineProps(["unit","index"]);
 //Change bgColor
 //backgroundColor:bgColor
+//const bgColors=["#8ED6D5","#EFC7C5","#c8d4b6","#CFCDE2","#e5ce89","#FDD6AB"]
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 const bgColor = bgColors[props.index % 6]
 //console.log(bgColor)  
@@ -27,8 +28,9 @@ const displayItems = (mode) => {
 </script>
 
 <style>
-.container-card {
+.container-unit {
     display: block;
+    font-size: 17px;
     padding: 10px;
     padding-top: 3px;
     margin-bottom: 12px;

@@ -1,8 +1,8 @@
 <template>
-    <div class ="container">
+    <div class ="container-home">
         <h2>Kopedia home</h2>
         <Header :username="info.username"></Header>
-        <CourseBox v-for="course in info.courses" :course="course"></CourseBox>
+        <CourseBox v-for="(course,index) in info.courses" :course="course" :index="index"></CourseBox>
     </div>
 </template>
 
@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <style>
-.container {
+.container-home {
     display: block;
 }
 </style>

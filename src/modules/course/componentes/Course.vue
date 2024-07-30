@@ -1,13 +1,13 @@
 <template>
-    <div class ="container">
+    <div class ="container-course">
         <Header :title="course.title"></Header>
-        <Unit v-for="unit in course.unidades" :unit="unit"></Unit>
+        <Unit v-for="(unit,index) in course.unidades" :unit="unit" :index="index"></Unit>
     </div>
 </template>
 
 <script setup>
 import Header from './Header.vue'
-import Unit from './Unit.vue'
+import Unit from '../../unit/components/Unit.vue'
 import { ref, onMounted } from 'vue';
 import useCourse from '../../../composables/useCourse';
 
@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <style>
-.container {
+.container-course {
     display: block;
 }
 </style>
