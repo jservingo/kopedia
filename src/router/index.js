@@ -17,12 +17,12 @@ const router = createRouter({
       component: () => import('../modules/home/components/Home.vue')
     },
     {
-      path: '/course',
+      path: '/course/:id',
       name: 'course',
       component: () => import('../modules/course/componentes/Course.vue')
     },
     {
-      path: '/page',
+      path: '/page/:id',
       name: 'page',
       component: () => import('../modules/page/components/Page.vue')
     },

@@ -1,10 +1,11 @@
 <template>
     <div class ="container-course-box" :style="{background:bgGradient }">
-        <div>{{ course.title }}</div>
+        <RouterLink class="link-course-box" :to="`/course/${course.id}`">{{ course.title }}</RouterLink>
     </div>
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router';
 import { defineProps, computed } from 'vue';
 const props = defineProps(["course","index"]);
 //Change bgColor
@@ -21,12 +22,16 @@ const bgGradient = computed(() => {
 <style>
 .container-course-box {
     display: block;
-    font-size: 17px;
-    color:floralwhite;
-    width: 280px;
+    float: left;
+    width: 260px;
     height: 140px;
     padding: 10px;
     margin-right: 12px;
     margin-bottom: 12px;
+}
+.link-course-box {
+    font-size: 17px;
+    color:floralwhite;
+    border-bottom: 0;
 }
 </style>

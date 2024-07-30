@@ -13,13 +13,6 @@ const btnDisplay = computed(() => {
         return("-")
     return("+")
 })
-//@click="greet"
-/*
-const name = ref('Vue.js')
-function greet() {
-  alert(`Hello ${name.value}!`)
-}
-*/
 </script>
 
 <style>

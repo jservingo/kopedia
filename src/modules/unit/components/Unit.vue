@@ -13,7 +13,7 @@ const props = defineProps(["unit","index"]);
 //Change bgColor
 //backgroundColor:bgColor
 //const bgColors=["#8ED6D5","#EFC7C5","#c8d4b6","#CFCDE2","#e5ce89","#FDD6AB"]
-const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
+const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
 const bgColor = bgColors[props.index % 6]
 //console.log(bgColor)  
 //Change bgGradient

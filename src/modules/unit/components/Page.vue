@@ -1,10 +1,11 @@
 <template>
     <div class ="container-unit-page">
-        <div >{{ page.title }}</div>
+        <RouterLink class="link-unit-page" :to="`/page/${page.id}`">{{ page.title }}</RouterLink>
     </div>
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router';
 import { defineProps } from 'vue';
 defineProps(["page"]);
 </script>
@@ -12,7 +13,10 @@ defineProps(["page"]);
 <style>
 .container-unit-page {
     display: block;
+}
+.link-unit-page {
     font-size: 15px;
-    color: var(--color-text);
+    color: floralwhite;
+    border-bottom: 0;
 }
 </style>

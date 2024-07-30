@@ -12,7 +12,7 @@ import { defineProps, ref, computed } from 'vue';
 const props = defineProps(["card","index"]);
 //Change bgColor
 //backgroundColor:bgColor
-const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
+const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
 const bgColor = bgColors[props.index % 6]
 //console.log(bgColor)  
 //Change bgGradient

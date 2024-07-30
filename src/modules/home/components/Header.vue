@@ -1,6 +1,6 @@
 <template>
     <div class ="container-home-header">
-        <div>{{ username }}</div>
+        <div>Kopedia: {{ username }}</div>
     </div>
 </template>
 

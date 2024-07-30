@@ -1,6 +1,6 @@
 <template>
     <div class ="container-page-header">
-        <div>{{ title }}</div>
+        <div>{{ title }} </div>
     </div>
 </template>
 
