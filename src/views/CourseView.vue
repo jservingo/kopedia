@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-import Header from './Header.vue'
-import Unit from '../../unit/components/Unit.vue'
+import Header from '../modules/course/componentes/Header.vue'
+import Unit from '../modules/unit/components/Unit.vue'
 import { ref, onMounted } from 'vue';
-import useCourse from '../../../composables/useCourse';
+import useCourse from '../composables/useCourse';
 import { useRoute } from 'vue-router';
 //Get id
 const route = useRoute()

@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-import Header from './Header.vue'
-import CourseBox from './CourseBox.vue'
+import Header from '../modules/home/components/Header.vue'
+import CourseBox from '../modules/home/components/CourseBox.vue'
 import { ref, onMounted } from 'vue';
-import useHome from '../../../composables/useHome';
+import useHome from '../composables/useHome';
 
 const { info, getInfo } = useHome()
 onMounted(() => {
