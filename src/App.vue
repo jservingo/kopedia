@@ -1,12 +1,27 @@
 <template>
-<MainVue></MainVue>
+    <Header></Header>
+    <div class ="container">
+        <div class="content">
+            <router-view></router-view>
+        </div>
+    </div>
+
 </template>
 
 <script setup>
-//import { RouterLink, RouterView } from 'vue-router'
-import MainVue from './views/MainVue.vue';
+import Header from './components/Header.vue'
+
 </script>
 
-<style scoped>
-
+<style>
+.container {
+    display: flex;
+    width: 900px;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+    float: right;
+    width: 540px;
+}
 </style>
