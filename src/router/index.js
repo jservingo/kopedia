@@ -14,6 +14,21 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue')
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue'),
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('../views/LoginView.vue'),
+    },
+    {
+        path: '/perfil',
+        name: 'profile',
+        component: () => import('../views/ProfileView.vue'),
+    },
+    {
       path: '/course/:id',
       name: 'course',
       component: () => import('../views/CourseView.vue')
@@ -22,16 +37,6 @@ const router = createRouter({
       path: '/page/:id',
       name: 'page',
       component: () => import('../views/PageView.vue')
-    },
-    {
-      path: '/contador',
-      name: 'contador',
-      component: () => import('../modules/contador/components/Contador.vue')
-    },
-    {
-      path: '/lista-de-tareas',
-      name: 'listaDeTareas',
-      component: () => import('../modules/listaDeTareas/components/ListaDeTareas.vue')
     } 
   ]
 })

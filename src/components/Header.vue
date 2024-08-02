@@ -1,11 +1,41 @@
 <template>
     <div class ="header">
-        <Weather></Weather>
+        Kopedia
+        <div v-if="isAuthenticated" class="sm:flex items-center sm:gap-4">
+            <router-link to="/perfil">Hola, <strong>{{ user.name }}</strong></router-link>
+            <button @click="handleLogout"
+                class="block rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700">
+                Salir
+            </button>
+        </div>
+        <div v-else class="sm:flex sm:gap-4">
+            <router-link to="/login"
+                class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
+                Iniciar Sesión
+            </router-link>
+
+            <router-link to="/register"
+                class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block">
+                Registrarse
+            </router-link>
+        </div>
     </div>
 </template>
 
 <script setup>
-import Weather from './Weather.vue'
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../stores/auth';
+const store = useAuthStore();
+
+const { isAuthenticated, user } = storeToRefs(store);
+
+const handleLogout = () => {
+    if (user.google) {
+        google.accounts.id.disableAutoSelect();
+        google.accounts.id.revoke(user.email);
+    }
+    store.logout();
+};
 </script>
 
 <style scoped>
