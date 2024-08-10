@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
 const store = useAuthStore();
 
 const form = reactive({

@@ -2,7 +2,7 @@
     <div class ="header">
         Kopedia
         <div v-if="isAuthenticated" class="sm:flex items-center sm:gap-4">
-            <router-link to="/perfil">Hola, <strong>{{ user.name }}</strong></router-link>
+            <router-link to="/perfil"><strong>{{ user.name }}</strong></router-link>
             <button @click="handleLogout"
                 class="block rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700">
                 Salir
@@ -11,7 +11,7 @@
         <div v-else class="sm:flex sm:gap-4">
             <router-link to="/login"
                 class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
-                Iniciar Sesión
+                Ingresar
             </router-link>
 
             <router-link to="/register"
@@ -24,7 +24,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
 const store = useAuthStore();
 
 const { isAuthenticated, user } = storeToRefs(store);

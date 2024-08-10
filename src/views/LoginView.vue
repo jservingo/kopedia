@@ -1,16 +1,17 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { reactive, ref, onMounted } from 'vue';
-import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
+
 const store = useAuthStore()
-
-const { loading, error } = storeToRefs(useAuthStore())
-
+const { isAuthenticated, loading, error } = storeToRefs(useAuthStore())
 const form = reactive({
     email: '',
     password: ''
 });
 
+const router = useRouter()
 const googleBtn = ref()
 
 onMounted(() => {
@@ -19,6 +20,8 @@ onMounted(() => {
 
 const handleLogin = async () => {
     await store.login(form.email, form.password)
+    if (isAuthenticated)
+        router.push('/home')
 };
 
 const handleGoogleConnect = async (response) => {

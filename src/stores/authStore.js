@@ -1,54 +1,39 @@
 import { ref, reactive } from 'vue';
 import { defineStore } from 'pinia';
 
-const API_URL = "import.meta.env.VITE_API_URL";
-
 export const useAuthStore = defineStore('auth', () => {
-    const isAuthenticated = ref(localStorage.getItem('user') ? true : false);
-    const loading = ref(false);
-    const user = ref(
-        localStorage.getItem('user')
-            ? JSON.parse(localStorage.getItem('user'))
-            : null
-    );
-    const token = ref(localStorage.getItem('token') || '');
+    const token = ref(null)
+    const user = ref(null)
+    const isAuthenticated = ref(false)
+    const isRegistered = ref(false);
+    const loading = ref(false)
     const error = reactive({
         status: false,
         message: '',
-        data: [],
+        data: []
     });
 
-    async function validateToken() {
-        try {
-            const response = await fetch(`${API_URL}/validate-token`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    token: token.value,
-                }),
-            });
-
-            if (response.status >= 300) {
-                throw new Error('Token no válido.');
-            }
-        } catch (err) {
-            isAuthenticated.value = false;
+    function getTokenAndUser() {
+        if (localStorage.getItem('token')) {
+            token.value = localStorage.getItem('token');
+            isAuthenticated.value = true;
+        } else {
+            token.value = null;
+        }
+        if (localStorage.getItem('user')) {
+            user.value = JSON.parse(localStorage.getItem('user'));
+        } else {
             user.value = null;
-            token.value = '';
-
-            localStorage.clear();
         }
     }
 
     async function login(email, password) {
+        //console.log(email, password)
         error.status = false;
         loading.value = true;
 
         try {
-            const response = await fetch(`localhost/api/login`, {
+            const response = await fetch(`http://localhost:4000/api/user/login`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -60,62 +45,21 @@ export const useAuthStore = defineStore('auth', () => {
                 }),
             });
 
-            const data = await response.json();
+            const resDB = await response.json();
 
             if (response.status > 300) {
-                if (data.errors) {
-                    error.data = data.errors;
+                if (resDB.data.error) {
+                    error.status = true;
+                    error.message = "Error en login";
                 }
-
-                throw new Error(data.message);
+                throw new Error(error.message);
             }
 
-            user.value = data.user;
-            token.value = data.token;
+            user.value = resDB.user;
+            token.value = resDB.data.token;
             isAuthenticated.value = true;
-            localStorage.setItem('user', JSON.stringify(data.user));
-            localStorage.setItem('token', data.token);
-
-            this.router.push('/home');
-        } catch (err) {
-            error.status = true;
-            error.message = err.message;
-        } finally {
-            loading.value = false;
-        }
-    }
-
-    async function googleLogin(credential) {
-        error.status = false;
-        loading.value = true;
-
-        try {
-            const response = await fetch(`${API_URL}/google/signin`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify({ credential }),
-            });
-
-            const data = await response.json();
-
-            if (response.status > 300) {
-                if (data.errors) {
-                    error.data = data.errors;
-                }
-
-                throw new Error(data.message);
-            }
-
-            user.value = data.user;
-            token.value = data.token;
-            isAuthenticated.value = true;
-            localStorage.setItem('user', JSON.stringify(data.user));
-            localStorage.setItem('token', data.token);
-
-            this.router.push('/home');
+            localStorage.setItem('token', token.value);
+            localStorage.setItem('user', JSON.stringify(resDB.user));
         } catch (err) {
             error.status = true;
             error.message = err.message;
@@ -129,7 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = true;
 
         try {
-            const response = await fetch('http://localhost:5000/api/register', {
+            const response = await fetch('http://localhost:4000/api/user/register', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -138,25 +82,24 @@ export const useAuthStore = defineStore('auth', () => {
                 body: JSON.stringify({
                     name,
                     email,
-                    password,
-                    password_confirmation,
+                    password
                 }),
             });
 
             const data = await response.json();
 
+            console.log("response")
+            console.log(data)
+
             if (response.status > 300) {
-                if (data.errors) {
-                    error.data = data.errors;
+                if (data.error) {
+                    error.data = data.error;
                 }
                 throw new Error(data.message);
             }
 
             user.value = data.user;
-            token.value = data.token;
-            isAuthenticated.value = true;
-
-            this.router.push('/home');
+            isRegistered.value = true;
         } catch (err) {
             error.status = true;
             error.message = err.message;
@@ -167,12 +110,11 @@ export const useAuthStore = defineStore('auth', () => {
 
     function logout() {
         isAuthenticated.value = false;
+        isRegistered.value = false;
         user.value = null;
         token.value = '';
 
         localStorage.clear();
-
-        this.router.push('/home');
     }
 
     async function updateProfile({
@@ -221,16 +163,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     return {
+        token,
+        user,  
         isAuthenticated,
+        isRegistered,
         loading,
         error,
-        user,
-        token,
-        validateToken,
         login,
-        googleLogin,
         register,
         logout,
-        updateProfile,
+        getTokenAndUser
     };
-});
+})
+
+
+
+
+

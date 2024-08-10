@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-import Header from '../modules/page/components/Header.vue'
-import Card from '../modules/card/components/Card.vue'
+import Header from '../modules/page/admin/Header.vue'
+import Card from '../modules/card/admin/Card.vue'
 import { ref, onMounted } from 'vue';
-import usePage from '../composables/usePage';
+import usePage from '../composables/usePageAdmin';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 

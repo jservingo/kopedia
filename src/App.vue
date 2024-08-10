@@ -9,8 +9,11 @@
 </template>
 
 <script setup>
+import { useAuthStore } from './stores/authStore';
 import Header from './components/Header.vue'
 
+const store = useAuthStore()
+store.getTokenAndUser()
 </script>
 
 <style>

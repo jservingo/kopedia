@@ -1,6 +1,6 @@
 <template>
     <div class ="container-home-header">
-        <div>Kopedia user</div>
+        <div>Kopedia administrator</div>
     </div>
 </template>
 

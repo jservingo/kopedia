@@ -1,12 +1,11 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { onMounted, reactive, ref } from 'vue';
-import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
 
 const store = useAuthStore();
-
-const { loading, error } = storeToRefs(store);
-
+const { isRegistered, loading, error } = storeToRefs(store);
 const form = reactive({
     name: '',
     email: '',
@@ -14,6 +13,7 @@ const form = reactive({
     password_confirmation: ''
 });
 
+const router = useRouter()
 const googleBtn = ref()
 
 onMounted(() => {
@@ -22,6 +22,8 @@ onMounted(() => {
 
 const handleRegister = async () => {
     await store.register(form.name, form.email, form.password, form.password_confirmation)
+    if (isRegistered)
+        router.push('/login')
 };
 </script>
 <template>
@@ -31,7 +33,7 @@ const handleRegister = async () => {
         </h2>
         <form @submit.prevent="handleRegister" class="mt-5 space-y-2">
             <div class="space-y-1">
-                <label for="name" class="text-gray-500">Nombres:</label>
+                <label for="name" class="text-gray-500">Nombre:</label>
                 <input id="name" v-model="form.name" type="text" name="name" placeholder="Homero..."
                     class="w-full p-2 border rounded-lg">
                 <template v-if="error.status && error.data.length"
@@ -41,7 +43,7 @@ const handleRegister = async () => {
             </div>
 
             <div class="space-y-1">
-                <label for="email" class="text-gray-500">Correo:</label>
+                <label for="email" class="text-gray-500">Email:</label>
                 <input id="email" v-model="form.email" type="text" name="email" placeholder="homero@mail.com"
                     class="w-full p-2 border rounded-lg">
                 <template v-if="error.status && error.data.length"

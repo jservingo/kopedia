@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-import Header from '../modules/course/componentes/Header.vue'
-import Unit from '../modules/unit/components/Unit.vue'
+import Header from '../modules/course/admin/Header.vue'
+import Unit from '../modules/unit/admin/Unit.vue'
 import { ref, onMounted } from 'vue';
-import useCourse from '../composables/useCourse';
+import useCourse from '../composables/useCourseAdmin';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 

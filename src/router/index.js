@@ -37,7 +37,22 @@ const router = createRouter({
       path: '/page/:id',
       name: 'page',
       component: () => import('../views/PageView.vue')
-    } 
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/HomeAdminView.vue')
+    },
+    {
+      path: '/admin/course/:id',
+      name: 'courseAdmin',
+      component: () => import('../views/CourseAdminView.vue')
+    },
+    {
+      path: '/admin/page/:id',
+      name: 'pageAdmin',
+      component: () => import('../views/PageAdminView.vue')
+    }
   ]
 })
 
