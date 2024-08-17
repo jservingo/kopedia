@@ -11,17 +11,21 @@ import Card from '../modules/card/admin/Card.vue'
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageAdmin';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';
 
+//Get store
 const store = useAuthStore()
+const { isAuthenticated, token } = storeToRefs(store);
 //Get id
 const route = useRoute()
-const id = ref(route.params.id);
+const id = ref('');
+id.value = route.params.id
 //Get page 
 const { page, getPage } = usePage()
 
 onMounted(() => {
-    getPage()
+    getPage(token.value, id.value)
 })
 </script>
 

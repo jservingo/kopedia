@@ -1,6 +1,6 @@
 <template>
     <div class ="container-unit-page">
-        <RouterLink class="link-unit-page" :to="`/admin/page/${page.id}`">{{ page.title }}</RouterLink>
+        <RouterLink class="link-unit-page" :to="`/admin/page/${page._id}`">{{ page.title }}</RouterLink>
     </div>
 </template>
 

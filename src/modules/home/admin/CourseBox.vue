@@ -1,6 +1,6 @@
 <template>
     <div class ="container-course-box" :style="{background:bgGradient }">
-        <RouterLink class="link-course-box" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>
+        <RouterLink class="link-course-box" :to="`/admin/course/${course._id}`">{{ course.title }}</RouterLink>
     </div>
 </template>
 

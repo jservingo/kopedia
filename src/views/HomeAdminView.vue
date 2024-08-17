@@ -10,13 +10,17 @@ import Header from '../modules/home/admin/Header.vue'
 import CourseBox from '../modules/home/admin/CourseBox.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '../composables/useHomeAdmin';
+import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';
 
+//Get store
 const store = useAuthStore()
-
+const { isAuthenticated, token } = storeToRefs(store);
+//console.log(token.value);
 const { info, getInfo } = useHome()
+
 onMounted(() => {
-    getInfo()
+    getInfo(token.value)
 })
 </script>
 
