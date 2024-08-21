@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function usePage() {
+export default function usePageAdmin() {
     const page = ref({})
 
     const getPage = async (token, id) => { 

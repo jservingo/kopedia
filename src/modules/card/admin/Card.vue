@@ -7,7 +7,7 @@
 
 <script setup>
 import Header from './Header.vue'
-import Item from '../components/Item.vue'
+import Item from '../student/Item.vue'
 import { defineProps, ref, computed } from 'vue';
 const props = defineProps(["card","index"]);
 //Change bgColor

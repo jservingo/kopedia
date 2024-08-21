@@ -1,4 +1,17 @@
+import { useAuthStore } from '@/stores/authStore'
 import { createRouter, createWebHistory } from 'vue-router'
+
+function auth(to, from) {
+  const auth = useAuthStore();
+  if (!auth.user)
+    return "/login";
+}
+
+function guest(to, from) {
+  const auth = useAuthStore();
+  if (auth.user)
+    return "/home";
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,51 +19,72 @@ const router = createRouter({
     {
       path: '/',
       name: 'root',
-      component: () => import('../views/HomeView.vue')
+      component: () => import('../views/HomeGuestView.vue')
     },
     {
-      path: '/home',
-      name: 'home',
-      component: () => import('../views/HomeView.vue')
+      path: '/student',
+      name: 'student',
+      beforeEnter: auth,
+      component: () => import('../views/HomeStudentView.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      beforeEnter: auth,
+      component: () => import('../views/HomeAdminView.vue')
     },
     {
       path: '/register',
       name: 'register',
+      beforeEnter: guest,
       component: () => import('../views/RegisterView.vue'),
     },
     {
         path: '/login',
         name: 'login',
+        beforeEnter: guest,
         component: () => import('../views/LoginView.vue'),
     },
     {
         path: '/perfil',
         name: 'profile',
+        beforeEnter: auth,
         component: () => import('../views/ProfileView.vue'),
     },
     {
-      path: '/course/:id',
+      path: '/guest/course/:id',
       name: 'course',
-      component: () => import('../views/CourseView.vue')
+      beforeEnter: auth,
+      component: () => import('../views/CourseGuestView.vue')
     },
     {
-      path: '/page/:id',
+      path: '/guest/page/:id',
       name: 'page',
-      component: () => import('../views/PageView.vue')
+      beforeEnter: auth,
+      component: () => import('../views/PageGuestView.vue')
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/HomeAdminView.vue')
+      path: '/student/course/:id',
+      name: 'courseStudent',
+      beforeEnter: auth,
+      component: () => import('../views/CourseStudentView.vue')
+    },
+    {
+      path: '/student/page/:id',
+      name: 'pageStudent',
+      beforeEnter: auth,
+      component: () => import('../views/PageStudentView.vue')
     },
     {
       path: '/admin/course/:id',
       name: 'courseAdmin',
+      beforeEnter: auth,
       component: () => import('../views/CourseAdminView.vue')
     },
     {
       path: '/admin/page/:id',
       name: 'pageAdmin',
+      beforeEnter: auth,
       component: () => import('../views/PageAdminView.vue')
     }
   ]

@@ -1,8 +1,8 @@
 <template>
     <div class ="header">
-        Kopedia
+        <span class="link-logo">Kopedia</span>
         <div v-if="isAuthenticated" class="sm:flex items-center sm:gap-4">
-            <router-link to="/perfil"><strong>{{ user.name }}</strong></router-link>
+            <router-link class="link-user" to="/perfil"><strong>{{ user.name }}</strong></router-link>
             <button @click="handleLogout"
                 class="block rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700">
                 Salir
@@ -53,5 +53,16 @@ const handleLogout = () => {
 }
 h3 {
     margin: 0;
+}
+.link-user {
+    font-size: 15px;
+    color: rgb(186, 195, 244);
+    padding-right: 10px;
+    border-bottom: 0;
+}
+.link-logo {
+    font-size: 20px;
+    color: rgb(197, 236, 215);
+    border-bottom: 0;
 }
 </style>
