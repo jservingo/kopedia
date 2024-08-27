@@ -21,7 +21,7 @@ onMounted(() => {
 const handleLogin = async () => {
     await store.login(form.email, form.password)
     if (isAuthenticated)
-        router.push('/home')
+        router.push('/student')
 };
 
 const handleGoogleConnect = async (response) => {

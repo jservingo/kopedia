@@ -10,7 +10,7 @@ function auth(to, from) {
 function guest(to, from) {
   const auth = useAuthStore();
   if (auth.user)
-    return "/home";
+    return "/";
 }
 
 const router = createRouter({
