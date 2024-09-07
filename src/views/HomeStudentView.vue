@@ -1,13 +1,13 @@
 <template>
-    <div class ="container-home">
+    <div class ="container-fluid container-home">
         <Header :username="info.username"></Header>
         <CourseBox v-for="(subscription,index) in info.subscriptions" :subscription="subscription" :index="index"></CourseBox>
     </div>
 </template>
 
 <script setup>
-import Header from '../modules/home/student/Header.vue'
-import CourseBox from '../modules/home/student/CourseBox.vue'
+import Header from '../modules/home/student/CourseHeader.vue'
+import CourseBox from '../modules/home/student/CourseStudent.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '../composables/useHomeStudent';
 import { storeToRefs } from 'pinia';

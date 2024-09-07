@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('../views/HomeGuestView.vue')
     },
     {
+      path: '/guest',
+      name: 'guestRoot',
+      component: () => import('../views/HomeGuestView.vue')
+    },
+    {
       path: '/student',
       name: 'student',
       beforeEnter: auth,
@@ -54,13 +59,13 @@ const router = createRouter({
     {
       path: '/guest/course/:id',
       name: 'course',
-      beforeEnter: auth,
+      //beforeEnter: auth,
       component: () => import('../views/CourseGuestView.vue')
     },
     {
       path: '/guest/page/:id',
       name: 'page',
-      beforeEnter: auth,
+      //beforeEnter: auth,
       component: () => import('../views/PageGuestView.vue')
     },
     {

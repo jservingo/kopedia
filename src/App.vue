@@ -1,16 +1,13 @@
 <template>
     <Header></Header>
-    <div class ="container">
-        <div class="content">
-            <router-view></router-view>
-        </div>
+    <div class ="container-fluid">
+        <router-view></router-view>
     </div>
-
 </template>
 
 <script setup>
 import { useAuthStore } from './stores/authStore';
-import Header from './components/Header.vue'
+import Header from './components/NavComp.vue'
 
 const store = useAuthStore()
 store.getTokenAndUser()

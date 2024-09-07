@@ -1,3 +1,66 @@
+<template>
+    <div class="container-login">
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="nav-brand text-center">
+                    Kopedia
+                </div>
+                <h2 class="nav-white text-center text-md-start">
+                    Expande tus limites con aprendizaje asistido por computadora
+                </h2>                
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            Ingresar
+                        </h4>
+                        <p v-if="error.status && !error.data.length" class="">
+                            {{ error.message }}
+                        </p>
+                        <form class="" @submit.prevent="handleLogin">
+                            <div class="">
+                                <label for="email" class="">Correo:</label>
+                                <input id="email" v-model="form.email" type="text" name="email" placeholder="homero@mail.com"
+                                    class="">
+                                <template v-if="error.status && error.data.length"
+                                    v-for="err in error.data.filter(err => err.param === 'email')">
+                                    <small class="">{{ err.msg }}</small>
+                                </template>
+                            </div>
+
+                            <div class="">
+                                <label for="password" class="">Contraseña:</label>
+                                <input id="password" v-model="form.password" type="password" name="password" placeholder="*******"
+                                    class="">
+                                <template v-if="error.status && error.data.length"
+                                    v-for="err in error.data.filter(err => err.param === 'password')">
+                                    <small class="">{{ err.msg }}</small>
+                                </template>
+                            </div>
+
+                            <div class="">
+                                <button type="submit" :disabled="loading"
+                                    class="btn btn-primary">
+                                    Ingresar
+                                </button>
+                                <!--
+                                <span>o</span>
+                                <div class="" ref="googleBtn"></div>
+                                -->
+                            </div>
+                        </form>
+
+                        <router-link to="/register" class="">
+                            ¿No tienes una cuenta?
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <script setup>
 import { storeToRefs } from 'pinia';
 import { reactive, ref, onMounted } from 'vue';
@@ -28,49 +91,22 @@ const handleGoogleConnect = async (response) => {
     await store.googleLogin(response.credential)
 };
 </script>
-<template>
-    <div class="w-2/6 mx-auto">
-        <h2 class="text-center text-2xl font-bold uppercase">
-            Ingresar
-        </h2>
-        <p v-if="error.status && !error.data.length" class="bg-red-500 text-white p-3 my-4">
-            {{ error.message }}
-        </p>
-        <form class="mt-5 space-y-2" @submit.prevent="handleLogin">
-            <div class="space-y-1">
-                <label for="email" class="text-gray-500">Correo:</label>
-                <input id="email" v-model="form.email" type="text" name="email" placeholder="homero@mail.com"
-                    class="w-full p-2 border rounded-lg">
-                <template v-if="error.status && error.data.length"
-                    v-for="err in error.data.filter(err => err.param === 'email')">
-                    <small class="text-red-600 block">{{ err.msg }}</small>
-                </template>
-            </div>
 
-            <div class="space-y-1">
-                <label for="password" class="text-gray-500">Contraseña:</label>
-                <input id="password" v-model="form.password" type="password" name="password" placeholder="*******"
-                    class="w-full p-2 border rounded-lg">
-                <template v-if="error.status && error.data.length"
-                    v-for="err in error.data.filter(err => err.param === 'password')">
-                    <small class="text-red-600 block">{{ err.msg }}</small>
-                </template>
-            </div>
-
-            <div class="flex items-center justify-between space-x-4">
-                <button type="submit" :disabled="loading"
-                    class="p-2 border w-full bg-teal-600 text-white font-semibold">
-                    Ingresar
-                </button>
-                <!--
-                <span>o</span>
-                <div class="my-3" ref="googleBtn"></div>
-                -->
-            </div>
-        </form>
-
-        <router-link to="/register" class="mt-3 block text-sm text-blue-600">
-            ¿No tienes una cuenta?
-        </router-link>
-    </div>
-</template>
+<style scoped>
+.container-login{
+    max-width: 895px;
+    margin: auto;
+}
+.nav-brand {
+    font-size: 32px;
+    color: rgb(197, 236, 215); 
+}
+.nav-user {
+    font-size: 15px;
+    color: rgb(186, 195, 244);
+}
+.nav-white {
+    font-size: 22px;
+    color: rgb(225, 227, 240);
+}
+</style>

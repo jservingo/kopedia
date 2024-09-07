@@ -1,13 +1,16 @@
 <template>
-    <div class ="container-course">
+    <div v-if="course" class ="container-fluid container-course">
         <Header :title="course.title"></Header>
         <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"></Unit>
+    </div>
+    <div v-else>
+        Este curso no esta terminado.
     </div>
 </template>
 
 <script setup>
-import Header from '../modules/course/guest/Header.vue'
-import Unit from '../modules/unit/guest/Unit.vue'
+import Header from '../modules/course/guest/CourseHeader.vue'
+import Unit from '../modules/unit/guest/UnitGuest.vue'
 import { ref, onMounted } from 'vue';
 import useCourse from '../composables/useCourseGuest';
 import { useRoute } from 'vue-router';

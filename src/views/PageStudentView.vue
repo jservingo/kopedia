@@ -1,13 +1,16 @@
 <template>
-    <div class ="container-page">
+    <div v-if="page" class ="container-fluid container-page">
         <Header :title="page.title" :id="id"></Header>
         <Card v-for="(card,index) in page.cards" :card="card" :index="index"></Card>
+    </div>
+    <div v-else>
+        Este curso no esta terminado.
     </div>
 </template>
 
 <script setup>
-import Header from '../modules/page/student/Header.vue'
-import Card from '../modules/card/student/Card.vue'
+import Header from '../modules/page/student/PageHeader.vue'
+import Card from '../modules/card/student/CardStudent.vue'
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageStudent';
 import { useRoute } from 'vue-router';
