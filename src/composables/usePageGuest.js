@@ -7,7 +7,7 @@ export default function usePageGuest() {
     const getPage = async (id) => { 
         axios.get(`http://localhost:4000/api/guest/page/${id}`)
         .then(response => {
-            page.value = response.data.page[0];
+            page.value = response.data.page;
         })
     } 
 

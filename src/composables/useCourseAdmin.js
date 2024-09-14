@@ -11,7 +11,7 @@ export default function useCourseAdmin() {
             }
         })
         .then(response => {
-            course.value = response.data.course[0];
+            course.value = response.data.course;
         })
     } 
 

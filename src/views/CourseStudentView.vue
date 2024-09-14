@@ -1,10 +1,11 @@
 <template>
-    <div v-if="course" class ="container-fluid container-course">
+    <div v-if="course" class="container-fluid container-course">
         <Header :title="course.title"></Header>
         <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"></Unit>        
     </div>
-    <div v-else>
-        Este curso no esta terminado.
+    <div v-else class="container-fluid container-course">
+        <h3>Este curso no esta terminado.</h3>
+        <p>CourseStudentView</p> 
     </div>
 </template>
 
@@ -24,10 +25,10 @@ const { isAuthenticated, token } = storeToRefs(store);
 const route = useRoute()
 const id = ref('');
 id.value = route.params.id
-//console.log("Course id:", id.value);
 //Get course
 const { course, getCourse } = useCourse()
-//const courseLength = computed(() => course.value.length)
+console.log(token.value)
+console.log(course)
 
 onMounted(() => {
     getCourse(token.value, id.value)

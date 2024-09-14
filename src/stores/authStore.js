@@ -99,6 +99,7 @@ export const useAuthStore = defineStore('auth', () => {
             }
 
             user.value = data.user;
+            console.log("data.user",data.user)
             isRegistered.value = true;
         } catch (err) {
             error.status = true;

@@ -11,7 +11,7 @@ export default function usePageAdmin() {
             }
         })
         .then(response => {
-            page.value = response.data.page[0];
+            page.value = response.data.page;
         })
     } 
 

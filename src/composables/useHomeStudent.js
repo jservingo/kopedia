@@ -12,7 +12,7 @@ export default function useHomeStudent() {
             }
         })
         .then(response => {
-                info.value = response.data;
+            info.value = response.data;
         })
     } 
 

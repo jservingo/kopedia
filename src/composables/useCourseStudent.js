@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useCoursStudent() {
+export default function useCourseStudent() {
     const course = ref({})
 
     const getCourse = async (token, id) => { 
@@ -11,7 +11,7 @@ export default function useCoursStudent() {
             }
         })
         .then(response => {
-            course.value = response.data.course[0];
+            course.value = response.data.course;
         })
     } 
 

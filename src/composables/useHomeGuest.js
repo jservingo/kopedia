@@ -7,7 +7,7 @@ export default function useHomeGuest() {
     const getInfo = async () => {
         axios.get('http://localhost:4000/api/guest')
         .then(response => {
-                info.value = response.data;
+            info.value = response.data;
         })
     } 
 
