@@ -12,7 +12,7 @@ export default defineConfig({
           isCustomElement: (tag) => ['md-linedivider'].includes(tag),
         }
       }
-    }),
+    })
   ],
   resolve: {
     alias: {

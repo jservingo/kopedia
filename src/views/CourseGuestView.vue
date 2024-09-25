@@ -3,15 +3,11 @@
         <Header :title="course.title"></Header>
         <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"></Unit>
     </div>
-    <div v-else class="container-fluid container-course">
-        <h3>Este curso no esta terminado.</h3>
-        <p>CourseGuestView</p> 
-    </div>
 </template>
 
 <script setup>
-import Header from '../modules/course/guest/CourseHeader.vue'
-import Unit from '../modules/unit/guest/UnitGuest.vue'
+import Header from '../modules/guest/CourseHeader.vue'
+import Unit from '../modules/guest/UnitGuest.vue'
 import { ref, onMounted } from 'vue';
 import useCourse from '../composables/useCourseGuest';
 import { useRoute } from 'vue-router';
@@ -27,7 +23,7 @@ const id = ref('');
 id.value = route.params.id
 //Get course
 const { course, getCourse } = useCourse()
-console.log(course)
+//console.log(course)
 
 onMounted(() => {
     getCourse(id.value)

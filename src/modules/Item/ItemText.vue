@@ -9,6 +9,7 @@
             class="btn">
             Delete
         </button>
+        ItemText
     </div>
 </template>
 

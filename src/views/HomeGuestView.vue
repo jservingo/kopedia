@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import Header from '../modules/home/guest/CourseHeader.vue'
-import CourseBox from '../modules/home/guest/CourseGuest.vue'
+import Header from '../modules/guest/HomeHeader.vue'
+import CourseBox from '../modules/guest/CourseGuest.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '../composables/useHomeGuest';
 import { storeToRefs } from 'pinia';
@@ -16,11 +16,15 @@ import { useAuthStore } from '../stores/authStore';
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
-//console.log(token.value);
-const { info, getInfo } = useHome()
+//console.log("token",token.value);
+const { info, getInfoGuest, getInfoStudent } = useHome()
 
 onMounted(() => {
-    getInfo()
+    if (isAuthenticated.value)
+        getInfoStudent(token.value)    
+    else
+        getInfoGuest()
+        
 })
 </script>
 
