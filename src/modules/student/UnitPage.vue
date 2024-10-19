@@ -1,7 +1,6 @@
 <template>
     <div class ="container-fluid container-unit-page">
         <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${page.id}`">{{ page.title }}</RouterLink>
-        PageStudent
     </div>
 </template>
 

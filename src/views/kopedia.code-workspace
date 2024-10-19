@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../kpserver2"
+		}
+	],
+	"settings": {
+		"debug.console.fontSize": 12,
+		"terminal.integrated.fontSize": 12,
+		"chat.editor.fontSize": 12
+	}
+}

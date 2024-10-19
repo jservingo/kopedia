@@ -7,7 +7,7 @@
 
 <script setup>
 import Header from '../modules/guest/CourseHeader.vue'
-import Unit from '../modules/guest/UnitGuest.vue'
+import Unit from '../modules/guest/CourseUnit.vue'
 import { ref, onMounted } from 'vue';
 import useCourse from '../composables/useCourseGuest';
 import { useRoute } from 'vue-router';

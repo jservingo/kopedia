@@ -1,17 +1,15 @@
 <template>
     <div class ="container-fluid container-page-header">
-        <div>{{ title }} </div>
-        <button @click="handleAddCard"
-            class="btn btn-primary">
+        <div>{{ page.title }}</div>
+        <button @click="$emit('add-card')" class="btn btn-primary">
             Add card
-        </button>  
-        PageHeader  
+        </button>
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
-defineProps(["title"]);
+defineProps(["page"]);
 </script>
 
 <style>

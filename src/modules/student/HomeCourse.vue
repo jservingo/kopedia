@@ -2,7 +2,6 @@
     <div class ="card card-course" :style="{background:bgGradient }">
         <div class="card-body">
             <RouterLink class="link-course-box link-underline link-underline-opacity-0" :to="`/student/course/${subscription.id}`">{{ subscription.title }}</RouterLink>
-            CourseStudent
         </div>
     </div>
 </template>

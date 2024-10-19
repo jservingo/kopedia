@@ -1,8 +1,7 @@
 <template>
     <div class ="container-fluid container-page-header">
         <div>{{ title }} </div>
-    </div>
-    PageHeader
+    </div>   
 </template>
 
 <script setup>

@@ -2,18 +2,18 @@ import { ref } from 'vue'
 import axios from "axios"
  
 export default function useUnit() {
-    const pages = ref({})
+    const unit = ref({})
 
-    const getPages = async (token, id) => { 
+    const getUnit = async (token, id) => { 
         axios.get(`http://localhost:4000/api/admin/unit/${id}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
-            pages.value = response.data.unit.pages;
+            unit.value = response.data.unit;
         })
     } 
 
-    return { pages, getPages } 
+    return { unit, getUnit } 
 }

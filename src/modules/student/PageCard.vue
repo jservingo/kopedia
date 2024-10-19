@@ -3,16 +3,15 @@
         <div class="card-body">
             <Header :title="card.title" :display="display" @display-items="displayItems"></Header>        
             <Item v-for="item in items" :item="item" v-show="display"></Item>
-            <p>CardAdmin</p>
         </div>
     </div>
 </template>
 
 <script setup>
 import Header from './CardHeader.vue'
-import Item from '../Item/ItemCard.vue'
+import Item from './CardItem.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useCard from '@/composables/useCardAdmin';
+import useCard from '@/composables/useCardStudent';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 

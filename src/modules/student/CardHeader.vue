@@ -1,7 +1,6 @@
 <template>
     <div class ="container-fluid container-card-header">
         <button @click="$emit('displayItems')" class="btn-display">{{ btnDisplay }}</button> {{ title }}
-        CardHeader
     </div>
 </template>
 

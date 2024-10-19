@@ -1,6 +1,6 @@
 <template>
     <div class="card-container">
-        {{ card.title }} CardGuest
+        {{ card.title }} 
     </div>
 </template>
 

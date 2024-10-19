@@ -7,7 +7,7 @@
 
 <script setup>
 import Header from '../modules/student/PageHeader.vue'
-import Card from '../modules/student/CardStudent.vue'
+import Card from '../modules/student/PageCard.vue'
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageStudent';
 import { useRoute } from 'vue-router';

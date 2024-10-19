@@ -1,8 +1,7 @@
 <template>
     <div class ="container-fluid container-unit-page">
-        <RouterLink v-if="isAuthenticated" class="link-unit-page link-underline link-underline-opacity-0" :to="`/guest/page/${page.id}`">{{ page.title }}</RouterLink>
+        <RouterLink v-if="isAuthenticated" class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${page.id}`">{{ page.title }}</RouterLink>
         <div v-else>{{ page.title }}</div>
-        PageGuest
     </div>
 </template>
 

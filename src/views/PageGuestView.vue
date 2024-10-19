@@ -7,7 +7,7 @@
 
 <script setup>
 import Header from '../modules/guest/PageHeader.vue'
-import Card from '../modules/guest/CardGuest.vue'
+import Card from '../modules/guest/PageCard.vue'
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageGuest';
 import { useRoute } from 'vue-router';

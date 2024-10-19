@@ -7,7 +7,7 @@
 
 <script setup>
 import Header from '../modules/student/HomeHeader.vue'
-import CourseBox from '../modules/student/CourseStudent.vue'
+import CourseBox from '../modules/student/HomeCourse.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '../composables/useHomeStudent';
 import { storeToRefs } from 'pinia';

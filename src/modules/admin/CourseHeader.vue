@@ -1,17 +1,15 @@
 <template>
     <div class ="container-fluid container-course">
-        <div>{{ title }}</div>
-        <button @click="handleEditCourse"
-            class="btn btn-primary">
+        <div>{{ course.title }}</div>
+        <button @click="$emit('add-unit')" class="btn btn-primary">
             Add unit
         </button>
-        CourseHeader
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
-defineProps(["title"]);
+defineProps(["course"]);
 </script>
 
 <style>

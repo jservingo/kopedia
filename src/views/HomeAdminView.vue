@@ -1,7 +1,43 @@
 <template>
     <div v-if="info.courses" class ="container-fluid container-home">
-        <Header></Header>
-        <CourseBox v-for="(course,index) in info.courses" :course="course" :index="index" @edit-course="ShowModalEdit" @delete-course="deleteCourse"></CourseBox>
+        <Header @add-course="showModalAddCourse"></Header>
+        <CourseBox v-for="(course,index) in info.courses" :course="course" :index="index" 
+            @edit-course="showModalEditCourse" @delete-course="deleteCourse">
+        </CourseBox>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalNewCourse">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Crear curso</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" 
+                @click="closeModalAddCourse">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formNew">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="title" placeholder="">
+                            <label for="tilte">Titulo</label>
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
+                @click="closeModalAddCourse">Close
+            </button>
+            <button type="button" class="btn btn-primary" id="btnSave" 
+                @click="saveModalAddCourse">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="modal fade" tabindex="-1" id="modalEdit">
@@ -10,7 +46,7 @@
           <div class="modal-header">
             <h5 class="modal-title">Editar curso</h5>
             <button type="button" class="btn-close" aria-label="Close" 
-                @click="CloseModalEdit">
+                @click="closeModalEditCourse">
             </button>
           </div>
           <div class="modal-body">
@@ -18,8 +54,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="etitle" placeholder=""
-                                v-model="ecourse.title">
+                            <input type="text" class="form-control" id="etitle" placeholder="">
                             <label for="etilte">Titulo</label>
                         </div>
                     </div>
@@ -27,12 +62,12 @@
             </form>  
           </div>
           <div class="modal-footer">
-            <input type="hidden" id="eid" name="eid" v-model="ecourse.id">
+            <input type="hidden" id="eid" name="eid">
             <button type="button" class="btn btn-secondary" 
-                @click="CloseModalEdit">Close
+                @click="closeModalEditCourse">Close
             </button>
             <button type="button" class="btn btn-primary"  
-                @click="SaveModalEdit">
+                @click="saveModalEditCourse">
                 Save
             </button>
           </div>
@@ -42,42 +77,82 @@
 </template>
 
 <script setup>
+//v-model="ecourse.title"
 import Header from '../modules/admin/HomeHeader.vue'
-import CourseBox from '../modules/admin/CourseAdmin.vue'
+import CourseBox from '../modules/admin/HomeCourse.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '../composables/useHomeAdmin';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';
+import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
-//console.log(token.value);
 const { info, getInfo } = useHome()
+const router = useRouter()
+
+let modal = null
 let emodal = null
 let ecourse = ref({})
 
 onMounted(() => {
+    modal = new Modal(document.getElementById('modalNewCourse'))
     emodal = new Modal(document.getElementById('modalEdit'))
     getInfo(token.value)
 })
 
-const ShowModalEdit = (course) => {
-    console.log("ShowModalEdit")
-    ecourse.value = course
-    console.log(ecourse.value)
+const showModalAddCourse = () => {
+    modal.show()
+}
+
+const closeModalAddCourse = () => {
+    modal.hide()
+}
+
+const saveModalAddCourse = () => {
+    if (isAuthenticated.value) {
+        let title = document.getElementById("title").value
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/course/create`, 
+            data: {"title": title}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.course.error) {
+                alertify.success("El curso fue creado exitosamente")
+                document.getElementById('title').value = ""
+                modal.hide()
+                router.push(`/admin/course/${response.data.course.id}`)            
+            }
+            else {
+                alertify.error("Error: No se pudo crear el curso.")
+            }
+        })
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+};
+
+const showModalEditCourse = (course) => {
+    ecourse.value = course;
+    document.getElementById("eid").value = course.id
+    document.getElementById("etitle").value = course.title
     emodal.show()
 }
 
-const CloseModalEdit = () => {
-    console.log("closeModal")
+const closeModalEditCourse = () => {
     emodal.hide()
 }
 
-const SaveModalEdit = () => {
+const saveModalEditCourse = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
@@ -91,6 +166,7 @@ const SaveModalEdit = () => {
         })
         .then(response => {
             if (!response.data.error) {
+                ecourse.value.title = title
                 alertify.success("El curso fue modificado exitosamente")
                 emodal.hide()            
             }

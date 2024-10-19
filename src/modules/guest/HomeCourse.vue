@@ -5,7 +5,6 @@
             <button class="btn btn-primary" @click="handleSuscribete">
                 Suscríbete
             </button>
-            CourseGuest
         </div>
     </div>
 </template>

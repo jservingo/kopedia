@@ -3,16 +3,15 @@
         <div class="card-body">
             <Header :title="unit.title" :display="display" @display-items="displayItems"></Header>
             <Page v-for="(page) in pages" :page="page" v-show="display"></Page>
-            UnitAdmin
         </div>
     </div>
 </template>
 
 <script setup>
 import Header from './UnitHeader.vue'
-import Page from './PageAdmin.vue'
+import Page from './UnitPage.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useUnit from '@/composables/useUnitAdmin';
+import useUnit from '@/composables/useUnitGuest';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -35,7 +34,7 @@ const { pages, getPages } = useUnit()
 
 onMounted(() => {
     //console.log("Unit id:", props.unit.id)
-    getPages(token.value, props.unit.id)
+    getPages(props.unit.id)
 })
 
 //Show or hide items
@@ -47,6 +46,7 @@ const displayItems = (mode) => {
 
 <style>
 .card-container {
+    display: block;
     font-size: 17px;
     padding: 0px;
     padding-top: 3px;

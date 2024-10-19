@@ -2,7 +2,6 @@
     <div class ="container-fluid container-page-header">
         <div>{{ title }} </div>
     </div>
-    PageHeader
 </template>
 
 <script setup>

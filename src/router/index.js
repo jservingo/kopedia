@@ -87,10 +87,22 @@ const router = createRouter({
       component: () => import('../views/CourseAdminView.vue')
     },
     {
+      path: '/admin/unit/:id',
+      name: 'unitAdmin',
+      beforeEnter: auth,
+      component: () => import('../views/UnitAdminView.vue')
+    },
+    {
       path: '/admin/page/:id',
       name: 'pageAdmin',
       beforeEnter: auth,
       component: () => import('../views/PageAdminView.vue')
+    },
+    {
+      path: '/admin/card/:id',
+      name: 'cardAdmin',
+      beforeEnter: auth,
+      component: () => import('../views/CardAdminView.vue')
     }
   ]
 })

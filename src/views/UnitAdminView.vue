@@ -1,21 +1,20 @@
 <template>
-    <div v-if="course" class="container-fluid container-course">
-        <Header :course="course" 
-            @add-unit="showModalAddUnit">
+    <div v-if="unit" class="container-fluid container-course">
+        <Header :unit="unit" 
+            @add-page="showModalAddPage">
         </Header>
-        <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"
-            @edit-unit="showModalEditUnit"
-            @delete-unit="deleteUnit">
-        </Unit>
+        <Page v-for="(page,index) in unit.pages" :page="page" :index="index"
+            @edit-page="showModalEditPage" @delete-page="deletePage">
+        </Page>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="modalNewUnit">
+    <div class="modal fade" tabindex="-1" id="modalNewPage">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Crear unidad</h5>
+            <h5 class="modal-title">Crear página</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" 
-                @click="closeModalAddUnit">
+                @click="closeModalAddPage">
             </button>
           </div>
           <div class="modal-body">
@@ -32,10 +31,10 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" 
-                @click="closeModalAddUnit">Close
+                @click="closeModalAddPage">Close
             </button>
             <button type="button" class="btn btn-primary" id="btnSave" 
-                @click="saveModalAddUnit">
+                @click="saveModalAddPage">
                 Save
             </button>
           </div>
@@ -43,13 +42,13 @@
       </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="modalEditUnit">
+    <div class="modal fade" tabindex="-1" id="modalEditPage">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Editar unidad</h5>
+            <h5 class="modal-title">Editar página</h5>
             <button type="button" class="btn-close" aria-label="Close" 
-                @click="closeModalEditUnit">
+                @click="closeModalEditPage">
             </button>
           </div>
           <div class="modal-body">
@@ -67,10 +66,10 @@
           <div class="modal-footer">
             <input type="hidden" id="eid" name="eid">
             <button type="button" class="btn btn-secondary" 
-                @click="closeModalEditUnit">Close
+                @click="closeModalEditPage">Close
             </button>
             <button type="button" class="btn btn-primary"  
-                @click="saveModalEditUnit">
+                @click="saveModalEditPage">
                 Save
             </button>
           </div>
@@ -80,10 +79,10 @@
 </template>
 
 <script setup>
-import Header from '../modules/admin/CourseHeader.vue'
-import Unit from '../modules/admin/CourseUnit.vue'
-import { ref, onMounted } from 'vue';
-import useCourse from '../composables/useCourseAdmin';
+import Header from '../modules/admin/UnitHeader.vue'
+import Page from '../modules/admin/UnitPage.vue'
+import { defineProps, ref, computed, onMounted } from 'vue';
+import useUnit from '@/composables/useUnitAdmin';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -92,6 +91,16 @@ import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
+const props = defineProps(["unit","index"]);
+//const bgColors=["#8ED6D5","#EFC7C5","#c8d4b6","#CFCDE2","#e5ce89","#FDD6AB"]
+const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
+//Change bgColor
+const bgColor = bgColors[props.index % 6]
+//Change bgGradient
+const bgGradient = computed(() => {
+    return `linear-gradient(to right, #676B6A, ${bgColor})`;
+})
+
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
@@ -99,49 +108,49 @@ const { isAuthenticated, token } = storeToRefs(store);
 const route = useRoute()
 const id = ref('');
 id.value = route.params.id
-//Get course
-const { course, getCourse } = useCourse()
+//Get unit
+const { unit, getUnit } = useUnit()
 const router = useRouter()
 
 let modal = null
 let emodal = null
-let eunit = ref({})
+let epage = ref({})
 
 onMounted(() => {
-    modal = new Modal(document.getElementById('modalNewUnit'))
-    emodal = new Modal(document.getElementById('modalEditUnit'))
-    getCourse(token.value, id.value)
+    modal = new Modal(document.getElementById('modalNewPage'))
+    emodal = new Modal(document.getElementById('modalEditPage'))
+    getUnit(token.value, id.value)
 })
 
-const showModalAddUnit = () => {
+const showModalAddPage = () => {
     modal.show()
 }
 
-const closeModalAddUnit = () => {
+const closeModalAddPage = () => {
     modal.hide()
 }
 
-const saveModalAddUnit = () => {
+const saveModalAddPage = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("title").value
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/create`, 
-            data: {"id_course":course.value.id,"title":title}, 
+            url: `http://localhost:4000/api/admin/page/create`, 
+            data: {"id_unit":unit.value.id, "title":title}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
         })
         .then(response => {
-            if (!response.data.unit.error) {
-                alertify.success("La unidad fue creada exitosamente")
+            if (!response.data.page.error) {
+                alertify.success("La página fue creada exitosamente")
                 document.getElementById('title').value = ""
-                router.push(`/admin/unit/${response.data.unit.id}`) 
-                //course.value.units.push(response.data.unit)
+                router.push(`/admin/page/${response.data.page.id}`)
+                //unit.value.pages.push(response.data.page)
                 modal.hide()           
             }
             else {
-                alertify.error("Error: No se pudo crear la unidad.")
+                alertify.error("Error: No se pudo crear la página")
             }
         })
     }
@@ -150,24 +159,24 @@ const saveModalAddUnit = () => {
     }
 };
 
-const showModalEditUnit = (unit) => {
-    eunit.value = unit;
-    document.getElementById("eid").value = unit.id
-    document.getElementById("etitle").value = unit.title
+const showModalEditPage = (page) => {
+    epage.value = page;
+    document.getElementById("eid").value = page.id
+    document.getElementById("etitle").value = page.title
     emodal.show()
 }
 
-const closeModalEditUnit = () => {
+const closeModalEditPage = () => {
     emodal.hide()
 }
 
-const saveModalEditUnit = () => {
+const saveModalEditPage = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/update`, 
+            url: `http://localhost:4000/api/admin/page/update`, 
             data: {"id":id, "title":title}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
@@ -175,12 +184,12 @@ const saveModalEditUnit = () => {
         })
         .then(response => {
             if (!response.data.error) {
-                eunit.value.title = title
-                alertify.success("La unidad fue modificada exitosamente")
+                epage.value.title = title
+                alertify.success("La página fue modificada exitosamente")
                 emodal.hide()            
             }
             else {
-                alertify.error("Error: No se pudo modificar la unidad")
+                alertify.error("Error: No se pudo modificar la página")
             }
         })
     }
@@ -189,28 +198,28 @@ const saveModalEditUnit = () => {
     }
 };
 
-const deleteUnit = (unit) => {
+const deletePage = (page) => {
     if (isAuthenticated.value) {
         alertify.defaults.transition = "slide";
         alertify.defaults.theme.ok = "btn btn-primary";
         alertify.defaults.theme.cancel = "btn btn-danger";
         alertify.defaults.theme.input = "form-control";
-        alertify.confirm('Eliminar unidad', 'Esta seguro que desea eliminar esta unidad?', function() { 
-            course.value.units = course.value.units.filter((loopItem) => loopItem !== unit);
+        alertify.confirm('Eliminar página', 'Esta seguro que desea eliminar esta página?', function() { 
+            unit.value.pages = unit.value.pages.filter((loopItem) => loopItem !== page);
             axios({
                 method: "post",
-                url: `http://localhost:4000/api/admin/unit/delete`, 
-                data: {"id": unit.id}, 
+                url: `http://localhost:4000/api/admin/page/delete`, 
+                data: {"id": page.id}, 
                 headers: {
                     'Authorization': `Bearer ${token.value}`
                 }
             })
             .then(response => {
                 if (!response.data.error) {
-                    alertify.success("La unidad fue eliminada")
+                    alertify.success("La página fue eliminada")
                 }
                 else {
-                    alertify.error("Error: No se pudo eliminar la unidad")
+                    alertify.error("Error: No se pudo eliminar la página")
                 }
             })
         }, function() { 
@@ -223,8 +232,14 @@ const deleteUnit = (unit) => {
 };
 </script>
 
-<style scoped>
-.container-course {
-    display: block;
+<style>
+.card-container {
+    font-size: 17px;
+    padding: 0px;
+    padding-top: 3px;
+    margin-bottom: 12px;
+}
+.card-body {
+    padding: 0
 }
 </style>

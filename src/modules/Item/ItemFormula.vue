@@ -1,17 +1,18 @@
 <template>
     <div class ="container-formula">
-        <div v-html=formula></div>
+        <div>v-html="formula"</div>
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
-defineProps(["formula"]);
+defineProps(["item"]);
 </script>
 
 <style>
 .container-formula {
     display: block;
     font-size: 15px;
+    color: floralwhite;
 }
 </style>

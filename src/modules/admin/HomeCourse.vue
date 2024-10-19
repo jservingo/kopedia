@@ -3,24 +3,18 @@
         <div class="card-body">
             <RouterLink class="link-course-box link-underline link-underline-opacity-0" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>                 
             <button @click="$emit('edit-course',course)" class="btn btn-primary">
-                Edit
+                Edit course
             </button>
             <button @click="$emit('delete-course',course)" class="btn btn-danger">
-                Delete
+                Delete course
             </button>
-            CourseAdmin
         </div>
     </div>  
 </template>
 
 <script setup>
-//@click="deleteCourse(course)"
 import { RouterLink } from 'vue-router';
-import { defineProps, computed, onMounted, ref } from 'vue';
-//import { useRouter } from 'vue-router';
-//import axios from "axios"
-//import { storeToRefs } from 'pinia';
-//import { useAuthStore } from '@/stores/authStore.js';
+import { defineProps, computed } from 'vue';
 
 const props = defineProps(["course","index"]);
 //backgroundColor:bgColor
@@ -31,10 +25,6 @@ const bgColor = bgColors[props.index % 6]
 const bgGradient = computed(() => {
     return `linear-gradient(to right, #676B6A, ${bgColor})`;
 })
-
-//const store = useAuthStore();
-//const { isAuthenticated, token } = storeToRefs(store);
-//const router = useRouter()
 </script>
 
 <style>
