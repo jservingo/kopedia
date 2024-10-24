@@ -1,8 +1,6 @@
 <template>
-  <div class ="container-audio">
     <audio-player :option="audioOption" />
     <div>{{ item.file }}</div>
-  </div>
 </template>
   
 <script>
@@ -17,9 +15,10 @@
     ],
     setup(props) {
       const audioOption = ref({
+        //src:"https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
         src: "http://localhost:4000/uploads/"+props.item.file,
         title: "Audio",
-        coverImage: "",
+        coverImage: "@/assets/audio.png",
       });
       return {
         audioOption,
@@ -29,36 +28,13 @@
 </script>
 
 <style>
- .container-audio {
-    display: block;
-    margin-top: 4px;
-    font-size: 15px;
-    color: floralwhite;
- }
-
- .audio__player {
-  align-items: normal !important;
- }
-
  .audio__player-play {
-   height: 0;
+   width: 20px;
+   height: 30px;
+   position: static !important;
  }
 
  .audio__player-title {
    display: none;
  }
-
- .audio__player-play > img {
-  display: none;
- }
-
- .audio__player-play-icon {
-  margin: -32px
- }
-
- .audio__player-progress-container {
-  align-self: center !important; 
- }
-</style>
-
-
+ </style>

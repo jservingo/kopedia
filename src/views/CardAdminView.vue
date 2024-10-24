@@ -3,9 +3,8 @@
         <Header :card="card"
             @add-item="showModalAddItem">
         </Header>
-        <!--:options="options" :autoplay="autoplay" :videoPlayerId="videoPlayerId"-->
-        <Item v-for="(item,index) in card.items" :item="item" :index="index"
-            :voptions="{...videoOptions, sources:[{...videoOptions.sources[0], src:'http://localhost:4000/uploads/'+item.file}]}"
+        <!--:voptions="{...videoOptions, sources:[{...videoOptions.sources[0], src:'http://localhost:4000/uploads/'+item.file}]}"-->
+        <Item v-for="(item,index) in card.items" :item="item" :index="index"            
             @edit-item="showModalEditItem" @delete-item="deleteItem">
         </Item>
     </div>
@@ -46,7 +45,9 @@
                         </div>
                     </div>
                 </div>
-                <div><img v-if="url_image" :src="url_image" width="50%"></div>
+                <div v-if="item.type=='image' && url_image">
+                    <img :src="url_image" width="50%">
+                </div>
                 <div v-show="item.type=='link'" class="row">
                     <div class="col-lg-6">
                         <div class="form-floating mb-2">
@@ -108,7 +109,9 @@
                     </div>
                 </div>
                 -->
-                <div><img v-if="eurl_image" :src="eurl_image" width="50%"></div>
+                <div v-if="eitem.type=='image' && url_image">
+                    <img :src="eurl_image" width="50%">
+                </div>
                 <div v-show="eitem.type=='url'" class="row">
                     <div class="col-lg-6">
                         <div class="form-floating mb-2">
@@ -164,8 +167,12 @@ id.value = route.params.id
 //Get card
 const { card, getCard } = useCard()
 const router = useRouter()
-//Video
+//Video Player options
+/*
 const videoOptions = ref({
+    language: 'es',
+    playbackRates: [0.7, 1.0, 1.5, 2.0],
+    width: '800px',
     autoplay: true,
     controls: true,
     sources: [
@@ -174,6 +181,7 @@ const videoOptions = ref({
         }
     ]
 })
+*/
 
 onMounted(() => {
     modal = new Modal(document.getElementById('modalNewItem'))

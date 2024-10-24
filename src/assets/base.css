@@ -1,7 +1,8 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 @import '../../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../../node_modules/video.js/dist/video-js.css';
+@import '../../node_modules/vue3-audio-player/dist/style.css';
 
- body {
-    background: black;
- }
+body {
+   background: black;
+}

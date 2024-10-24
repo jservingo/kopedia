@@ -11,24 +11,31 @@ import videojs from 'video.js';
 export default {
     name: 'VideoPlayer',
     props: {
-      options: {
-        type: Object,
-        default() {
-          return {};
-        }
-      },
       item: {
         type: Object
       }
     },
     data() {
       return {
-        player: null
+        player: null,
+        videOptions: null
       }
     },
     mounted() {
-      console.log("Options",this.options.sources[0].src)
-      this.player = videojs(this.$refs.videoPlayer, this.options, () => {
+      this.videoOptions = {
+        language: 'es',
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        width: '800px',
+        autoplay: false,
+        controls: true,
+        sources: [
+          {  
+            src: 'http://localhost:4000/uploads/'+this.item.file,   
+            type: 'video/mp4'
+          }
+        ]
+      }
+      this.player = videojs(this.$refs.videoPlayer, this.videoOptions, () => {
         this.player.log('onPlayerReady', this);
       });
     },
