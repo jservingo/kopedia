@@ -5,6 +5,9 @@
             <button  @click="$emit('edit-page',page)" class="btn btn-primary">
                 Edit page
             </button>
+            <button @click="$emit('add-page-to-clipboard',page)" class="btn btn-primary">
+                add page to clipboard
+            </button>
             <button @click="$emit('delete-page',page)" class="btn btn-danger">
                 Delete page 
             </button>

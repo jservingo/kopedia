@@ -1,11 +1,14 @@
 <template>
     <div v-if="card" class ="container-fluid container-page">
         <Header :card="card"
-            @add-item="showModalAddItem">
+            @add-item="showModalAddItem"
+            @show-clipboard="showModalClipboard">
         </Header>
         <!--:voptions="{...videoOptions, sources:[{...videoOptions.sources[0], src:'http://localhost:4000/uploads/'+item.file}]}"-->
         <Item v-for="(item,index) in card.items" :item="item" :index="index"            
-            @edit-item="showModalEditItem" @delete-item="deleteItem">
+            @edit-item="showModalEditItem" 
+            @add-item-to-clipboard="addItemToClipboard"
+            @delete-item="deleteItem">
         </Item>
     </div>
 
@@ -135,6 +138,42 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">
+                <div v-for="item in items" class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="item.id"/>
+                            {{ item.type }} 
+                            <span v-if="item.content">- {{ item.content }}</span>
+                            <span v-if="item.file">- {{ item.file }}</span>
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
@@ -142,6 +181,7 @@ import Header from '../modules/admin/CardHeader.vue'
 import Item from '../modules/admin/CardItem.vue'
 import { ref, onMounted, computed } from 'vue';
 import useCard from '@/composables/useCardAdmin';
+import useClipboardItems from '@/composables/useClipboardItems';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -151,7 +191,8 @@ import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
 let modal = null
-let emodal = null
+let edit_modal = null
+let clipboard_modal = null
 const item = ref({})
 const eitem = ref({})
 const url_image = ref(null)
@@ -166,6 +207,8 @@ const id = ref('');
 id.value = route.params.id
 //Get card
 const { card, getCard } = useCard()
+//Get Clipboard items
+const { items, getClipboard } = useClipboardItems()
 const router = useRouter()
 //Video Player options
 /*
@@ -185,8 +228,10 @@ const videoOptions = ref({
 
 onMounted(() => {
     modal = new Modal(document.getElementById('modalNewItem'))
-    emodal = new Modal(document.getElementById('modalEditItem'))
+    edit_modal = new Modal(document.getElementById('modalEditItem'))
+    clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getCard(token.value, id.value)
+    getClipboard(token.value)
 })
 
 const urlFile = computed((item) => {
@@ -312,6 +357,39 @@ const saveModalAddFile = () => {
     }
 };
 
+const addItemToClipboard = (item) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/clipboard/item/add`, 
+            data: {"id_item":item.id}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                items.value.push(item)
+                alertify.success("El item fue añadido al portapapeles")       
+            }
+            else {
+                alertify.error("Error: No se pudo añadir el item al portapapeles")
+            }
+        })
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+}
+
+const showModalClipboard = () => {
+    clipboard_modal.show()
+}
+
+const closeModalClipboard = () => {
+    clipboard_modal.hide()
+}
+
 const showModalEditItem = (item) => {
     console.log(item.file)
     eitem.value = item;
@@ -322,7 +400,7 @@ const showModalEditItem = (item) => {
     document.getElementById("etype").value = item.type
     document.getElementById("econtent").value = item.content
     document.getElementById("eurl").value = item.url
-    emodal.show()
+    edit_modal.show()
 }
 
 const closeModalEditItem = () => {
@@ -330,7 +408,7 @@ const closeModalEditItem = () => {
     document.getElementById('econtent').value = ""
     document.getElementById('eurl').value = ""
     eurl_image.value = null
-    emodal.hide()
+    edit_modal.hide()
 } 
 
 const showEditImage = () => {
@@ -358,7 +436,7 @@ const saveModalEditItem = () => {
                 eitem.value.content = content
                 eitem.value.url = url
                 alertify.success("El item fue modificado exitosamente")
-                emodal.hide()            
+                edit_modal.hide()            
             }
             else {
                 alertify.error("Error: No se pudo modificar el item")

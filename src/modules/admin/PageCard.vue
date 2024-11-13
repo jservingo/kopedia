@@ -5,6 +5,9 @@
             <button  @click="$emit('edit-card',card)" class="btn btn-primary">
                 Edit card 
             </button>
+            <button @click="$emit('add-card-to-clipboard',card)" class="btn btn-primary">
+                add card to clipboard
+            </button>
             <button @click="$emit('delete-card',card)" class="btn btn-danger">
                 Delete card
             </button>

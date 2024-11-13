@@ -11,6 +11,9 @@
             <button  @click="$emit('edit-item',item)" class="btn btn-primary">
                 Edit item
             </button>
+            <button @click="$emit('add-item-to-clipboard',item)" class="btn btn-primary">
+                add item to clipboard
+            </button>
             <button @click="$emit('delete-item',item)" class="btn btn-danger">
                 Delete item 
             </button>            

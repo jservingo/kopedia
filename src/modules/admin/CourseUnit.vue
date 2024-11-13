@@ -5,6 +5,9 @@
             <button @click="$emit('edit-unit',unit)" class="btn btn-primary">
                 Edit unit
             </button>
+            <button @click="$emit('add-unit-to-clipboard',unit)" class="btn btn-primary">
+                add unit to clipboard
+            </button>
             <button @click="$emit('delete-unit',unit)" class="btn btn-danger">
                 Delete unit
             </button>

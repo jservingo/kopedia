@@ -1,10 +1,13 @@
 <template>
     <div v-if="unit" class="container-fluid container-course">
         <Header :unit="unit" 
-            @add-page="showModalAddPage">
+            @add-page="showModalAddPage"
+            @show-clipboard="showModalClipboard">
         </Header>
         <Page v-for="(page,index) in unit.pages" :page="page" :index="index"
-            @edit-page="showModalEditPage" @delete-page="deletePage">
+            @edit-page="showModalEditPage" 
+            @add-page-to-clipboard="addPageToClipboard"
+            @delete-page="deletePage">
         </Page>
     </div>
 
@@ -76,6 +79,40 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">
+                <div v-for="page in pages" class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="page.id"/>
+                            {{ page.title }}
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
@@ -83,6 +120,7 @@ import Header from '../modules/admin/UnitHeader.vue'
 import Page from '../modules/admin/UnitPage.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
 import useUnit from '@/composables/useUnitAdmin';
+import useClipboardPages from '@/composables/useClipboardPages';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -110,16 +148,21 @@ const id = ref('');
 id.value = route.params.id
 //Get unit
 const { unit, getUnit } = useUnit()
+//Get Clipboard units
+const { pages, getClipboard } = useClipboardPages()
 const router = useRouter()
 
 let modal = null
-let emodal = null
+let edit_modal = null
+let clipboard_modal = null
 let epage = ref({})
 
 onMounted(() => {
     modal = new Modal(document.getElementById('modalNewPage'))
-    emodal = new Modal(document.getElementById('modalEditPage'))
+    edit_modal = new Modal(document.getElementById('modalEditPage'))
+    clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getUnit(token.value, id.value)
+    getClipboard(token.value)
 })
 
 const showModalAddPage = () => {
@@ -159,15 +202,50 @@ const saveModalAddPage = () => {
     }
 };
 
+const addPageToClipboard = (page) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/clipboard/page/add`, 
+            data: {"id_page":page.id}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                pages.value.push(page)
+                alertify.success("La página fue añadida al portapapeles")       
+            }
+            else {
+                alertify.error("Error: No se pudo añadir la página al portapapeles")
+            }
+        })
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+}
+
+const showModalClipboard = () => {
+    clipboard_modal.show()
+}
+
+const closeModalClipboard = () => {
+    clipboard_modal.hide()
+}
+
+
+
 const showModalEditPage = (page) => {
     epage.value = page;
     document.getElementById("eid").value = page.id
     document.getElementById("etitle").value = page.title
-    emodal.show()
+    edit_modal.show()
 }
 
 const closeModalEditPage = () => {
-    emodal.hide()
+    edit_modal.hide()
 }
 
 const saveModalEditPage = () => {
@@ -186,7 +264,7 @@ const saveModalEditPage = () => {
             if (!response.data.error) {
                 epage.value.title = title
                 alertify.success("La página fue modificada exitosamente")
-                emodal.hide()            
+                edit_modal.hide()            
             }
             else {
                 alertify.error("Error: No se pudo modificar la página")

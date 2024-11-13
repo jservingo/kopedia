@@ -4,6 +4,9 @@
         <button @click="$emit('add-card')" class="btn btn-primary">
             Add card
         </button>
+        <button @click="$emit('show-clipboard')" class="btn btn-primary">
+            Show clipboard
+        </button>
     </div>
 </template>
 

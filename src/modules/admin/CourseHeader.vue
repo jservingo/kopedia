@@ -4,6 +4,9 @@
         <button @click="$emit('add-unit')" class="btn btn-primary">
             Add unit
         </button>
+        <button @click="$emit('show-clipboard')" class="btn btn-primary">
+            Show clipboard
+        </button>
     </div>
 </template>
 

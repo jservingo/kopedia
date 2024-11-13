@@ -1,10 +1,13 @@
 <template>
     <div v-if="page" class ="container-fluid container-page">
         <Header :page="page"
-            @add-card="showModalAddCard">
+            @add-card="showModalAddCard"
+            @show-clipboard="showModalClipboard">
         </Header>
         <Card v-for="(card,index) in page.cards" :card="card" :index="index"
-            @edit-card="showModalEditCard" @delete-card="deleteCard">
+            @edit-card="showModalEditCard" 
+            @add-card-to-clipboard="addCardToClipboard"
+            @delete-card="deleteCard">
         </Card>
     </div>
 
@@ -76,6 +79,40 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">
+                <div v-for="card in cards" class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="card.id"/>
+                            {{ card.title }}
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
@@ -83,6 +120,7 @@ import Header from '../modules/admin/PageHeader.vue'
 import Card from '../modules/admin/PageCard.vue'
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageAdmin';
+import useClipboardCards from '@/composables/useClipboardCards';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -92,7 +130,8 @@ import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
 let modal = null
-let emodal = null
+let edit_modal = null
+let clipboard_modal = null
 let ecard = ref({})
 
 //Get store
@@ -104,12 +143,16 @@ const id = ref('');
 id.value = route.params.id
 //Get page 
 const { page, getPage } = usePage()
+//Get Clipboard cards
+const { cards, getClipboard } = useClipboardCards()
 const router = useRouter()
 
 onMounted(() => {
     modal = new Modal(document.getElementById('modalNewCard'))
-    emodal = new Modal(document.getElementById('modalEditCard'))
+    edit_modal = new Modal(document.getElementById('modalEditCard'))
+    clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getPage(token.value, id.value)
+    getClipboard(token.value)
 })
 
 const showModalAddCard = () => {
@@ -149,15 +192,48 @@ const saveModalAddCard = () => {
     }
 };
 
+const addCardToClipboard = (card) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/clipboard/card/add`, 
+            data: {"id_card":card.id}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                cards.value.push(card)
+                alertify.success("La tarjeta fue añadida al portapapeles")       
+            }
+            else {
+                alertify.error("Error: No se pudo añadir la tarjeta al portapapeles")
+            }
+        })
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+}
+
+const showModalClipboard = () => {
+    clipboard_modal.show()
+}
+
+const closeModalClipboard = () => {
+    clipboard_modal.hide()
+}
+
 const showModalEditCard = (card) => {
     ecard.value = card;
     document.getElementById("eid").value = card.id
     document.getElementById("etitle").value = card.title
-    emodal.show()
+    edit_modal.show()
 }
 
 const closeModalEditCard = () => {
-    emodal.hide()
+    edit_modal.hide()
 }
 
 const saveModalEditCard = () => {
@@ -176,7 +252,7 @@ const saveModalEditCard = () => {
             if (!response.data.error) {
                 ecard.value.title = title
                 alertify.success("La tarjeta fue modificada exitosamente")
-                emodal.hide()            
+                edit_modal.hide()            
             }
             else {
                 alertify.error("Error: No se pudo modificar la tarjeta")
