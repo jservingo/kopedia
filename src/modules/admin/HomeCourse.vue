@@ -1,13 +1,19 @@
 <template>
     <div class ="card card-course" :style="{background:bgGradient }">
         <div class="card-body">
-            <RouterLink class="link-course-box link-underline link-underline-opacity-0" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>                 
-            <button @click="$emit('edit-course',course)" class="btn btn-primary">
-                Edit course
-            </button>
-            <button @click="$emit('delete-course',course)" class="btn btn-danger">
-                Delete course
-            </button>
+            <div class="d-flex">
+                <div class ="container-fluid container-home-course-header">
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>
+                </div>
+                <div class ="container-fluid container-home-course-buttons ml-auto">
+                    <button @click="$emit('edit-course',course)" class="btn btn-edit">
+                        <img src="@/assets/edit.svg"/>
+                    </button>&nbsp;
+                    <button @click="$emit('delete-course',course)" class="btn btn-delete">
+                        <img src="@/assets/delete.svg"/>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>  
 </template>
@@ -30,18 +36,40 @@ const bgGradient = computed(() => {
 <style>
 .card-course {
     float: left;
-    width: 260px;
-    height: 140px;
-    padding-left: 10px;
+    width: 100%;  /* 260px; */
+    padding-top: 6px;
+    padding-bottom: 6px;
     margin-right: 12px;
     margin-bottom: 12px;
 }
 .card-body {
     padding: 0
 }
-.link-course-box {
-    font-size: 17px;
-    color:floralwhite;
-    border-bottom: 0;
+.link-home-course {
+    font-size: 15px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.container-home-course-header {
+    font-size: 14px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.container-home-course-buttons { 
+    font-size: 14px;
+    color: whitesmoke;
+    width: 110px;
+}
+.btn-edit {
+    background-color: #82c591 !important;
+    padding: 0;
+}
+.btn-clipboard {
+    background-color: #b8c57d !important;
+    padding: 0;
+}
+.btn-delete {
+    background-color: #c57d93 !important;
+    padding: 0;
 }
 </style>

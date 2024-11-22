@@ -1,7 +1,17 @@
 <template>
     <div class ="card card-course" :style="{background:bgGradient }">
         <div class="card-body">
-            <RouterLink class="link-course-box link-underline link-underline-opacity-0" :to="`/student/course/${subscription.id}`">{{ subscription.title }}</RouterLink>
+            <div class="d-flex">
+                <div class ="container-fluid container-home-course-header">
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/student/course/${subscription.id}`">{{ subscription.title }}</RouterLink>
+                </div>
+                <div class ="container-fluid container-home-course-progress ml-auto">
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div>HomeCourse</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -26,20 +36,33 @@ const bgGradient = computed(() => {
 .card-course {
     display: block;
     float: left;
-    width: 260px;
-    height: 140px;
-    padding: 10px;
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
     margin-right: 12px;
     margin-bottom: 12px;
 }
 .card-body {
     padding: 0
 }
-.link-course-box {
-    font-size: 17px;
-    color:floralwhite;
-    padding-right: 10px;
-    border-bottom: 0;
+.link-home-course {
+    font-size: 15px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.link-home-course:hover {
+  color: rgb(30, 30, 255);;
+}
+.container-home-course-header {
+    font-size: 14px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.container-home-course-progress { 
+    font-size: 14px;
+    color: whitesmoke;
+    width: 110px;
+    padding-left: 0;
 }
 .bx {
     background-color: rgb(109, 218, 182);

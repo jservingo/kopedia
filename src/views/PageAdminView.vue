@@ -194,6 +194,10 @@ const saveModalAddCard = () => {
 
 const addCardToClipboard = (card) => {
     if (isAuthenticated.value) {
+        if (cards.value.find(loopCard => loopCard.id==card.id)) {
+            alertify.warning("Esta unidad ya fue añadida al portapapeles")
+            return; 
+        }
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/clipboard/card/add`, 
@@ -224,6 +228,43 @@ const showModalClipboard = () => {
 const closeModalClipboard = () => {
     clipboard_modal.hide()
 }
+
+const saveModalClipboard = () => {
+    if (isAuthenticated.value) {
+        let checkboxes = document.getElementsByName('option');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                const card_id = checkboxes[i].value
+                if (page.value.cards.find(card => card.id==card_id)) {
+                    break;
+                }
+                axios({
+                    method: "post",
+                    url: `http://localhost:4000/api/admin/card/update/page`, 
+                    data: {"id_card":card_id,"id_page":page.value.id}, 
+                    headers: {
+                        'Authorization': `Bearer ${token.value}`
+                    }
+                })
+                .then(response => {
+                    if (!response.data.error) {
+                        const card = response.data.card
+                        page.value.cards.push(card)
+                        cards.value = cards.value.filter(loopItem => loopItem.id !== card.id)
+                        alertify.success("La tarjeta fue añadida a la página")                               
+                    }
+                    else {
+                        alertify.error("Error: No se pudo añadir la tajeta a la página")
+                    }
+                })
+            }
+        }        
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+    clipboard_modal.hide()
+};
 
 const showModalEditCard = (card) => {
     ecard.value = card;
@@ -271,7 +312,6 @@ const deleteCard = (card) => {
         alertify.defaults.theme.cancel = "btn btn-danger";
         alertify.defaults.theme.input = "form-control";
         alertify.confirm('Eliminar tarjeta', 'Esta seguro que desea eliminar esta tarjeta?', function() { 
-            page.value.cards = page.value.cards.filter((loopItem) => loopItem !== card);
             axios({
                 method: "post",
                 url: `http://localhost:4000/api/admin/card/delete`, 
@@ -282,6 +322,7 @@ const deleteCard = (card) => {
             })
             .then(response => {
                 if (!response.data.error) {
+                    page.value.cards = page.value.cards.filter((loopItem) => loopItem !== card)
                     alertify.success("La tarjeta fue eliminada")
                 }
                 else {

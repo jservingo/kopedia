@@ -1,16 +1,22 @@
 <template>
     <div class ="card card-unit" :style="{background:bgGradient }">
         <div class="card-body">
-            <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/admin/page/${page.id}`">{{ page.title }}</RouterLink>
-            <button  @click="$emit('edit-page',page)" class="btn btn-primary">
-                Edit page
-            </button>
-            <button @click="$emit('add-page-to-clipboard',page)" class="btn btn-primary">
-                add page to clipboard
-            </button>
-            <button @click="$emit('delete-page',page)" class="btn btn-danger">
-                Delete page 
-            </button>
+            <div class="d-flex">
+                <div class ="container-fluid container-unit-page-header">
+                    <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/admin/page/${page.id}`">{{ page.title }}</RouterLink>
+                </div>
+                <div class ="container-fluid container-unit-page-buttons ml-auto">
+                    <button  @click="$emit('edit-page',page)" class="btn btn-edit">
+                        <img src="@/assets/edit.svg"/>
+                    </button>&nbsp;
+                    <button @click="$emit('add-page-to-clipboard',page)" class="btn btn-clipboard">
+                        <img src="@/assets/add_clipboard.png"/>
+                    </button>&nbsp;
+                    <button @click="$emit('delete-page',page)" class="btn btn-delete">
+                        <img src="@/assets/delete.svg"/> 
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -33,9 +39,9 @@ const bgGradient = computed(() => {
 <style>
 .card-unit {
     float: left;
-    width: 260px;
-    height: 140px;
-    padding-left: 10px;
+    width: 100%;  /* 260px; */
+    padding-top: 6px;
+    padding-bottom: 6px;
     margin-right: 12px;
     margin-bottom: 12px;
 }
@@ -46,5 +52,27 @@ const bgGradient = computed(() => {
     font-size: 15px;
     color: floralwhite;
     border-bottom: 0;
+}
+.container-unit-page-header {
+    font-size: 14px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.container-unit-page-buttons { 
+    font-size: 14px;
+    color: whitesmoke;
+    width: 170px;
+}
+.btn-edit {
+    background-color: #82c591 !important;
+    padding: 0;
+}
+.btn-clipboard {
+    background-color: #b8c57d !important;
+    padding: 0;
+}
+.btn-delete {
+    background-color: #c57d93 !important;
+    padding: 0;
 }
 </style>

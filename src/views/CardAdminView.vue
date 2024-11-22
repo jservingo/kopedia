@@ -359,6 +359,10 @@ const saveModalAddFile = () => {
 
 const addItemToClipboard = (item) => {
     if (isAuthenticated.value) {
+        if (items.value.find(loopItem => loopItem.id==item.id)) {
+            alertify.warning("Este item ya fue añadido al portapapeles")
+            return; 
+        }
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/clipboard/item/add`, 
@@ -389,6 +393,43 @@ const showModalClipboard = () => {
 const closeModalClipboard = () => {
     clipboard_modal.hide()
 }
+
+const saveModalClipboard = () => {
+    if (isAuthenticated.value) {
+        let checkboxes = document.getElementsByName('option');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                const item_id = checkboxes[i].value
+                if (card.value.items.find(item => item.id==item_id)) {
+                    break;
+                }
+                axios({
+                    method: "post",
+                    url: `http://localhost:4000/api/admin/item/update/card`, 
+                    data: {"id_item":item_id,"id_card":card.value.id}, 
+                    headers: {
+                        'Authorization': `Bearer ${token.value}`
+                    }
+                })
+                .then(response => {
+                    if (!response.data.error) {
+                        const item = response.data.item
+                        card.value.items.push(item)
+                        items.value = items.value.filter(loopItem => loopItem.id !== item.id)
+                        alertify.success("El item fue añadido a la tarjeta")                               
+                    }
+                    else {
+                        alertify.error("Error: No se pudo añadir el item a la tarjeta")
+                    }
+                })
+            }
+        }        
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+    clipboard_modal.hide()
+};
 
 const showModalEditItem = (item) => {
     console.log(item.file)
@@ -421,7 +462,9 @@ const saveModalEditItem = () => {
         let id = document.getElementById("eid").value
         let type = document.getElementById("etype").value
         let content = document.getElementById("econtent").value
-        let file = document.getElementById("efile").files[0]
+        let file = ""
+        if (type=="video" || type=="audio")
+            file = document.getElementById("efile").files[0]
         let url = document.getElementById("eurl").value
         axios({
             method: "post",
@@ -454,8 +497,7 @@ const deleteItem = (item) => {
         alertify.defaults.theme.ok = "btn btn-primary";
         alertify.defaults.theme.cancel = "btn btn-danger";
         alertify.defaults.theme.input = "form-control";
-        alertify.confirm('Eliminar item', 'Esta seguro que desea eliminar este item?', function() { 
-            card.value.items = card.value.items.filter((loopItem) => loopItem !== item);
+        alertify.confirm('Eliminar item', 'Esta seguro que desea eliminar este item?', function() {             
             axios({
                 method: "post",
                 url: `http://localhost:4000/api/admin/item/delete`, 
@@ -466,6 +508,7 @@ const deleteItem = (item) => {
             })
             .then(response => {
                 if (!response.data.error) {
+                    card.value.items = card.value.items.filter((loopItem) => loopItem !== item)
                     alertify.success("El item fue eliminado")
                 }
                 else {

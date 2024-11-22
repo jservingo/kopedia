@@ -204,6 +204,10 @@ const saveModalAddPage = () => {
 
 const addPageToClipboard = (page) => {
     if (isAuthenticated.value) {
+        if (pages.value.find(loopPage => loopPage.id==page.id)) {
+            alertify.warning("Esta unidad ya fue añadida al portapapeles")
+            return; 
+        }
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/clipboard/page/add`, 
@@ -235,7 +239,42 @@ const closeModalClipboard = () => {
     clipboard_modal.hide()
 }
 
-
+const saveModalClipboard = () => {
+    if (isAuthenticated.value) {
+        let checkboxes = document.getElementsByName('option');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                const page_id = checkboxes[i].value
+                if (unit.value.pages.find(page => page.id==page_id)) {
+                    break;
+                }
+                axios({
+                    method: "post",
+                    url: `http://localhost:4000/api/admin/page/update/unit`, 
+                    data: {"id_page":page_id,"id_unit":unit.value.id}, 
+                    headers: {
+                        'Authorization': `Bearer ${token.value}`
+                    }
+                })
+                .then(response => {
+                    if (!response.data.error) {
+                        const page = response.data.page
+                        unit.value.pages.push(page)
+                        pages.value = pages.value.filter(loopItem => loopItem.id !== page.id)
+                        alertify.success("La página fue añadida a la unidad")                               
+                    }
+                    else {
+                        alertify.error("Error: No se pudo añadir la página a la unidad")
+                    }
+                })
+            }
+        }        
+    }
+    else {
+  		alertify.error("Please login first");
+    }
+    clipboard_modal.hide()
+};
 
 const showModalEditPage = (page) => {
     epage.value = page;
@@ -283,7 +322,6 @@ const deletePage = (page) => {
         alertify.defaults.theme.cancel = "btn btn-danger";
         alertify.defaults.theme.input = "form-control";
         alertify.confirm('Eliminar página', 'Esta seguro que desea eliminar esta página?', function() { 
-            unit.value.pages = unit.value.pages.filter((loopItem) => loopItem !== page);
             axios({
                 method: "post",
                 url: `http://localhost:4000/api/admin/page/delete`, 
@@ -294,6 +332,7 @@ const deletePage = (page) => {
             })
             .then(response => {
                 if (!response.data.error) {
+                    unit.value.pages = unit.value.pages.filter((loopItem) => loopItem !== page)
                     alertify.success("La página fue eliminada")
                 }
                 else {

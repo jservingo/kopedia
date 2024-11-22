@@ -52,5 +52,6 @@ export default {
     display: block;
     font-size: 15px;
     color: floralwhite;
+    margin-bottom: 6px;
 }
 </style>

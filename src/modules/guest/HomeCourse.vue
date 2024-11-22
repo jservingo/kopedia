@@ -1,10 +1,16 @@
 <template>
     <div class ="card card-course" :style="{background:bgGradient }">
         <div class="card-body">
-            <RouterLink class="link-course-box link-underline link-underline-opacity-0" :to="`/guest/course/${course.id}`">{{ course.title }}</RouterLink>
-            <button class="btn btn-primary" @click="handleSuscribete">
-                Suscríbete
-            </button>
+            <div class="d-flex">
+                <div class ="container-fluid container-home-course-header">
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/guest/course/${course.id}`">{{ course.title }} - HomeCourse</RouterLink>
+                </div>
+                <div class ="container-fluid container-home-course-buttons ml-auto">
+                    <button class="btn btn-primary" @click="handleSuscribete">
+                        Suscríbete
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -50,24 +56,41 @@ const handleSuscribete = () => {
 
 <style scoped>
 .card-course {
-    display: block;
     float: left;
-    width: 260px;
-    height: 140px;
-    padding: 10px;
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
     margin-right: 12px;
     margin-bottom: 12px;
 }
 .card-body {
     padding: 0
 }
-.link-course-box {
-    font-size: 17px;
-    color:floralwhite;
-    padding-right: 10px;
-    border-bottom: 0;
+.link-home-course {
+    font-size: 15px;
+    color: whitesmoke;
+    line-height: 16px !important;
 }
-.bx {
-    background-color: rgb(109, 218, 182);
+.container-home-course-header {
+    font-size: 14px;
+    color: whitesmoke;
+    line-height: 16px !important;
+}
+.container-home-course-buttons { 
+    font-size: 14px;
+    color: whitesmoke;
+    width: 150px;
+}
+.btn-edit {
+    background-color: #82c591 !important;
+    padding: 0;
+}
+.btn-clipboard {
+    background-color: #b8c57d !important;
+    padding: 0;
+}
+.btn-delete {
+    background-color: #c57d93 !important;
+    padding: 0;
 }
 </style>

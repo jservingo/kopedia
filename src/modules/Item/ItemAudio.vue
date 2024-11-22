@@ -34,6 +34,8 @@
     margin-top: 4px;
     font-size: 15px;
     color: floralwhite;
+    padding-top: 4px;
+    margin-bottom: 6px;
  }
 
  .audio__player {

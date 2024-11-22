@@ -77,9 +77,15 @@ h3 {
 .nav-user {
     font-size: 15px;
     color: rgb(186, 195, 244);
+    width: 200px;
+    text-align: right;
 }
 .nav-white {
     font-size: 15px;
     color: rgb(225, 227, 240);
+}
+#navbarNavAltMarkup {
+    flex-grow: 0;
+    width:288px;
 }
 </style>

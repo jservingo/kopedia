@@ -47,10 +47,11 @@ const displayItems = (mode) => {
 <style>
 .card-container {
     display: block;
-    font-size: 17px;
+    font-size: 14px;
     padding: 0px;
     padding-top: 3px;
     margin-bottom: 12px;
+    line-height: 16px !important;
 }
 .card-body {
     padding: 0

@@ -10,8 +10,9 @@
 <style>
 .container-home-header {
     display: block;
-    font-size: 22px;
+    font-size: 18px;
     color: whitesmoke;
+    line-height: 20px !important;
 }
 h3 {
     font-size: 14px;

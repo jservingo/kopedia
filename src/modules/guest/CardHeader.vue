@@ -1,12 +1,7 @@
 <template>
-    <div class="container-header d-flex">
-        <div class ="container-fluid container-unit-button">
-            <button @click="$emit('displayItems')" class="btn-display">
-                <img :src="btnDisplay"/>
-            </button>
-        </div>
-        <div class ="container-fluid container-unit-title ml-auto">
-            {{ title }} - UnitHeader
+    <div class="container-header">
+        <div class ="container-fluid container-card-title">
+            {{ title }} - CardHeader
         </div>
     </div>
 </template>
@@ -28,18 +23,15 @@ const btnDisplay = computed(() => {
     padding-top: 6px;
     padding-bottom: 6px;
 }
-.container-unit-title {
+.container-card-title {
     font-size: 14px;
     color: whitesmoke;
     line-height: 16px !important;
-    padding-left: 6px;
 }
-.container-unit-button { 
+.container-card-button { 
     font-size: 18px;
     color: whitesmoke;
-    width: 40px;
-    padding-left: 12px;
-    padding-right: 0px;
+    width: 35px;
 }
 .btn-display {
     width: 28px;

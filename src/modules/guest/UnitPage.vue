@@ -1,7 +1,6 @@
 <template>
     <div class ="container-fluid container-unit-page">
-        <RouterLink v-if="isAuthenticated" class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${page.id}`">{{ page.title }}</RouterLink>
-        <div v-else>{{ page.title }}</div>
+        <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/guest/page/${page.id}`">{{ page.title }} - UnitPage</RouterLink>
     </div>
 </template>
 
@@ -21,10 +20,12 @@ const { isAuthenticated, token } = storeToRefs(store);
 <style>
 .container-unit-page {
     display: block;
+    padding-bottom: 6px;
 }
 .link-unit-page {
-    font-size: 15px;
+    font-size: 14px;
     color: floralwhite;
     border-bottom: 0;
+    line-height: 15px !important;
 }
 </style>

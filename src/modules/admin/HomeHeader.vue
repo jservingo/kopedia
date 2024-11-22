@@ -1,8 +1,13 @@
 <template>
-    <div class ="container-fluid container-home-header">
-        <button @click="$emit('add-course')" class="btn btn-primary">
-            Add course
-        </button>
+    <div class="container-header d-flex">
+        <div class ="container-fluid container-home-header">
+            <span>Tus cursos creados</span>
+        </div>
+        <div class ="container-fluid container-home-buttons ml-auto">
+            <button @click="$emit('add-course')" class="btn btn-add">
+                <img src="@/assets/add.svg"/>
+            </button>
+        </div>
     </div> 
 </template>
 
@@ -10,12 +15,26 @@
 </script>
 
 <style>
-.container-home-header {
-    display: block;
-    font-size: 22px;
-    color: whitesmoke;
+.container-header {
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
-.modal-content {
-    color: black;
+.container-home-header {
+    font-size: 18px;
+    color: whitesmoke;
+    line-height: 20px !important;
+}
+.container-home-buttons { 
+    font-size: 18px;
+    color: whitesmoke;
+    width: 60px;
+}
+.btn-add {
+    background-color: #82a1c9 !important;
+    padding: 0;
+}
+.btn-clipboard {
+    background-color: #b8c57d !important;
+    padding: 0;
 }
 </style>

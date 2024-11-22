@@ -14,5 +14,6 @@ defineProps(["item"]);
     display: block;
     font-size: 15px;
     color: floralwhite;
+    margin-bottom: 4px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class ="card card-container" :style="{background:bgGradient }">
+    <div class="card card-container" :style="{background:bgGradient }">
         <div class="card-body">
             <Header :title="unit.title" :display="display" @display-items="displayItems"></Header>
             <Page v-for="(page) in pages" :page="page" v-show="display"></Page>
@@ -39,18 +39,19 @@ onMounted(() => {
 
 //Show or hide items
 const display = ref(true);
-const displayItems = (mode) => {
+const displayItems = (mode) => {  
     display.value = !display.value;
+    console.log(display.value)
 }
 </script>
 
 <style>
 .card-container {
-    display: block;
-    font-size: 17px;
+    font-size: 14px;
     padding: 0px;
     padding-top: 3px;
     margin-bottom: 12px;
+    line-height: 16px !important;
 }
 .card-body {
     padding: 0

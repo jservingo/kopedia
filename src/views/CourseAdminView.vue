@@ -194,6 +194,10 @@ const saveModalAddUnit = () => {
 
 const addUnitToClipboard = (unit) => {
     if (isAuthenticated.value) {
+        if (units.value.find(loopUnit => loopUnit.id==unit.id)) {
+            alertify.warning("Esta unidad ya fue añadida al portapapeles")
+            return; 
+        }
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/clipboard/unit/add`, 
@@ -231,6 +235,9 @@ const saveModalClipboard = () => {
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 const unit_id = checkboxes[i].value
+                if (course.value.units.find(unit => unit.id==unit_id)) {
+                    break;
+                }
                 axios({
                     method: "post",
                     url: `http://localhost:4000/api/admin/unit/update/course`, 
@@ -244,8 +251,7 @@ const saveModalClipboard = () => {
                         const unit = response.data.unit
                         course.value.units.push(unit)
                         units.value = units.value.filter(loopItem => loopItem.id !== unit.id)
-                        alertify.success("La unidad fue añadida al curso")       
-                        clipboard_modal.hide()
+                        alertify.success("La unidad fue añadida al curso")                               
                     }
                     else {
                         alertify.error("Error: No se pudo añadir la unidad al curso")
@@ -257,6 +263,7 @@ const saveModalClipboard = () => {
     else {
   		alertify.error("Please login first");
     }
+    clipboard_modal.hide()
 };
 
 const showModalEditUnit = (unit) => {
