@@ -18,8 +18,8 @@ defineProps(["title"]);
 }
 .container-page-header {
     display: block;
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 </style>

@@ -6,7 +6,7 @@
             </button>
         </div>
         <div class ="container-fluid container-card-title ml-auto">
-            {{ title }} - CardHeader
+            {{ title }}
         </div>
     </div>
 </template>
@@ -29,12 +29,12 @@ const btnDisplay = computed(() => {
     padding-bottom: 6px;
 }
 .container-card-title {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-card-button { 
-    font-size: 18px;
+    font-size: 14px;
     color: whitesmoke;
     width: 35px;
 }

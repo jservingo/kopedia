@@ -22,9 +22,9 @@ defineProps(["title"]);
     padding-bottom: 6px;
 }
 .container-course-header {
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 .container-course-buttons { 
     font-size: 14px;

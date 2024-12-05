@@ -29,13 +29,13 @@ const btnDisplay = computed(() => {
     padding-bottom: 6px;
 }
 .container-unit-title {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
     padding-left: 6px;
 }
 .container-unit-button { 
-    font-size: 18px;
+    font-size: 14px;
     color: whitesmoke;
     width: 40px;
     padding-left: 12px;

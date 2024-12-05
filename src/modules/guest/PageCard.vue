@@ -11,7 +11,7 @@
 import Header from './CardHeader.vue'
 import Item from './CardItem.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useCard from '@/composables/useCardStudent';
+import useCard from '@/composables/useCardGuest';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -33,7 +33,7 @@ const { isAuthenticated, token } = storeToRefs(store);
 const { items, getItems } = useCard()
 
 onMounted(() => {
-    getItems(token.value, props.card.id)
+    getItems(props.card.id)
 })
 
 //Show or hide items

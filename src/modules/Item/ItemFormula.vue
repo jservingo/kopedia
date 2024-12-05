@@ -1,6 +1,7 @@
 <template>
+    <!-- Esto ya no se utiliza -->
     <div class ="container-formula">
-        <div>v-html="formula"</div>
+        <div v-html="item.content"></div>
     </div>
 </template>
 
@@ -15,5 +16,7 @@ defineProps(["item"]);
     font-size: 15px;
     color: floralwhite;
     margin-bottom: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 </style>

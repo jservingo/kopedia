@@ -103,6 +103,10 @@ const router = createRouter({
       name: 'cardAdmin',
       beforeEnter: auth,
       component: () => import('../views/CardAdminView.vue')
+    },
+    { 
+      path: '/:pathMatch(.*)*', 
+      component: () => import('../views/PageNotFound.vue') 
     }
   ]
 })

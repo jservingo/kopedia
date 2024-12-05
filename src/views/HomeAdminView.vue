@@ -116,6 +116,7 @@ const closeModalAddCourse = () => {
 const saveModalAddCourse = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("title").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/course/create`, 
@@ -156,6 +157,7 @@ const saveModalEditCourse = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/course/update`, 

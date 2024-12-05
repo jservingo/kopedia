@@ -25,12 +25,12 @@ defineProps(["unit"]);
     padding-bottom: 6px;
 }
 .container-unit-header {
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 .container-unit-buttons { 
-    font-size: 18px;
+    font-size: 14px;
     color: whitesmoke;
     width: 120px;
 }

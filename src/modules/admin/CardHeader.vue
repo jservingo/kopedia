@@ -1,7 +1,7 @@
 <template>
     <div class="container-header d-flex">
         <div class ="container-fluid container-card-header">
-            <span>Card {{ card.id }} - {{ card.title }}</span>
+            <span>{{ card.title }}</span>
         </div>
         <div class ="container-fluid container-card-buttons ml-auto">
             <button @click="$emit('add-item')" class="btn btn-add">
@@ -25,12 +25,12 @@ defineProps(["card"]);
     padding-bottom: 6px;
 }
 .container-card-header {
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 .container-card-buttons { 
-    font-size: 18px;
+    font-size: 14px;
     color: whitesmoke;
     width: 120px;
 }

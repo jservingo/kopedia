@@ -1,7 +1,7 @@
 <template>
     <div class ="container-header d-flex">
         <div class ="container-fluid container-page-header">
-            <span>{{ title }} - PageHeader</span>
+            <span>{{ title }}</span>
         </div> 
         <div class ="container-fluid container-page-progress ml-auto">
             <div class="progress" style="height: 20px;">
@@ -22,9 +22,9 @@ defineProps(["title"]);
     padding-bottom: 6px;
 }
 .container-page-header {
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 .container-page-progress { 
     font-size: 14px;

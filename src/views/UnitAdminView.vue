@@ -5,6 +5,8 @@
             @show-clipboard="showModalClipboard">
         </Header>
         <Page v-for="(page,index) in unit.pages" :page="page" :index="index"
+            @down-page="downPage"
+            @up-page="upPage"
             @edit-page="showModalEditPage" 
             @add-page-to-clipboard="addPageToClipboard"
             @delete-page="deletePage">
@@ -176,6 +178,7 @@ const closeModalAddPage = () => {
 const saveModalAddPage = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("title").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/page/create`, 
@@ -291,6 +294,7 @@ const saveModalEditPage = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/page/update`, 
@@ -314,6 +318,50 @@ const saveModalEditPage = () => {
   		alertify.error("Please login first");
     }
 };
+
+const upPage = (page) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/page/update/up`, 
+            data: {"id":page.id,"id_unit":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getUnit(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")          
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
+
+const downPage = (page) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/page/update/down`, 
+            data: {"id":page.id,"id_unit":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getUnit(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")        
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
 
 const deletePage = (page) => {
     if (isAuthenticated.value) {

@@ -24,9 +24,9 @@ const btnDisplay = computed(() => {
     padding-bottom: 6px;
 }
 .container-card-title {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-card-button { 
     font-size: 18px;
@@ -37,7 +37,7 @@ const btnDisplay = computed(() => {
     width: 28px;
     height: 30px; 
     padding: 0;
-    font-size: 18px;
+    font-size: 14px;
     border-radius: 30%;
 }
 </style>

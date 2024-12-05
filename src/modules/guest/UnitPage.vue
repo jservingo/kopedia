@@ -23,9 +23,12 @@ const { isAuthenticated, token } = storeToRefs(store);
     padding-bottom: 6px;
 }
 .link-unit-page {
-    font-size: 14px;
+    font-size: 18px;
     color: floralwhite;
     border-bottom: 0;
-    line-height: 15px !important;
+    line-height: 20px !important;
+}
+.link-unit-page:hover {
+  color: rgb(30, 30, 255);;
 }
 </style>

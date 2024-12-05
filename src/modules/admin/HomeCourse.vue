@@ -46,14 +46,17 @@ const bgGradient = computed(() => {
     padding: 0
 }
 .link-home-course {
-    font-size: 15px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
+}
+.link-home-course:hover {
+  color: rgb(30, 30, 255);;
 }
 .container-home-course-header {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-home-course-buttons { 
     font-size: 14px;

@@ -67,12 +67,15 @@ const handleSuscribete = () => {
     padding: 0
 }
 .link-home-course {
-    font-size: 15px;
+    font-size: 18px;
     color: whitesmoke;
     line-height: 16px !important;
 }
+.link-home-course:hover {
+  color: rgb(30, 30, 255);;
+}
 .container-home-course-header {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
     line-height: 16px !important;
 }

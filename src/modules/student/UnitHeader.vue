@@ -6,13 +6,12 @@
             </button> 
         </div>
         <div class ="container-fluid container-unit-title ml-auto">
-            {{ title }} - UnitHeader
+            {{ title }}
         </div>
         <div class ="container-fluid container-unit-progress">
             <div class="progress" style="height: 20px;">
                 <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <diV>Hola</diV>
         </div>
     </div>
 </template>
@@ -35,13 +34,13 @@ const btnDisplay = computed(() => {
     padding-bottom: 6px;
 }
 .container-unit-title {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
     padding-left: 6px;
 }
 .container-unit-button { 
-    font-size: 18px;
+    font-size: 14px;
     color: whitesmoke;
     width: 40px;
     padding-left: 12px;

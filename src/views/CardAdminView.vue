@@ -6,6 +6,8 @@
         </Header>
         <!--:voptions="{...videoOptions, sources:[{...videoOptions.sources[0], src:'http://localhost:4000/uploads/'+item.file}]}"-->
         <Item v-for="(item,index) in card.items" :item="item" :index="index"            
+            @down-item="downItem"
+            @up-item="upItem"
             @edit-item="showModalEditItem" 
             @add-item-to-clipboard="addItemToClipboard"
             @delete-item="deleteItem">
@@ -24,23 +26,31 @@
           <div class="modal-body">
             <form name="formNew">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
-                            <input type="text" v-model="item.type" class="form-control" id="type" placeholder="">
+                            <select v-model="item.type">
+                                <option value="text">Texto</option>
+                                <option value="image">Imagen</option>
+                                <option value="audio">Audio</option>
+                                <option value="video">Video</option>
+                                <option value="formula">Formula</option>
+                            </select>
+                            <!--<input type="text" v-model="item.type" class="form-control" id="type" placeholder="">
                             <label for="type">Tipo</label>
+                            -->
                         </div>
                     </div>
                 </div>
-                <div v-show="item.type=='text'" class="row">
-                    <div class="col-lg-6">
+                <div v-show="item.type=='text' || item.type=='formula'" class="row">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="content" placeholder="">
+                            <textarea class="form-control item-content" id="content" rows="8" cols="40" placeholder=""></textarea>
                             <label for="content">Texto</label>
                         </div>
                     </div>
                 </div>
                 <div v-show="item.type=='image' || item.type=='audio' || item.type=='video'" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <input type="file" class="form-control" id="file" placeholder=""
                                 v-on:change="showAddImage()">
@@ -48,17 +58,23 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="item.type=='image' && url_image">
-                    <img :src="url_image" width="50%">
-                </div>
                 <div v-show="item.type=='link'" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="url" placeholder="">
                             <label for="url">URL</label>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="options" height="96" placeholder="">
+                        <label for="options">Options</label>
+                    </div>
+                </div>
+                <div v-if="item.type=='image' && url_image">
+                    <img :src="url_image" width="50%">
+                </div>                
             </form>  
           </div>
           <div class="modal-footer">
@@ -86,24 +102,23 @@
           <div class="modal-body">
             <form name="formEdit">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
-                            <input type="text" v-model="eitem.type" readonly class="form-control" id="etype" placeholder="">
-                            <label for="etype">Tipo</label>
+                            <span>{{ eitem.type }}</span>
                         </div>
                     </div>
                 </div>
-                <div v-show="eitem.type=='text'" class="row">
-                    <div class="col-lg-6">
+                <div v-show="eitem.type=='text' || eitem.type=='formula'" class="row">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="econtent" placeholder="">
+                            <textarea class="form-control item-content" id="econtent" rows="8" cols="40" placeholder=""></textarea>
                             <label for="econtent">Content</label>
                         </div>
                     </div>
                 </div>
                 <!--
                 <div v-show="eitem.type=='image'" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <input type="file" class="form-control" id="efile" placeholder=""
                                 v-on:change="showEditImage()">
@@ -112,16 +127,22 @@
                     </div>
                 </div>
                 -->
-                <div v-if="eitem.type=='image' && url_image">
-                    <img :src="eurl_image" width="50%">
-                </div>
                 <div v-show="eitem.type=='url'" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="eurl" placeholder="">
                             <label for="eurl">URL</label>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="eoptions" height="96" placeholder="">
+                        <label for="eoptions">Options</label>
+                    </div>
+                </div>
+                <div v-if="eitem.type=='image' && url_image">
+                    <img :src="eurl_image" width="50%">
                 </div>
             </form>  
           </div>
@@ -151,11 +172,11 @@
           <div class="modal-body">
             <form name="formClipboard">
                 <div v-for="item in items" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <input type='checkbox' name='option' :value="item.id"/>
                             {{ item.type }} 
-                            <span v-if="item.content">- {{ item.content }}</span>
+                            <span v-if="item.content">- {{ scontent(item) }}</span>
                             <span v-if="item.file">- {{ item.file }}</span>
                         </div>
                     </div>
@@ -239,9 +260,17 @@ const urlFile = computed((item) => {
     return `http://localhost:4000/uploads/${item.file}`;
 })
 
+const scontent = (item) => {
+    let content = item.content
+    content = content.replace(/<[^>]*>/g, '')
+    content = content.substring(0,100)
+    return content
+}
+
 const showModalAddItem = () => {
-    document.getElementById("type").value = ""
+    item.value.type = "text"
     document.getElementById("content").value = ""
+    document.getElementById("options").value = ""
     document.getElementById("file").value = ""
     document.getElementById("url").value = ""
     url_image.value = null
@@ -249,8 +278,9 @@ const showModalAddItem = () => {
 }
 
 const closeModalAddItem = () => {
-    document.getElementById('type').value = ""
+    item.value.type = ""
     document.getElementById('content').value = ""
+    document.getElementById('options').value = ""
     document.getElementById('file').value = ""
     document.getElementById('url').value = ""
     url_image.value = null
@@ -263,7 +293,7 @@ const showAddImage = () => {
 }
 
 const saveModalAddItem = () => {
-    let type = document.getElementById("type").value
+    let type = item.value.type
     if (type=="text" || type=="formula" || type=="url")
         saveModalAddContent()
     else if (type=="image" || type=="audio" || type=="video")
@@ -272,8 +302,9 @@ const saveModalAddItem = () => {
 
 const saveModalAddContent = () => {
     if (isAuthenticated.value) {
-        let type = document.getElementById("type").value
+        let type = item.value.type
         let content = document.getElementById("content").value
+        let options = document.getElementById("options").value
         let url = document.getElementById("url").value   
         axios({
             method: "post",
@@ -282,6 +313,7 @@ const saveModalAddContent = () => {
                 "id_card": card.value.id,
                 "type": type,
                 "content": content,
+                "options": options,
                 "file": file, 
                 "url": url
             }, 
@@ -292,8 +324,9 @@ const saveModalAddContent = () => {
         .then(response => {
             if (!response.data.item.error) {
                 alertify.success("El item fue creado exitosamente")
-                document.getElementById('type').value = ""
+                item.value.type = ""
                 document.getElementById('content').value = ""
+                document.getElementById('options').value = ""
                 document.getElementById('url').value = ""
                 card.value.items.push(response.data.item)
                 modal.hide()           
@@ -310,8 +343,9 @@ const saveModalAddContent = () => {
 
 const saveModalAddFile = () => {
     if (isAuthenticated.value) {
-        let type = document.getElementById("type").value
+        let type = item.value.type
         let content = document.getElementById("content").value
+        let options = document.getElementById("options").value
         let file = document.getElementById("file").files[0]
         let url = document.getElementById("url").value
         let gurl = ""
@@ -329,6 +363,7 @@ const saveModalAddFile = () => {
                 "id_card": card.value.id,
                 "type": type,
                 "content": content,
+                "options": options,
                 "file": file, 
                 "url": url
             }, 
@@ -340,8 +375,9 @@ const saveModalAddFile = () => {
         .then(response => {
             if (!response.data.item.error) {
                 alertify.success("El item fue creado exitosamente")
-                document.getElementById('type').value = ""
+                item.value.type = ""
                 document.getElementById('content').value = ""
+                document.getElementById('options').value = ""
                 document.getElementById('file').value = ""
                 document.getElementById('url').value = ""
                 card.value.items.push(response.data.item)
@@ -438,15 +474,17 @@ const showModalEditItem = (item) => {
     if (item.type=="image" || item.type=="audio" || item.type=="video")
         eurl_image.value = `http://localhost:4000/uploads/${item.file}`
     document.getElementById("eid").value = item.id
-    document.getElementById("etype").value = item.type
+    //document.getElementById("etype").value = item.type
     document.getElementById("econtent").value = item.content
+    document.getElementById("eoptions").value = item.options
     document.getElementById("eurl").value = item.url
     edit_modal.show()
 }
 
 const closeModalEditItem = () => {
-    document.getElementById('etype').value = ""
+    //document.getElementById('etype').value = ""
     document.getElementById('econtent').value = ""
+    document.getElementById('options').value = ""
     document.getElementById('eurl').value = ""
     eurl_image.value = null
     edit_modal.hide()
@@ -460,16 +498,20 @@ const showEditImage = () => {
 const saveModalEditItem = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
-        let type = document.getElementById("etype").value
+        let type = eitem.value.type
         let content = document.getElementById("econtent").value
+        let options = document.getElementById("eoptions").value
         let file = ""
+        /*
+        (OJO) ELIMINAR ESTO 
         if (type=="video" || type=="audio")
             file = document.getElementById("efile").files[0]
+        */
         let url = document.getElementById("eurl").value
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/item/update`, 
-            data: {"id":id, "type":type, "content":content, "file":file, "url":url}, 
+            data: {"id":id, "type":type, "content":content, "options":options, "file":file, "url":url}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
@@ -477,6 +519,7 @@ const saveModalEditItem = () => {
         .then(response => {
             if (!response.data.error) {
                 eitem.value.content = content
+                eitem.value.options = options
                 eitem.value.url = url
                 alertify.success("El item fue modificado exitosamente")
                 edit_modal.hide()            
@@ -490,6 +533,50 @@ const saveModalEditItem = () => {
   		alertify.error("Please login first");
     }
 };
+
+const upItem = (item) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/item/update/up`, 
+            data: {"id":item.id,"id_card":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getCard(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")          
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
+
+const downItem = (item) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/item/update/down`, 
+            data: {"id":item.id,"id_card":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getCard(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")        
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
 
 const deleteItem = (item) => {
     if (isAuthenticated.value) {
@@ -528,5 +615,8 @@ const deleteItem = (item) => {
 <style scoped>
 .container-page {
     display: block;
+}
+.item-content {
+    height: 200px;
 }
 </style>

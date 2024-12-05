@@ -1,10 +1,10 @@
 <template>
     <div class ="container-fluid container-item">
-        <Audio v-if="item.type=='audio'" :item="item"></Audio>
-        <Formula v-if="item.type=='formula'" :item="item"></Formula>
+        <Text v-if="item.type=='text'" :item="item"></Text>
         <Image v-if="item.type=='image'" :item="item"></Image>
-        <Text v-if="item.type=='text'" :item="item"></Text> 
+        <Audio v-if="item.type=='audio'" :item="item"></Audio>
         <Video v-if="item.type=='video'" :item="item"></Video>
+        <Formula v-if="item.type=='formula'" :item="item"></Formula>        
     </div>
 </template>
 

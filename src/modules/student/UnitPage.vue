@@ -7,7 +7,6 @@
             <div class ="container-fluid container-unit-page-progress ml-auto">
                 <div class="progress" style="height: 20px;">
                     <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    <div>UnitPage</div>
                 </div>
             </div>
         </div>
@@ -26,9 +25,9 @@ defineProps(["page"]);
     padding-bottom: 6px;
 }
 .container-unit-page-header {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-unit-page-progress { 
     font-size: 14px;
@@ -37,8 +36,11 @@ defineProps(["page"]);
     padding-left: 0;
 }
 .link-unit-page {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 15px !important;
+    line-height: 20px !important;
+}
+.link-unit-page:hover {
+  color: rgb(30, 30, 255);;
 }
 </style>

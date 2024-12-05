@@ -8,7 +8,6 @@
                 <div class ="container-fluid container-home-course-progress ml-auto">
                     <div class="progress" style="height: 20px;">
                         <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div>HomeCourse</div>
                     </div>
                 </div>
             </div>
@@ -46,17 +45,17 @@ const bgGradient = computed(() => {
     padding: 0
 }
 .link-home-course {
-    font-size: 15px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 18px !important;
 }
 .link-home-course:hover {
   color: rgb(30, 30, 255);;
 }
 .container-home-course-header {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-home-course-progress { 
     font-size: 14px;

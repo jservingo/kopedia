@@ -5,6 +5,8 @@
             @show-clipboard="showModalClipboard">
         </Header>
         <Card v-for="(card,index) in page.cards" :card="card" :index="index"
+            @down-card="downCard"
+            @up-card="upCard"
             @edit-card="showModalEditCard" 
             @add-card-to-clipboard="addCardToClipboard"
             @delete-card="deleteCard">
@@ -166,6 +168,7 @@ const closeModalAddCard = () => {
 const saveModalAddCard = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("title").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/card/create`, 
@@ -281,6 +284,7 @@ const saveModalEditCard = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/card/update`, 
@@ -304,6 +308,50 @@ const saveModalEditCard = () => {
   		alertify.error("Please login first");
     }
 };
+
+const upCard = (card) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/card/update/up`, 
+            data: {"id":card.id,"id_page":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getPage(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")          
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
+
+const downCard = (card) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/card/update/down`, 
+            data: {"id":card.id,"id_page":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getPage(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")        
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
 
 const deleteCard = (card) => {
     if (isAuthenticated.value) {

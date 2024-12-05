@@ -6,6 +6,12 @@
                     <RouterLink class="link-course-card link-underline link-underline-opacity-0" :to="`/admin/unit/${unit.id}`">{{ unit.title }}</RouterLink>
                 </div>
                 <div class ="container-fluid container-course-unit-buttons ml-auto">
+                    <button @click="$emit('down-unit',unit)" class="btn btn-down">
+                        <img src="@/assets/down.svg"/>
+                    </button>&nbsp;
+                    <button @click="$emit('up-unit',unit)" class="btn btn-up">
+                        <img src="@/assets/up.svg"/>
+                    </button>&nbsp;                    
                     <button @click="$emit('edit-unit',unit)" class="btn btn-edit">
                         <img src="@/assets/edit.svg"/>
                     </button>&nbsp;
@@ -39,7 +45,7 @@ const bgGradient = computed(() => {
 <style>
 .card-course {
     float: left;
-    width: 100%;  /* 260px; */
+    width: 100%; 
     padding-top: 6px;
     padding-bottom: 6px;
     margin-right: 12px;
@@ -49,19 +55,30 @@ const bgGradient = computed(() => {
     padding: 0
 }
 .link-course-card {
-    font-size: 15px;
+    font-size: 18px;
     color:floralwhite;
     border-bottom: 0;
 }
+.link-course-card:hover {
+  color: rgb(30, 30, 255);;
+}
 .container-course-unit-header {
-    font-size: 14px;
+    font-size: 18px;
     color: whitesmoke;
-    line-height: 16px !important;
+    line-height: 20px !important;
 }
 .container-course-unit-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 170px;
+    width: 290px;
+}
+.btn-up {
+    background-color: #a3c8dd !important;
+    padding: 0;
+}
+.btn-down {
+    background-color: #7dc5c5 !important;
+    padding: 0;
 }
 .btn-edit {
     background-color: #82c591 !important;

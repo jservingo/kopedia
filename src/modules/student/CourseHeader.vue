@@ -1,13 +1,12 @@
 <template>
     <div class ="container-header d-flex">
         <div class ="container-fluid container-course-header">
-            <span>{{ title }} - CourseHeader</span>
+            <span>{{ title }}</span>
         </div>
         <div class ="container-fluid container-course-progress ml-auto">
             <div class="progress" style="height: 20px;">
                 <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <div>Hola</div>
         </div>
     </div>
 </template>
@@ -23,9 +22,9 @@ defineProps(["title"]);
     padding-bottom: 6px;
 }
 .container-course-header {
-    font-size: 18px;
+    font-size: 22px;
     color: whitesmoke;
-    line-height: 20px !important;
+    line-height: 24px !important;
 }
 .container-course-progress { 
     font-size: 14px;

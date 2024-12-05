@@ -5,6 +5,8 @@
             @show-clipboard="showModalClipboard">
         </Header>
         <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"
+            @down-unit="downUnit"
+            @up-unit="upUnit"
             @edit-unit="showModalEditUnit"
             @add-unit-to-clipboard="addUnitToClipboard"
             @delete-unit="deleteUnit">
@@ -166,6 +168,7 @@ const closeModalAddUnit = () => {
 const saveModalAddUnit = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("title").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/unit/create`, 
@@ -281,6 +284,7 @@ const saveModalEditUnit = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("eid").value
         let title = document.getElementById("etitle").value
+        title = title.substr(0,255)
         axios({
             method: "post",
             url: `http://localhost:4000/api/admin/unit/update`, 
@@ -304,6 +308,50 @@ const saveModalEditUnit = () => {
   		alertify.error("Please login first");
     }
 };
+
+const upUnit = (unit) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/unit/update/up`, 
+            data: {"id":unit.id,"id_course":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getCourse(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")          
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
+
+const downUnit = (unit) => {
+    if (isAuthenticated.value) {
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/admin/unit/update/down`, 
+            data: {"id":unit.id,"id_course":id.value}, 
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        .then(response => {
+            if (!response.data.error) {
+                getCourse(token.value, id.value)
+                //alertify.success("La unidad fue modificada exitosamente")        
+            }
+            else {
+                //alertify.error("Error: No se pudo modificar la unidad")
+            }
+        })
+    }
+}
 
 const deleteUnit = (unit) => {
     if (isAuthenticated.value) {

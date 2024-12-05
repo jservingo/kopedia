@@ -1,7 +1,6 @@
 <template>
   <div class ="container-audio">
     <audio-player :option="audioOption" />
-    <div>{{ item.file }}</div>
   </div>
 </template>
   
@@ -32,9 +31,9 @@
  .container-audio {
     display: block;
     margin-top: 4px;
-    font-size: 15px;
+    font-size: 16px;
     color: floralwhite;
-    padding-top: 4px;
+    padding-top: 8px;
     margin-bottom: 6px;
  }
 

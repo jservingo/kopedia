@@ -13,6 +13,7 @@
     "alertifyjs": "^1.14.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "katex-vue3": "^0.0.6",
     "pinia": "^2.1.7",
     "video.js": "^8.18.1",
     "vue": "^3.4.29",
