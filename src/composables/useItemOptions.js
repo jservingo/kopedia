@@ -2,10 +2,11 @@ import { ref } from 'vue'
  
 export default function useItemOptions() {
     const options = ref({})
+    const eoptions = ref({})
 
     const getItemOptions = async (item) => {
         //console.log("item",item)
-        options.value['color'] = "floralwhite"
+        //options.value['color'] = "floralwhite"
         if (item.options) {
             let opts = item.options.split(';')
             for (let i=0;i<opts.length;i++) {
@@ -16,6 +17,12 @@ export default function useItemOptions() {
                     case 'width':
                         options.value['width'] = value
                         break
+                    case 'width-text':
+                    case 'width-image':
+                    case 'width-video':
+                    case 'width-audio':
+                        eoptions.value['width'] = value
+                        break
                     case 'align':
                         switch (value) {
                             case "center":
@@ -25,10 +32,38 @@ export default function useItemOptions() {
                                 break;
                             case "right":
                                 options.value['display'] = "block"
-                                options.value['margin-left'] = "auto" 
+                                options.value['margin-left'] = "auto"
+                                options.value['margin-right'] = "0" 
+                                break;
+                            case "left":
+                                options.value['display'] = "block"
+                                options.value['margin-left'] = "0" 
+                                options.value['margin-right'] = "0"
                                 break;
                         } 
-                        break               
+                        break;
+                    case 'align-text':
+                    case 'align-image':
+                    case 'align-video':
+                    case 'align-audio':
+                        switch (value) {
+                            case "center":
+                                eoptions.value['display'] = "block"
+                                eoptions.value['margin-left'] = "auto"
+                                eoptions.value['margin-right'] = "auto" 
+                                break;
+                            case "right":
+                                eoptions.value['display'] = "block"
+                                eoptions.value['margin-left'] = "auto" 
+                                eoptions.value['margin-right'] = "0"
+                                break;
+                            case "left":
+                                eoptions.value['display'] = "block"
+                                eoptions.value['margin-left'] = "0" 
+                                eoptions.value['margin-right'] = "0"
+                                break;
+                        } 
+                        break                    
                     case 'background':
                         options.value['background-color'] = get_color(value)                    
                         options.value['border'] = "4px solid rgb(8, 19, 51)"
@@ -79,5 +114,5 @@ export default function useItemOptions() {
         }
     }
 
-    return { options, getItemOptions } 
+    return { options, eoptions, getItemOptions } 
 }

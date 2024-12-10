@@ -519,7 +519,8 @@ const saveModalEditItem = () => {
         .then(response => {
             if (!response.data.error) {
                 eitem.value.content = content
-                eitem.value.options = options
+                eitem.value.fcontent = response.data.fcontent
+                eitem.value.options = options                
                 eitem.value.url = url
                 alertify.success("El item fue modificado exitosamente")
                 edit_modal.hide()            

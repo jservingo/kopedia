@@ -29,6 +29,7 @@ export default function (src) {
     script.addEventListener("load", onScriptLoad);
     script.addEventListener("error", onScriptError);
 
+    /*
     onUnmounted(() => {
       if (document.head.contains(script)) {
         script.removeEventListener("load", onScriptLoad);
@@ -36,5 +37,6 @@ export default function (src) {
         document.head.removeChild(script);
       }
     })
+    */
   });
 }
