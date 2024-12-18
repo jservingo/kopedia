@@ -3,6 +3,7 @@ import { ref } from 'vue'
 export default function useItemOptions() {
     const options = ref({})
     const eoptions = ref({})
+    const coptions = ref({})
 
     const getItemOptions = async (item) => {
         //console.log("item",item)
@@ -22,6 +23,9 @@ export default function useItemOptions() {
                     case 'width-video':
                     case 'width-audio':
                         eoptions.value['width'] = value
+                        break
+                    case 'width-content':
+                        coptions.value['width'] = value
                         break
                     case 'align':
                         switch (value) {
@@ -63,7 +67,35 @@ export default function useItemOptions() {
                                 eoptions.value['margin-right'] = "0"
                                 break;
                         } 
-                        break                    
+                        break    
+                    case 'display-content':
+                        switch (value) {
+                            case "center":
+                                coptions.value['show'] = "center"
+                                coptions.value['display'] = "block"
+                                coptions.value['margin-left'] = "auto"
+                                coptions.value['margin-right'] = "auto" 
+                                break;
+                            case "right":
+                                coptions.value['show'] = "right"
+                                coptions.value['display'] = "block"
+                                coptions.value['margin-left'] = "auto" 
+                                coptions.value['margin-right'] = "0"
+                                break;
+                            case "left":
+                                coptions.value['show'] = "left"
+                                coptions.value['display'] = "block"
+                                coptions.value['margin-left'] = "0" 
+                                coptions.value['margin-right'] = "0"
+                                break;
+                            case "hide":
+                            case "none":
+                                coptions.value['show'] = "none"
+                                coptions.value['display'] = "block"
+                                coptions.value['display'] = 'none'
+                                break;
+                        } 
+                        break    
                     case 'background':
                         options.value['background-color'] = get_color(value)                    
                         options.value['border'] = "4px solid rgb(8, 19, 51)"
@@ -114,5 +146,5 @@ export default function useItemOptions() {
         }
     }
 
-    return { options, eoptions, getItemOptions } 
+    return { options, eoptions, coptions, getItemOptions } 
 }

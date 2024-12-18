@@ -41,7 +41,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-show="item.type=='text' || item.type=='formula'" class="row">
+                <!-- v-show="item.type=='text' || item.type=='formula'" -->
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <textarea class="form-control item-content" id="content" rows="8" cols="40" placeholder=""></textarea>
@@ -108,7 +109,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-show="eitem.type=='text' || eitem.type=='formula'" class="row">
+                <!-- v-show="eitem.type=='text' || eitem.type=='formula'" -->
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="form-floating mb-2">
                             <textarea class="form-control item-content" id="econtent" rows="8" cols="40" placeholder=""></textarea>
