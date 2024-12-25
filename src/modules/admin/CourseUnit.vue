@@ -1,11 +1,11 @@
 <template>
     <div class ="card card-course" :style="{background:bgGradient }">
-        <div class="card-body">
-            <div class="d-flex">
-                <div class ="container-fluid container-course-unit-header">
+        <div class="card-body">    
+            <div class="d-flex">        
+                <div class ="container-course-unit-header">
                     <RouterLink class="link-course-card link-underline link-underline-opacity-0" :to="`/admin/unit/${unit.id}`">{{ unit.title }}</RouterLink>
                 </div>
-                <div class ="container-fluid container-course-unit-buttons ml-auto">
+                <div class ="container-course-unit-buttons">
                     <button @click="$emit('down-unit',unit)" class="btn btn-down">
                         <img src="@/assets/down.svg"/>
                     </button>&nbsp;
@@ -22,7 +22,7 @@
                         <img src="@/assets/delete.svg"/>
                     </button>
                 </div>
-            </div>
+            </div>          
         </div>
     </div>  
 </template>
@@ -62,15 +62,17 @@ const bgGradient = computed(() => {
 .link-course-card:hover {
   color: rgb(30, 30, 255);;
 }
-.container-course-unit-header {
+.container-course-unit-header {    
     font-size: 18px;
+    width: calc(100% - 212px);
     color: whitesmoke;
     line-height: 20px !important;
+    padding-left: 12px;
 }
 .container-course-unit-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 290px;
+    width: 206px;
 }
 .btn-up {
     background-color: #a3c8dd !important;

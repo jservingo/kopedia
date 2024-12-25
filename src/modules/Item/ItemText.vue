@@ -1,6 +1,6 @@
 <template>
-    <div class="container-text" :style="options">
-        <div v-html="content" :style="eoptions"></div> 
+    <div class="container-text" :style="container_options">
+        <div v-html="content" :style="item_options"></div> 
     </div>
 </template>
 
@@ -12,35 +12,42 @@ import { defineProps, onMounted, ref, computed } from 'vue';
 const props = defineProps(["item"]);
 const { options, eoptions, getItemOptions } = useItemOptions()
 const { content, getItemContent } = useItemContent()
+const container_options = ref({})
+const item_options = ref({})
 
 onMounted(async () => {
+    window.addEventListener("resize", windowResize);
     getItemOptions(props.item)
     getItemContent(props.item)
+    container_options.value = options.value
+    item_options.value = eoptions.value
+    calcularWidth()
 })
 
-/*
-const get_latex_style = (content) => {
-    let pos = content.indexOf("$latex-style") 
-    let num = content.length
-    if (pos==-1) 
-        return("")
-    let i = pos+14
-    console.log(i)
-    while (content.charAt(i)!="'" && i<num) {
-        i++ 
-    } 
-    if (content.charAt(i)!="'") {
-        return("")
+function calcularWidth() {
+    //Calcular container_width
+    let wwidth = window.innerWidth
+    let cwidth = 0
+    if (wwidth<800) { 
+        cwidth = wwidth - 90
+    } else if (wwidth<=1067) {
+        cwidth = Math.floor(0.33708*(wwidth-800)+710)
     }
-    return content.substring(pos+14,i)   
+    else {
+        cwidth = Math.floor(wwidth*0.8)
+    }
+    container_options.value['width'] = cwidth+"px"
 }
-*/
+
+function windowResize() {
+    calcularWidth()
+} 
 </script>
 
 <style scoped>
 .container-text {
     display: block;
-    width:80%; min-width:300px;
+    min-width:300px;
     background:rgb(228, 230, 236);
     color:rgb(8, 19, 51);
     border: 4px solid rgb(8, 19, 51);
@@ -48,10 +55,6 @@ const get_latex_style = (content) => {
     font-size: 16px; line-height: 20px !important;
     margin-left: auto; margin-right: auto;
     margin-bottom: 10px; padding: 10px
-}
-.subtitle {
-    font-weight: 700;
-    color: rgb(9, 25, 75);
 }
 .prueba-de-colores {
     background-color: rgb(38, 34, 250);

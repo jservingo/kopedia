@@ -1,6 +1,6 @@
 <template>
-    <div class ="container-image" ref="container_image" :style="options">
-        <div :style="image_options">
+    <div class ="container-image" :style="container_options">
+        <div :style="item_options">
             <img v-if="item.file" :src="urlFile" :style="image">
         </div>
         <div v-html="content" :style="content_options"></div>
@@ -12,20 +12,20 @@
 import { defineProps, onMounted, ref, computed } from 'vue';
 import useItemOptions from '@/composables/useItemOptions';
 import useItemContent from '@/composables/useItemContent';
+import useItemWidth from '@/composables/useItemWidth';
 
 const props = defineProps(["item"]);
 const { options, eoptions, coptions, getItemOptions } = useItemOptions()
 const { content, getItemContent } = useItemContent()
-const container_image = ref(null)
-const image_options = ref(null)
-const content_options = ref(null)
+const { width, container_options, item_options, content_options, getItemWidth } = useItemWidth()
 const image = ref({})
 
 onMounted(async () => {
     window.addEventListener("resize", windowResize);
     getItemOptions(props.item)
     getItemContent(props.item)
-    calcularWidth()
+    getItemWidth(window.innerWidth, options, eoptions, coptions)
+    image.value['width'] = width.value+"px"
 })
 
 const urlFile = computed(() => {
@@ -33,51 +33,9 @@ const urlFile = computed(() => {
 })
 
 function windowResize() {
-  //console.log("windowResize",player.value.width())
-  calcularWidth()
+  getItemWidth(window.innerWidth, options, eoptions, coptions)
+  image.value['width'] = width.value+"px"
 }
-
-function calcularWidth() {
-  image_options.value = eoptions.value
-  content_options.value = coptions.value
-  
-  const cwidth = container_image.value.getBoundingClientRect().width;
-  let vwidth = 0 
-  if(coptions.value['show']!='none'){
-    if (cwidth>=600 && coptions.value['show']=='right') {
-        image_options.value['float'] = 'left';
-        content_options.value['float'] = 'right';
-        content_options.value['margin-top'] = 0
-        content_options.value['text-align'] = 'left'        
-        vwidth = Math.floor(cwidth * 0.48)-12
-        content_options.value['width'] = vwidth+"px"
-    } else if(cwidth>=600 && coptions.value['show']=='left') {
-        image_options.value['float'] = 'right';
-        content_options.value['float'] = 'left';
-        content_options.value['margin-top'] = 0
-        content_options.value['text-align'] = 'left'
-        vwidth = Math.floor(cwidth * 0.48)-12
-        content_options.value['width'] = vwidth+"px"
-    } else {
-        image_options.value['float'] = 'none';
-        image_options.value['display'] = "block"
-        image_options.value['margin-left'] = "auto"
-        image_options.value['margin-right'] = "auto" 
-        content_options.value['float'] = 'none';
-        content_options.value['margin-top'] = '6px'
-        content_options.value['margin-left'] = 'auto'
-        content_options.value['margin-right'] = 'auto'
-        content_options.value['text-align'] = 'center'
-        vwidth = Math.floor(0.30*(cwidth-300)+300)-12
-    } 
-  } else {
-    content_options.value['display'] = "none"
-    vwidth = Math.floor(0.30*(cwidth-300)+300)-12
-  }
-
-  image_options.value['width'] = vwidth+"px"
-  image.value['width'] = vwidth+"px"
-} 
 </script>
 
 <style scoped>
@@ -92,19 +50,4 @@ function calcularWidth() {
     margin-left: auto; margin-right: auto;
     margin-bottom: 6px; padding: 10px   
 }
-/*
-img {
-    width:80%;
-    display:block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.image {
-  float: left;
-  min-width:300px;
-}
-.content-image {
-  float: left;
-}
-*/
 </style>

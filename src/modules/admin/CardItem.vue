@@ -1,15 +1,15 @@
 <template>
-    <div class ="card card-item" :style="{background:bgGradient }">
+    <div class ="card card-item CARD-ITEM" :style="{background:bgGradient }">
         <div class="card-body">
             <div class="d-flex">
-                <div class ="container-fluid container-card-item-header">
+                <div class ="container-card-item-header">
                     <span v-if="item.type=='text'">Texto</span>
                     <span v-if="item.type=='formula'">Fórmula</span>
                     <span v-if="item.type=='image'">Imagen: {{ item.file }}</span>
                     <span v-if="item.type=='audio'">Audio: {{ item.file }}</span>
                     <span v-if="item.type=='video'">Video: {{ item.file }}</span>
                 </div>
-                <div class ="container-fluid container-card-item-buttons ml-auto">
+                <div class ="container-card-item-buttons">
                     <button @click="$emit('down-item',item)" class="btn btn-down">
                         <img src="@/assets/down.svg"/>
                     </button>&nbsp;
@@ -27,7 +27,7 @@
                     </button> 
                 </div>
             </div>
-            <div class ="container-fluid">
+            <div class ="container-fluid container-items">
                 <Text v-if="item.type=='text'" :item="item"></Text>
                 <Image v-if="item.type=='image'" :item="item"></Image>
                 <Audio v-if="item.type=='audio'" :item="item"></Audio>
@@ -72,13 +72,18 @@ const bgGradient = computed(() => {
 }
 .container-card-item-header {
     font-size: 16px;
+    width: calc(100% - 212px);
     color: whitesmoke;
     line-height: 18px !important;
+    padding-left: 12px;
 }
 .container-card-item-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 290px;
+    width: 206px;
+}
+.container-items {
+    margin-top: 6px;
 }
 .btn-up {
     background-color: #a3c8dd !important;

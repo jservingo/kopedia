@@ -1,9 +1,9 @@
 <template>
     <div class="container-header d-flex">
-        <div class ="container-fluid container-page-header"> 
+        <div class ="container-page-header"> 
             <span>{{ page.title }}</span>
         </div>
-        <div class ="container-fluid container-page-buttons ml-auto">        
+        <div class ="container-page-buttons">        
             <button @click="$emit('add-card')" class="btn btn-add">
                 <img src="@/assets/add.svg"/>
             </button>&nbsp;
@@ -26,13 +26,14 @@ defineProps(["page"]);
 }
 .container-page-header {
     font-size: 22px;
+    width: calc(100% - 98px);
     color: whitesmoke;
     line-height: 24px !important;
 }
 .container-page-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 120px;
+    width: 92px;
 }
 .btn-add {
     background-color: #82a1c9 !important;

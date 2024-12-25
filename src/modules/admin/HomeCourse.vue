@@ -2,10 +2,10 @@
     <div class ="card card-course" :style="{background:bgGradient }">
         <div class="card-body">
             <div class="d-flex">
-                <div class ="container-fluid container-home-course-header">
+                <div class ="container-home-course-header">
                     <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>
                 </div>
-                <div class ="container-fluid container-home-course-buttons ml-auto">
+                <div class ="container-home-course-buttons">
                     <button @click="$emit('edit-course',course)" class="btn btn-edit">
                         <img src="@/assets/edit.svg"/>
                     </button>&nbsp;
@@ -55,13 +55,15 @@ const bgGradient = computed(() => {
 }
 .container-home-course-header {
     font-size: 18px;
+    width: calc(100% - 98px);
     color: whitesmoke;
     line-height: 20px !important;
+    padding: 12px;
 }
 .container-home-course-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 110px;
+    width: 92px;
 }
 .btn-edit {
     background-color: #82c591 !important;

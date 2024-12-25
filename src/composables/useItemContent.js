@@ -35,7 +35,7 @@ export default function useItemContent() {
             content.value = content.value.replaceAll('MathML"','MathML" style="font-weight:700;"')
             content.value = content.value.replaceAll('$latex-bold','')
         }
-        console.log("useItemContent",content.value)
+        //console.log("useItemContent",content.value)
 
     }
 

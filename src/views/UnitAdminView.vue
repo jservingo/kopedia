@@ -25,7 +25,7 @@
           <div class="modal-body">
             <form name="formNew">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="xcol-lg-6">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="title" placeholder="">
                             <label for="tilte">Titulo</label>
@@ -59,7 +59,7 @@
           <div class="modal-body">
             <form name="formEdit">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="xcol-lg-6">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="etitle" placeholder="">
                             <label for="etilte">Titulo</label>
@@ -94,7 +94,7 @@
           <div class="modal-body">
             <form name="formClipboard">
                 <div v-for="page in pages" class="row">
-                    <div class="col-lg-6">
+                    <div class="xcol-lg-6">
                         <div class="form-floating mb-2">
                             <input type='checkbox' name='option' :value="page.id"/>
                             {{ page.title }}

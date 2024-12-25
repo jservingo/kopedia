@@ -1,9 +1,9 @@
 <template>
     <div class="container-header d-flex">
-        <div class ="container-fluid container-course-header">
+        <div class ="container-course-header">
             <span>{{ course.title }}</span>
         </div>
-        <div class ="container-fluid container-course-buttons ml-auto"> 
+        <div class ="container-course-buttons"> 
             <button @click="$emit('add-unit')" class="btn btn-add">
                 <img src="@/assets/add.svg"/>
             </button>&nbsp;
@@ -26,13 +26,14 @@ defineProps(["course"]);
 }
 .container-course-header {
     font-size: 22px;
+    width: calc(100% - 98px);
     color: whitesmoke;
     line-height: 24px !important;
 }
 .container-course-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 120px;
+    width: 92px;
 }
 .btn-add {
     background-color: #82a1c9 !important;

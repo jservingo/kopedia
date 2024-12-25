@@ -73,6 +73,7 @@ export default function useItemOptions() {
                             case "center":
                                 coptions.value['show'] = "center"
                                 coptions.value['display'] = "block"
+                                coptions.value['text-align'] = "center" 
                                 coptions.value['margin-left'] = "auto"
                                 coptions.value['margin-right'] = "auto" 
                                 break;

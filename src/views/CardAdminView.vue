@@ -26,7 +26,7 @@
           <div class="modal-body">
             <form name="formNew">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <select v-model="item.type">
                                 <option value="text">Texto</option>
@@ -43,7 +43,7 @@
                 </div>
                 <!-- v-show="item.type=='text' || item.type=='formula'" -->
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="x-12">
                         <div class="form-floating mb-2">
                             <textarea class="form-control item-content" id="content" rows="8" cols="40" placeholder=""></textarea>
                             <label for="content">Texto</label>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div v-show="item.type=='image' || item.type=='audio' || item.type=='video'" class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <input type="file" class="form-control" id="file" placeholder=""
                                 v-on:change="showAddImage()">
@@ -60,14 +60,14 @@
                     </div>
                 </div>
                 <div v-show="item.type=='link'" class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="url" placeholder="">
                             <label for="url">URL</label>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="xcol-lg-12">
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="options" height="96" placeholder="">
                         <label for="options">Options</label>
@@ -103,7 +103,7 @@
           <div class="modal-body">
             <form name="formEdit">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <span>{{ eitem.type }}</span>
                         </div>
@@ -111,7 +111,7 @@
                 </div>
                 <!-- v-show="eitem.type=='text' || eitem.type=='formula'" -->
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <textarea class="form-control item-content" id="econtent" rows="8" cols="40" placeholder=""></textarea>
                             <label for="econtent">Content</label>
@@ -120,7 +120,7 @@
                 </div>
                 <!--
                 <div v-show="eitem.type=='image'" class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <input type="file" class="form-control" id="efile" placeholder=""
                                 v-on:change="showEditImage()">
@@ -130,14 +130,14 @@
                 </div>
                 -->
                 <div v-show="eitem.type=='url'" class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="eurl" placeholder="">
                             <label for="eurl">URL</label>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="xcol-lg-12">
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="eoptions" height="96" placeholder="">
                         <label for="eoptions">Options</label>
@@ -174,7 +174,7 @@
           <div class="modal-body">
             <form name="formClipboard">
                 <div v-for="item in items" class="row">
-                    <div class="col-lg-12">
+                    <div class="xcol-lg-12">
                         <div class="form-floating mb-2">
                             <input type='checkbox' name='option' :value="item.id"/>
                             {{ item.type }} 

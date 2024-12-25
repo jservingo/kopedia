@@ -2,10 +2,10 @@
     <div class ="card card-unit" :style="{background:bgGradient }">
         <div class="card-body">
             <div class="d-flex">
-                <div class ="container-fluid container-unit-page-header">
+                <div class ="container-unit-page-header">
                     <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/admin/page/${page.id}`">{{ page.title }}</RouterLink>
                 </div>
-                <div class ="container-fluid container-unit-page-buttons ml-auto">
+                <div class ="container-unit-page-buttons">
                     <button @click="$emit('down-page',page)" class="btn btn-down">
                         <img src="@/assets/down.svg"/>
                     </button>&nbsp;
@@ -64,13 +64,15 @@ const bgGradient = computed(() => {
 }
 .container-unit-page-header {
     font-size: 18px;
+    width: calc(100% - 212px);
     color: whitesmoke;
     line-height: 20px !important;
+    padding-left: 12px;
 }
 .container-unit-page-buttons { 
     font-size: 14px;
     color: whitesmoke;
-    width: 290px;
+    width: 206px;
 }
 .btn-up {
     background-color: #a3c8dd !important;
