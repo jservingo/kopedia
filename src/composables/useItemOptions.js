@@ -8,6 +8,7 @@ export default function useItemOptions() {
     const getItemOptions = async (item) => {
         //console.log("item",item)
         //options.value['color'] = "floralwhite"
+        //console.log("getItemOptions")
         if (item.options) {
             let opts = item.options.split(';')
             for (let i=0;i<opts.length;i++) {
@@ -15,17 +16,10 @@ export default function useItemOptions() {
                 let key = opt[0]
                 let value = opt[1]
                 switch (key) {
+                    // options
                     case 'width':
+                        // No se aplica
                         options.value['width'] = value
-                        break
-                    case 'width-text':
-                    case 'width-image':
-                    case 'width-video':
-                    case 'width-audio':
-                        eoptions.value['width'] = value
-                        break
-                    case 'width-content':
-                        coptions.value['width'] = value
                         break
                     case 'align':
                         switch (value) {
@@ -46,10 +40,34 @@ export default function useItemOptions() {
                                 break;
                         } 
                         break;
+                    case 'background':
+                        options.value['background-color'] = get_color(value)                    
+                        options.value['border'] = "4px solid rgb(8, 19, 51)"
+                        options.value['border-radius'] = "10px"
+                        options.value['padding'] = "10px" 
+                        break; 
+                    case 'color':
+                        options.value['color'] = value  
+                        break
+                    // eoptions      
+                    case 'width-text':
+                    case 'width-image':
+                    case 'width-video':
+                    case 'width-audio':
+                    case 'text-width':
+                    case 'image-width':
+                    case 'video-width':
+                    case 'audio-width':
+                        eoptions.value['width'] = value
+                        break                    
                     case 'align-text':
                     case 'align-image':
                     case 'align-video':
                     case 'align-audio':
+                    case 'text-align':
+                    case 'image-align':
+                    case 'video-align':
+                    case 'audio-align':
                         switch (value) {
                             case "center":
                                 eoptions.value['display'] = "block"
@@ -67,8 +85,10 @@ export default function useItemOptions() {
                                 eoptions.value['margin-right'] = "0"
                                 break;
                         } 
-                        break    
+                        break   
+                    // coptions (content) 
                     case 'display-content':
+                    case 'content-display':
                         switch (value) {
                             case "center":
                                 coptions.value['show'] = "center"
@@ -96,18 +116,14 @@ export default function useItemOptions() {
                                 coptions.value['display'] = 'none'
                                 break;
                         } 
-                        break    
-                    case 'background':
-                        options.value['background-color'] = get_color(value)                    
-                        options.value['border'] = "4px solid rgb(8, 19, 51)"
-                        options.value['border-radius'] = "10px"
-                        options.value['padding'] = "10px" 
-                        break; 
-                    case 'color':
-                        options.value['color'] = value  
                         break
+                    case 'width-content':
+                    case 'content-width':
+                        coptions.value['width'] = value
+                        break
+                    // default 
                     default:
-                        options.value[key] = value              
+                        options.value[key] = value                               
                 }
             }
         }

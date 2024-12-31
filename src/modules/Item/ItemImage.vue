@@ -24,7 +24,7 @@ onMounted(async () => {
     window.addEventListener("resize", windowResize);
     getItemOptions(props.item)
     getItemContent(props.item)
-    getItemWidth(window.innerWidth, options, eoptions, coptions)
+    getItemWidth(window.innerWidth, options.value, eoptions.value, coptions.value)
     image.value['width'] = width.value+"px"
 })
 
@@ -33,7 +33,7 @@ const urlFile = computed(() => {
 })
 
 function windowResize() {
-  getItemWidth(window.innerWidth, options, eoptions, coptions)
+  getItemWidth(window.innerWidth, options.value, eoptions.value, coptions.value)
   image.value['width'] = width.value+"px"
 }
 </script>

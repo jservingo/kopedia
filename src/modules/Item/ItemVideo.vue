@@ -27,7 +27,7 @@ onMounted(() => {
     window.addEventListener("resize", windowResize);
     getItemOptions(props.item)
     getItemContent(props.item)
-    getItemWidth(window.innerWidth, options, eoptions, coptions)
+    getItemWidth(window.innerWidth, options.value, eoptions.value, coptions.value)
     
     videoOptions.value = {
       language: 'es',
@@ -48,7 +48,7 @@ onMounted(() => {
 })
 
 function windowResize() {
-  getItemWidth(window.innerWidth, options, eoptions, coptions)
+  getItemWidth(window.innerWidth, options.value, eoptions.value, coptions.value)
   player.value.width(width.value)
 } 
 </script>
