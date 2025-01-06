@@ -10,7 +10,8 @@
             @up-item="upItem"
             @edit-item="showModalEditItem" 
             @add-item-to-clipboard="addItemToClipboard"
-            @delete-item="deleteItem">
+            @delete-item="deleteItem"
+            @show-info="showModalInfo">
         </Item>
     </div>
 
@@ -197,6 +198,23 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalInfo"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="info"></div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
@@ -216,6 +234,7 @@ import alertify from 'alertifyjs';
 let modal = null
 let edit_modal = null
 let clipboard_modal = null
+let info_modal = null
 const item = ref({})
 const eitem = ref({})
 const url_image = ref(null)
@@ -253,9 +272,20 @@ onMounted(() => {
     modal = new Modal(document.getElementById('modalNewItem'))
     edit_modal = new Modal(document.getElementById('modalEditItem'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
+    info_modal = new Modal(document.getElementById('modalInfo'))
     getCard(token.value, id.value)
     getClipboard(token.value)
 })
+
+function showModalInfo(info) {
+    console.log("showInfo",info)
+    document.getElementById('info').innerHTML=info
+    info_modal.show()
+}
+
+const closeModalInfo = () => {
+    info_modal.hide()
+}
 
 const urlFile = computed((item) => {
     console.log(item)

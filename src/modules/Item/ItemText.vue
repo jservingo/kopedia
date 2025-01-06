@@ -1,6 +1,8 @@
 <template>
     <div class="container-text" :style="container_options">
-        <div v-html="content" :style="item_options"></div> 
+        <div v-html="content" :style="item_options"
+            @click.prevent="clickInfo">
+        </div> 
     </div>
 </template>
 
@@ -11,7 +13,9 @@ import { defineProps, onMounted, ref, computed } from 'vue';
 
 const props = defineProps(["item"]);
 const { options, eoptions, getItemOptions } = useItemOptions()
-const { content, getItemContent } = useItemContent()
+const { content, info, getItemContent } = useItemContent()
+const emit = defineEmits(['show-info']) 
+//Options
 const container_options = ref({})
 const item_options = ref({})
 
@@ -23,6 +27,20 @@ onMounted(async () => {
     item_options.value = eoptions.value
     calcularWidth()
 })
+
+function clickInfo(ev) {
+    if (ev.target.tagName === "IMG") {
+        let index = ev.target.id.substr(ev.target.id.length-1); 
+        let sinfo = info[index]
+        emit("show-info",sinfo)        
+    } else if (ev.target.tagName === "A") {
+        let id = ev.target.id; 
+        if (id=="btn_mas")
+            getItemContent(props.item, "btn_menos")
+        else
+            getItemContent(props.item, "btn_mas")
+    }
+}
 
 function calcularWidth() {
     //Calcular container_width

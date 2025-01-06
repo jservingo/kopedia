@@ -28,10 +28,18 @@
                 </div>
             </div>
             <div class ="container-fluid container-items">
-                <Text v-if="item.type=='text'" :item="item"></Text>
-                <Image v-if="item.type=='image'" :item="item"></Image>
-                <Audio v-if="item.type=='audio'" :item="item"></Audio>
-                <Video v-if="item.type=='video'" :item="item" :options="voptions"></Video>                                    
+                <Text v-if="item.type=='text'" :item="item"
+                    @show-info="showInfo">
+                </Text>
+                <Image v-if="item.type=='image'" :item="item" 
+                    @show-info="showInfo">
+                </Image>
+                <Audio v-if="item.type=='audio'" :item="item"
+                    @show-info="showInfo">
+                </Audio>
+                <Video v-if="item.type=='video'" :item="item" :options="voptions"
+                    @show-info="showInfo">
+                </Video>                                    
                 <Formula v-if="item.type=='formula'" :item="item"></Formula>
                 <!--:options="options" :autoplay="autoplay" :videoPlayerId="videoPlayerId"-->  
             </div>                         
@@ -48,6 +56,7 @@ import Video from '../Item/ItemVideo.vue'
 import { defineProps, computed } from 'vue';
 
 const props = defineProps(["item","index","voptions"]);
+const emit = defineEmits(['show-info']) 
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor
@@ -56,6 +65,11 @@ const bgColor = bgColors[props.index % 6]
 const bgGradient = computed(() => {
     return `linear-gradient(to right, #676B6A, ${bgColor})`;
 })
+
+function showInfo(info) {
+    console.log("Info captured:",info)
+    emit("show-info",info)
+}
 </script>
 
 <style>

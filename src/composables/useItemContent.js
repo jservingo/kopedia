@@ -2,8 +2,9 @@ import { ref } from 'vue'
  
 export default function useItemContent() {
     const content = ref({})
+    const info = ref({})
 
-    const getItemContent = async (item) => {
+    const getItemContent = async (item, btn="btn_mas") => {
         if (item.fcontent == null || item.fcontent.trim().length === 0)
             content.value = item.content
         else
@@ -37,7 +38,53 @@ export default function useItemContent() {
         }
         //console.log("useItemContent",content.value)
 
+        //Info tags
+        let index = 0
+        let seguir = true
+        while (seguir) {
+            //console.log('seguir',index)
+            let start = content.value.indexOf("<info>") 
+            if (start != -1) {
+                let end = content.value.indexOf("</info>",start)
+                if (end != -1) {
+                    //Extraer info string
+                    let sinfo = content.value.substring(start+6,end)
+                    //console.log(sinfo)
+                    //Almacenar sinfo en info
+                    info[index] = sinfo
+                    //Crear button
+                    //let button = `<a href='${index}'>show</a>`    
+                    let button = `&nbsp;<a href='#'><img id="img${index}" src='/src/assets/info.png'/></a>&nbsp;`                    
+                    //Añadir button a content
+                    content.value = content.value.substring(0,start)+button+content.value.substring(end+7) 
+                    //console.log(content.value)
+                    index++
+                }
+                else
+                    seguir = false
+            }
+            else
+                seguir = false                    
+        }
+
+        //More tag
+        if (btn=="btn_mas") {
+            let start = content.value.indexOf("<more>") 
+            if (start != -1) {
+                //Crear button 
+                let button = `&nbsp;<a href='#' id="btn_mas">ver más</a>&nbsp;`                    
+                //Añadir button a content
+                content.value = content.value.substring(0,start)+button
+                //console.log(content.value)
+            }
+        } else {
+            content.value = content.value.replaceAll('<more>',' ')
+            //Crear button 
+            let button = `&nbsp;<a href='#' id="btn_menos">ver menos</a>`
+            //Añadir button a content            
+            content.value = content.value+button
+        }
     }
 
-    return { content, getItemContent } 
+    return { content, info, getItemContent } 
 }

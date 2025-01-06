@@ -3,7 +3,9 @@
         <div :style="item_options">     
           <video ref="videoPlayer" class="video-js"></video>
         </div>
-        <div v-html="content" :style="content_options"></div>
+        <div v-html="content" :style="content_options"
+          @click.prevent="clickInfo">
+        </div>
         <div style="clear:both"></div>
     </div>
 </template>
@@ -17,8 +19,9 @@ import useItemWidth from '@/composables/useItemWidth';
 
 const props = defineProps(["item"]);
 const { options, eoptions, coptions, getItemOptions } = useItemOptions()
-const { content, getItemContent } = useItemContent()
+const { content, info, getItemContent } = useItemContent()
 const { width, container_options, item_options, content_options, getItemWidth } = useItemWidth()
+const emit = defineEmits(['show-info']) 
 const videoPlayer = ref(null)
 const videoOptions = ref(null)
 const player = ref(null);
@@ -46,6 +49,20 @@ onMounted(() => {
       //player.value.log('onPlayerReady', this);
     });
 })
+
+function clickInfo(ev) {
+    if (ev.target.tagName === "IMG") {
+        let index = ev.target.id.substr(ev.target.id.length-1); 
+        let sinfo = info[index]
+        emit("show-info",sinfo)        
+    } else if (ev.target.tagName === "A") {
+      let id = ev.target.id; 
+      if (id=="btn_mas")
+          getItemContent(props.item, "btn_menos")
+      else
+          getItemContent(props.item, "btn_mas")
+    }
+}
 
 function windowResize() {
   getItemWidth(window.innerWidth, options.value, eoptions.value, coptions.value)
