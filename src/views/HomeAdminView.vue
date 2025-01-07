@@ -2,7 +2,9 @@
     <div v-if="info.courses" class ="container-fluid container-home">
         <Header @add-course="showModalAddCourse"></Header>
         <CourseBox v-for="(course,index) in info.courses" :course="course" :index="index" 
-            @edit-course="showModalEditCourse" @delete-course="deleteCourse">
+            @edit-course="showModalEditCourse" 
+            @delete-course="deleteCourse"
+            @show-info="showModalInfo">
         </CourseBox>
     </div>
 
@@ -74,6 +76,23 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalInfo"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="info"></div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
@@ -97,13 +116,25 @@ const router = useRouter()
 
 let modal = null
 let emodal = null
+let info_modal = null
 let ecourse = ref({})
 
 onMounted(() => {
     modal = new Modal(document.getElementById('modalNewCourse'))
     emodal = new Modal(document.getElementById('modalEdit'))
+    info_modal = new Modal(document.getElementById('modalInfo'))
     getInfo(token.value)
 })
+
+function showModalInfo(info) {
+    console.log("showInfo",info)
+    document.getElementById('info').innerHTML=info
+    info_modal.show()
+}
+
+const closeModalInfo = () => {
+    info_modal.hide()
+}
 
 const showModalAddCourse = () => {
     modal.show()

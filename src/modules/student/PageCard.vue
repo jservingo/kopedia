@@ -2,7 +2,9 @@
     <div class="card card-container" :style="{background:bgGradient }">
         <div class="card-body">
             <Header :title="card.title" :display="display" @display-items="displayItems"></Header>        
-            <Item v-for="item in items" :item="item" v-show="display"></Item>
+            <Item v-for="item in items" :item="item" v-show="display"
+                @show-info="showInfo">
+            </Item>
         </div>
     </div>
 </template>
@@ -16,6 +18,8 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
 const props = defineProps(["card","index"]);
+const emit = defineEmits(['show-info']) 
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
 //Change bgColor
@@ -35,6 +39,11 @@ const { items, getItems } = useCard()
 onMounted(() => {
     getItems(token.value, props.card.id)
 })
+
+function showInfo(info) {
+    //console.log("Info captured:",info)
+    emit("show-info",info)
+}
 
 //Show or hide items
 const display = ref(true);

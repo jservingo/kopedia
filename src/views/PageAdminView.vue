@@ -115,6 +115,23 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="modalInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalInfo"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="info"></div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>

@@ -67,7 +67,7 @@ const bgGradient = computed(() => {
 })
 
 function showInfo(info) {
-    console.log("Info captured:",info)
+    //console.log("Info captured:",info)
     emit("show-info",info)
 }
 </script>
