@@ -15,40 +15,211 @@
         </Item>
     </div>
 
-    <ModalNew title="Crear item"
-        :item="item"
-        @save="saveModalAddItem">
-    </ModalNew>
-    
-    <ModalEdit title="Editar item"
-        :eitem="eitem"
-        :eurl_image="eurl_image"
-        @save="saveModalEditItem">
-    </ModalEdit>
-    
-    <ModalClipboard @save="saveModalClipboard">
-        <div v-for="item in items" class="row">
-            <div class="xcol-lg-12">
-                <div class="form-floating mb-2">
-                    <input type='checkbox' name='option' :value="item.id"/>
-                    {{ item.type }} 
-                    <span v-if="item.content">- {{ scontent(item) }}</span>
-                    <span v-if="item.file">- {{ item.file }}</span>
+    <div class="modal fade" tabindex="-1" id="modalNewItem">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Crear item</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" 
+                @click="closeModalAddItem">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formNew">
+                <div class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <select v-model="item.type">
+                                <option value="text">Texto</option>
+                                <option value="image">Imagen</option>
+                                <option value="audio">Audio</option>
+                                <option value="video">Video</option>
+                                <option value="formula">Formula</option>
+                            </select>
+                            <!--<input type="text" v-model="item.type" class="form-control" id="type" placeholder="">
+                            <label for="type">Tipo</label>
+                            -->
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <!-- v-show="item.type=='text' || item.type=='formula'" -->
+                <div class="row">
+                    <div class="x-12">
+                        <div class="form-floating mb-2">
+                            <textarea class="form-control item-content" id="content" rows="8" cols="40" placeholder=""></textarea>
+                            <label for="content">Texto</label>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="item.type=='image' || item.type=='audio' || item.type=='video'" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type="file" class="form-control" id="file" placeholder=""
+                                v-on:change="showAddImage()">
+                            <label for="file">File</label>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="item.type=='link'" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="url" placeholder="">
+                            <label for="url">URL</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="xcol-lg-12">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="options" height="96" placeholder="">
+                        <label for="options">Options</label>
+                    </div>
+                </div>
+                <div v-if="item.type=='image' && url_image">
+                    <img :src="url_image" width="50%">
+                </div>                
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
+                @click="closeModalAddItem">Close
+            </button>
+            <button type="button" class="btn btn-primary" id="btnSave" 
+                @click="saveModalAddItem">
+                Save
+            </button>
+          </div>
         </div>
-    </ModalClipboard>
+      </div>
+    </div>
 
-    <ModalInfo></ModalInfo>
+    <div class="modal fade" tabindex="-1" id="modalEditItem">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar item</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalEditItem">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formEdit">
+                <div class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <span>{{ eitem.type }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- v-show="eitem.type=='text' || eitem.type=='formula'" -->
+                <div class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <textarea class="form-control item-content" id="econtent" rows="8" cols="40" placeholder=""></textarea>
+                            <label for="econtent">Content</label>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div v-show="eitem.type=='image'" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type="file" class="form-control" id="efile" placeholder=""
+                                v-on:change="showEditImage()">
+                            <label for="efile">Image</label>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div v-show="eitem.type=='url'" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="eurl" placeholder="">
+                            <label for="eurl">URL</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="xcol-lg-12">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="eoptions" height="96" placeholder="">
+                        <label for="eoptions">Options</label>
+                    </div>
+                </div>
+                <div v-if="eitem.type=='image' && eurl_image">
+                    <img :src="eurl_image" width="50%">
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" id="eid" name="eid" v-model="eitem.id">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalEditItem">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalEditItem">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">
+                <div v-for="item in items" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="item.id"/>
+                            {{ item.type }} 
+                            <span v-if="item.content">- {{ scontent(item) }}</span>
+                            <span v-if="item.file">- {{ item.file }}</span>
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalInfo"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="info"></div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
 import Header from '../modules/admin/CardHeader.vue'
 import Item from '../modules/admin/CardItem.vue'
-import ModalNew from "../modules/modals/ModalNewItem.vue";
-import ModalEdit from "../modules/modals/ModalEditItem.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
-import ModalInfo from "../modules/modals/ModalInfo.vue";
 import { ref, onMounted, computed } from 'vue';
 import useCard from '@/composables/useCardAdmin';
 import useClipboardItems from '@/composables/useClipboardItems';
@@ -60,7 +231,7 @@ import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
-let new_modal = null
+let modal = null
 let edit_modal = null
 let clipboard_modal = null
 let info_modal = null
@@ -81,15 +252,36 @@ const { card, getCard } = useCard()
 //Get Clipboard items
 const { items, getClipboard } = useClipboardItems()
 const router = useRouter()
+//Video Player options
+/*
+const videoOptions = ref({
+    language: 'es',
+    playbackRates: [0.7, 1.0, 1.5, 2.0],
+    width: '800px',
+    autoplay: true,
+    controls: true,
+    sources: [
+        {     
+            type: 'video/mp4'
+        }
+    ]
+})
+*/
 
 onMounted(() => {
-    new_modal = new Modal(document.getElementById('modalNewItem'))
+    modal = new Modal(document.getElementById('modalNewItem'))
     edit_modal = new Modal(document.getElementById('modalEditItem'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     info_modal = new Modal(document.getElementById('modalInfo'))
     getCard(token.value, id.value)
     getClipboard(token.value)
 })
+
+function showModalInfo(info) {
+    console.log("showInfo",info)
+    document.getElementById('info').innerHTML=info
+    info_modal.show()
+}
 
 const closeModalInfo = () => {
     info_modal.hide()
@@ -114,7 +306,7 @@ const showModalAddItem = () => {
     document.getElementById("file").value = ""
     document.getElementById("url").value = ""
     url_image.value = null
-    new_modal.show()
+    modal.show()
 }
 
 const closeModalAddItem = () => {
@@ -124,7 +316,7 @@ const closeModalAddItem = () => {
     document.getElementById('file').value = ""
     document.getElementById('url').value = ""
     url_image.value = null
-    new_modal.hide()
+    modal.hide()
 }
 
 const showAddImage = () => {
@@ -167,7 +359,7 @@ const saveModalAddContent = () => {
                 item.value.type = ""
                 document.getElementById('content').value = ""
                 document.getElementById('options').value = ""
-                //document.getElementById('url').value = ""
+                document.getElementById('url').value = ""
                 card.value.items.push(response.data.item)
                 modal.hide()           
             }
@@ -187,7 +379,7 @@ const saveModalAddFile = () => {
         let content = document.getElementById("content").value
         let options = document.getElementById("options").value
         let file = document.getElementById("file").files[0]
-        //let url = document.getElementById("url").value
+        let url = document.getElementById("url").value
         let gurl = ""
         if (type=="image") {            
             gurl = "http://localhost:4000/api/admin/item/create/image"
@@ -451,12 +643,6 @@ const deleteItem = (item) => {
   		alertify.error("Please login first");
     }
 };
-
-function showModalInfo(info) {
-    console.log("showInfo",info)
-    document.getElementById('info').innerHTML=info
-    info_modal.show()
-}
 </script>
 
 <style scoped>

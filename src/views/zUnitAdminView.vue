@@ -13,32 +13,113 @@
         </Page>
     </div>
 
-    <ModalNew title="Crear página"
-        @save="saveModalAddPage">
-    </ModalNew>
-    
-    <ModalEdit title="Editar página"
-        @save="saveModalEditPage">
-    </ModalEdit>
-    
-    <ModalClipboard @save="saveModalClipboard">        
-        <div v-for="page in pages" class="row">
-            <div class="xcol-lg-6">
-                <div class="form-floating mb-2">
-                    <input type='checkbox' name='option' :value="page.id"/>
-                    {{ page.title }}
+    <div class="modal fade" tabindex="-1" id="modalNewPage">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Crear página</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" 
+                @click="closeModalAddPage">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formNew">
+                <div class="row">
+                    <div class="xcol-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="title" placeholder="">
+                            <label for="tilte">Titulo</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div> 
-    </ModalClipboard>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
+                @click="closeModalAddPage">Close
+            </button>
+            <button type="button" class="btn btn-primary" id="btnSave" 
+                @click="saveModalAddPage">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalEditPage">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar página</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalEditPage">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formEdit">
+                <div class="row">
+                    <div class="xcol-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="etitle" placeholder="">
+                            <label for="etilte">Titulo</label>
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" id="eid" name="eid">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalEditPage">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalEditPage">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">
+                <div v-for="page in pages" class="row">
+                    <div class="xcol-lg-6">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="page.id"/>
+                            {{ page.title }}
+                        </div>
+                    </div>
+                </div>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
 import Header from '../modules/admin/UnitHeader.vue'
 import Page from '../modules/admin/UnitPage.vue'
-import ModalNew from "../modules/modals/ModalNew.vue";
-import ModalEdit from "../modules/modals/ModalEdit.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
 import { defineProps, ref, computed, onMounted } from 'vue';
 import useUnit from '@/composables/useUnitAdmin';
 import useClipboardPages from '@/composables/useClipboardPages';
@@ -73,26 +154,30 @@ const { unit, getUnit } = useUnit()
 const { pages, getClipboard } = useClipboardPages()
 const router = useRouter()
 
-let new_modal = null
+let modal = null
 let edit_modal = null
 let clipboard_modal = null
-let edit_page = ref({})
+let epage = ref({})
 
 onMounted(() => {
-    new_modal = new Modal(document.getElementById('modalNew'))
-    edit_modal = new Modal(document.getElementById('modalEdit'))
+    modal = new Modal(document.getElementById('modalNewPage'))
+    edit_modal = new Modal(document.getElementById('modalEditPage'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getUnit(token.value, id.value)
     getClipboard(token.value)
 })
 
 const showModalAddPage = () => {
-    new_modal.show()
+    modal.show()
+}
+
+const closeModalAddPage = () => {
+    modal.hide()
 }
 
 const saveModalAddPage = () => {
     if (isAuthenticated.value) {
-        let title = document.getElementById("new_title").value
+        let title = document.getElementById("title").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -105,10 +190,10 @@ const saveModalAddPage = () => {
         .then(response => {
             if (!response.data.page.error) {
                 alertify.success("La página fue creada exitosamente")
-                document.getElementById('new_title').value = ""
+                document.getElementById('title').value = ""
                 router.push(`/admin/page/${response.data.page.id}`)
                 //unit.value.pages.push(response.data.page)
-                new_modal.hide()           
+                modal.hide()           
             }
             else {
                 alertify.error("Error: No se pudo crear la página")
@@ -153,6 +238,10 @@ const showModalClipboard = () => {
     clipboard_modal.show()
 }
 
+const closeModalClipboard = () => {
+    clipboard_modal.hide()
+}
+
 const saveModalClipboard = () => {
     if (isAuthenticated.value) {
         let checkboxes = document.getElementsByName('option');
@@ -191,16 +280,20 @@ const saveModalClipboard = () => {
 };
 
 const showModalEditPage = (page) => {
-    edit_page.value = page;
-    document.getElementById("edit_id").value = page.id
-    document.getElementById("edit_title").value = page.title
+    epage.value = page;
+    document.getElementById("eid").value = page.id
+    document.getElementById("etitle").value = page.title
     edit_modal.show()
+}
+
+const closeModalEditPage = () => {
+    edit_modal.hide()
 }
 
 const saveModalEditPage = () => {
     if (isAuthenticated.value) {
-        let id = document.getElementById("edit_id").value
-        let title = document.getElementById("edit_title").value
+        let id = document.getElementById("eid").value
+        let title = document.getElementById("etitle").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -212,7 +305,7 @@ const saveModalEditPage = () => {
         })
         .then(response => {
             if (!response.data.error) {
-                edit_page.value.title = title
+                epage.value.title = title
                 alertify.success("La página fue modificada exitosamente")
                 edit_modal.hide()            
             }

@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('../views/HomeGuestView.vue')
     },
     {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/ModalTestView.vue')
+    },
+    {
       path: '/guest',
       name: 'guestRoot',
       component: () => import('../views/HomeGuestView.vue')

@@ -13,130 +13,32 @@
         </Card>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="modalNewCard">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Crear tarjeta</h5>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" 
-                @click="closeModalAddCard">
-            </button>
-          </div>
-          <div class="modal-body">
-            <form name="formNew">
-                <div class="row">
-                    <div class="xcol-lg-12">
-                        <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="title" placeholder="">
-                            <label for="tilte">Titulo</label>
-                        </div>
-                    </div>
+    <ModalNew title="Crear unidad"
+        @save="saveModalAddCard">
+    </ModalNew>
+    
+    <ModalEdit title="Editar unidad"
+        @save="saveModalEditCard">
+    </ModalEdit>
+    
+    <ModalClipboard @save="saveModalClipboard">
+        <div v-for="card in cards" class="row">
+            <div class="xcol-lg-12">
+                <div class="form-floating mb-2">
+                    <input type='checkbox' name='option' :value="card.id"/>
+                    {{ card.title }}
                 </div>
-            </form>  
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
-                @click="closeModalAddCard">Close
-            </button>
-            <button type="button" class="btn btn-primary" id="btnSave" 
-                @click="saveModalAddCard">
-                Save
-            </button>
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" id="modalEditCard">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Editar tarjeta</h5>
-            <button type="button" class="btn-close" aria-label="Close" 
-                @click="closeModalEditCard">
-            </button>
-          </div>
-          <div class="modal-body">
-            <form name="formEdit">
-                <div class="row">
-                    <div class="xcol-lg-12">
-                        <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="etitle" placeholder="">
-                            <label for="etilte">Titulo</label>
-                        </div>
-                    </div>
-                </div>
-            </form>  
-          </div>
-          <div class="modal-footer">
-            <input type="hidden" id="eid" name="eid" v-model="ecard.id">
-            <button type="button" class="btn btn-secondary" 
-                @click="closeModalEditCard">Close
-            </button>
-            <button type="button" class="btn btn-primary"  
-                @click="saveModalEditCard">
-                Save
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" id="modalClipboard">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Papelera</h5>
-            <button type="button" class="btn-close" aria-label="Close" 
-                @click="closeModalClipboard"> 
-            </button>
-          </div>
-          <div class="modal-body">
-            <form name="formClipboard">
-                <div v-for="card in cards" class="row">
-                    <div class="xcol-lg-12">
-                        <div class="form-floating mb-2">
-                            <input type='checkbox' name='option' :value="card.id"/>
-                            {{ card.title }}
-                        </div>
-                    </div>
-                </div>
-            </form>  
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" 
-                @click="closeModalClipboard">Close
-            </button>
-            <button type="button" class="btn btn-primary"  
-                @click="saveModalClipboard">
-                Save
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" id="modalInfo">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="btn-close" aria-label="Close" 
-                @click="closeModalInfo"> 
-            </button>
-          </div>
-          <div class="modal-body">
-            <div id="info"></div>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-    </div>
+    </ModalClipboard>
 </template>
 
 <script setup>
 import Header from '../modules/admin/PageHeader.vue'
 import Card from '../modules/admin/PageCard.vue'
+import ModalNew from "../modules/modals/ModalNew.vue";
+import ModalEdit from "../modules/modals/ModalEdit.vue";
+import ModalClipboard from "../modules/modals/ModalClipboard.vue";
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageAdmin';
 import useClipboardCards from '@/composables/useClipboardCards';
@@ -148,10 +50,10 @@ import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
 
-let modal = null
+let new_modal = null
 let edit_modal = null
 let clipboard_modal = null
-let ecard = ref({})
+let edit_card = ref({})
 
 //Get store
 const store = useAuthStore()
@@ -167,24 +69,20 @@ const { cards, getClipboard } = useClipboardCards()
 const router = useRouter()
 
 onMounted(() => {
-    modal = new Modal(document.getElementById('modalNewCard'))
-    edit_modal = new Modal(document.getElementById('modalEditCard'))
+    new_modal = new Modal(document.getElementById('modalNew'))
+    edit_modal = new Modal(document.getElementById('modalEdit'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getPage(token.value, id.value)
     getClipboard(token.value)
 })
 
 const showModalAddCard = () => {
-    modal.show()
-}
-
-const closeModalAddCard = () => {
-    modal.hide()
+    new_modal.show()
 }
 
 const saveModalAddCard = () => {
     if (isAuthenticated.value) {
-        let title = document.getElementById("title").value
+        let title = document.getElementById("new_title").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -197,10 +95,10 @@ const saveModalAddCard = () => {
         .then(response => {
             if (!response.data.card.error) {
                 alertify.success("La tarjeta fue creada exitosamente")
-                document.getElementById('title').value = ""
+                document.getElementById('new_title').value = ""
                 router.push(`/admin/card/${response.data.card.id}`) 
                 //page.value.cards.push(response.data.card)
-                modal.hide()           
+                new_modal.hide()           
             }
             else {
                 //alertify.error("Error: No se pudo crear la tarjeta")
@@ -245,10 +143,6 @@ const showModalClipboard = () => {
     clipboard_modal.show()
 }
 
-const closeModalClipboard = () => {
-    clipboard_modal.hide()
-}
-
 const saveModalClipboard = () => {
     if (isAuthenticated.value) {
         let checkboxes = document.getElementsByName('option');
@@ -287,20 +181,16 @@ const saveModalClipboard = () => {
 };
 
 const showModalEditCard = (card) => {
-    ecard.value = card;
-    document.getElementById("eid").value = card.id
-    document.getElementById("etitle").value = card.title
+    edit_card.value = card;
+    document.getElementById("edit_id").value = card.id
+    document.getElementById("edit_title").value = card.title
     edit_modal.show()
-}
-
-const closeModalEditCard = () => {
-    edit_modal.hide()
 }
 
 const saveModalEditCard = () => {
     if (isAuthenticated.value) {
-        let id = document.getElementById("eid").value
-        let title = document.getElementById("etitle").value
+        let id = document.getElementById("edit_id").value
+        let title = document.getElementById("edit_title").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -312,7 +202,7 @@ const saveModalEditCard = () => {
         })
         .then(response => {
             if (!response.data.error) {
-                ecard.value.title = title
+                edit_card.value.title = title
                 alertify.success("La tarjeta fue modificada exitosamente")
                 edit_modal.hide()            
             }

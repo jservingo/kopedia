@@ -14,31 +14,83 @@
     </div>
 
     <ModalNew title="Crear unidad"
-        @save="saveModalAddUnit">
+        @save="saveModalNew">
     </ModalNew>
-    
-    <ModalEdit title="Editar unidad"
-        @save="saveModalEditUnit">
-    </ModalEdit>
-    
-    <ModalClipboard @save="saveModalClipboard">        
-        <div v-for="unit in units" class="row">
-            <div class="xcol-lg-12">
-                <div class="form-floating mb-2">
-                    <input type='checkbox' name='option' :value="unit.id"/>
-                    {{ unit.title }}
+
+
+    <div class="modal fade" tabindex="-1" id="modalEditUnit">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar unidad</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalEditUnit">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formEdit">
+                <div class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="etitle" placeholder="">
+                            <label for="etilte">Titulo</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>  
-    </ModalClipboard>
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" id="eid" name="eid">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalEditUnit">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalEditUnit">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="modalClipboard">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Papelera</h5>
+            <button type="button" class="btn-close" aria-label="Close" 
+                @click="closeModalClipboard"> 
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="formClipboard">                
+                <div v-for="unit in units" class="row">
+                    <div class="xcol-lg-12">
+                        <div class="form-floating mb-2">
+                            <input type='checkbox' name='option' :value="unit.id"/>
+                            {{ unit.title }}
+                        </div>
+                    </div>
+                </div>                
+            </form>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+                @click="closeModalClipboard">Close
+            </button>
+            <button type="button" class="btn btn-primary"  
+                @click="saveModalClipboard">
+                Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
 import Header from '../modules/admin/CourseHeader.vue'
 import Unit from '../modules/admin/CourseUnit.vue'
-import ModalNew from "../modules/modals/ModalNew.vue";
-import ModalEdit from "../modules/modals/ModalEdit.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
 import { ref, onMounted } from 'vue';
 import useCourse from '../composables/useCourseAdmin';
 import useClipboardUnits from '@/composables/useClipboardUnits';
@@ -63,26 +115,30 @@ const { course, getCourse } = useCourse()
 const { units, getClipboard } = useClipboardUnits()
 const router = useRouter()
 
-let new_modal = null
+let modal = null
 let edit_modal = null
 let clipboard_modal = null
-let edit_unit = ref({})
+let eunit = ref({})
 
 onMounted(() => {
-    new_modal = new Modal(document.getElementById('modalNew'))
-    edit_modal = new Modal(document.getElementById('modalEdit'))
+    modal = new Modal(document.getElementById('modalNewUnit'))
+    edit_modal = new Modal(document.getElementById('modalEditUnit'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
     getCourse(token.value, id.value)
     getClipboard(token.value)  
 })
 
 const showModalAddUnit = () => {
-    new_modal.show()
+    modal.show()
+}
+
+const closeModalAddUnit = () => {
+    modal.hide()
 }
 
 const saveModalAddUnit = () => {
     if (isAuthenticated.value) {
-        let title = document.getElementById("new_title").value
+        let title = document.getElementById("title").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -95,10 +151,10 @@ const saveModalAddUnit = () => {
         .then(response => {
             if (!response.data.unit.error) {
                 alertify.success("La unidad fue creada exitosamente")
-                document.getElementById('new_title').value = ""
+                document.getElementById('title').value = ""
                 router.push(`/admin/unit/${response.data.unit.id}`) 
                 //course.value.units.push(response.data.unit)
-                new_modal.hide()           
+                modal.hide()           
             }
             else {
                 alertify.error("Error: No se pudo crear la unidad.")
@@ -143,6 +199,10 @@ const showModalClipboard = () => {
     clipboard_modal.show()
 }
 
+const closeModalClipboard = () => {
+    clipboard_modal.hide()
+}
+
 const saveModalClipboard = () => {
     if (isAuthenticated.value) {
         let checkboxes = document.getElementsByName('option');
@@ -181,16 +241,20 @@ const saveModalClipboard = () => {
 };
 
 const showModalEditUnit = (unit) => {
-    edit_unit.value = unit;
-    document.getElementById("edit_id").value = unit.id
-    document.getElementById("edit_title").value = unit.title
+    eunit.value = unit;
+    document.getElementById("eid").value = unit.id
+    document.getElementById("etitle").value = unit.title
     edit_modal.show()
+}
+
+const closeModalEditUnit = () => {
+    edit_modal.hide()
 }
 
 const saveModalEditUnit = () => {
     if (isAuthenticated.value) {
-        let id = document.getElementById("edit_id").value
-        let title = document.getElementById("edit_title").value
+        let id = document.getElementById("eid").value
+        let title = document.getElementById("etitle").value
         title = title.substr(0,255)
         axios({
             method: "post",
@@ -202,7 +266,7 @@ const saveModalEditUnit = () => {
         })
         .then(response => {
             if (!response.data.error) {
-                edit_unit.value.title = title
+                eunit.value.title = title
                 alertify.success("La unidad fue modificada exitosamente")
                 edit_modal.hide()            
             }
