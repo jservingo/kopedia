@@ -62,49 +62,49 @@ const router = createRouter({
         component: () => import('../views/ProfileView.vue'),
     },
     {
-      path: '/guest/course/:id',
+      path: '/guest/course/:slug/:id',
       name: 'course',
       //beforeEnter: auth,
       component: () => import('../views/CourseGuestView.vue')
     },
     {
-      path: '/guest/page/:id',
+      path: '/guest/page/:slug/:id',
       name: 'page',
       //beforeEnter: auth,
       component: () => import('../views/PageGuestView.vue')
     },
     {
-      path: '/student/course/:id',
+      path: '/student/course/:slug/:id',
       name: 'courseStudent',
       beforeEnter: auth,
       component: () => import('../views/CourseStudentView.vue')
     },
     {
-      path: '/student/page/:id',
+      path: '/student/page/:slug/:id',
       name: 'pageStudent',
       beforeEnter: auth,
       component: () => import('../views/PageStudentView.vue')
     },
     {
-      path: '/admin/course/:id',
+      path: '/admin/course/:slug/:id',
       name: 'courseAdmin',
       beforeEnter: auth,
       component: () => import('../views/CourseAdminView.vue')
     },
     {
-      path: '/admin/unit/:id',
+      path: '/admin/unit/:slug/:id',
       name: 'unitAdmin',
       beforeEnter: auth,
       component: () => import('../views/UnitAdminView.vue')
     },
     {
-      path: '/admin/page/:id',
+      path: '/admin/page/:slug/:id',
       name: 'pageAdmin',
       beforeEnter: auth,
       component: () => import('../views/PageAdminView.vue')
     },
     {
-      path: '/admin/card/:id',
+      path: '/admin/card/:slug/:id',
       name: 'cardAdmin',
       beforeEnter: auth,
       component: () => import('../views/CardAdminView.vue')

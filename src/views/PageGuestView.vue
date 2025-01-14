@@ -2,31 +2,19 @@
     <div v-if="page" class ="container-fluid container-page">
         <Header :title="page.title"></Header>
         <Card v-for="(card,index) in page.cards" :card="card" :index="index"
-            @show-info="showModalInfo">
+            :display_this="display_this"
+            @show-info="showModalInfo"
+            @display-card="displayCard">
         </Card>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="modalInfo">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="btn-close" aria-label="Close" 
-                @click="closeModalInfo"> 
-            </button>
-          </div>
-          <div class="modal-body">
-            <div id="info"></div>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-    </div>
+    <ModalInfo></ModalInfo>
 </template>
 
 <script setup>
 import Header from '../modules/guest/PageHeader.vue'
 import Card from '../modules/guest/PageCard.vue'
+import ModalInfo from "../modules/modals/ModalInfo.vue";
 import { ref, onMounted } from 'vue';
 import usePage from '../composables/usePageGuest';
 import { useRoute } from 'vue-router';
@@ -36,6 +24,7 @@ import { Modal } from "bootstrap";
 //import alertify from 'alertifyjs';
 
 let info_modal = null
+let display_this = ref(-1)
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
@@ -51,14 +40,14 @@ onMounted(() => {
     getPage(id.value)
 })
 
+const displayCard = (card) => {
+    display_this.value = card.id 
+}
+
 function showModalInfo(info) {
     console.log("showInfo",info)
     document.getElementById('info').innerHTML=info
     info_modal.show()
-}
-
-const closeModalInfo = () => {
-    info_modal.hide()
 }
 </script>
 

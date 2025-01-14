@@ -1,12 +1,12 @@
 <template>
     <div class="container-header d-flex">
         <div class ="container-fluid container-unit-button">
-            <button @click="$emit('displayItems')" class="btn-display">
+            <button @click="$emit('displayPages',unit)" class="btn-display">
                 <img :src="btnDisplay"/>
             </button> 
         </div>
         <div class ="container-fluid container-unit-title ml-auto">
-            {{ title }}
+            {{ unit.title }}
         </div>
         <div class ="container-fluid container-unit-progress">
             <div class="progress" style="height: 20px;">
@@ -18,7 +18,7 @@
 
 <script setup>
 import { defineProps, ref, computed } from 'vue';
-const props = defineProps(["title","display"]);
+const props = defineProps(["unit","display"]);
 
 //Change button - or +
 const btnDisplay = computed(() => {

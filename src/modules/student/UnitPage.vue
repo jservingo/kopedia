@@ -2,7 +2,7 @@
     <div class ="container-header">
         <div class ="d-flex">
             <div class ="container-fluid container-unit-page-header">
-                <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${page.id}`">{{ page.title }}</RouterLink>
+                <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${titleSlug}/${page.id}`">{{ page.title }}</RouterLink>
             </div>
             <div class ="container-fluid container-unit-page-progress ml-auto">
                 <div class="progress" style="height: 20px;">
@@ -15,8 +15,11 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
-import { defineProps } from 'vue';
-defineProps(["page"]);
+import { defineProps, computed } from 'vue';
+import slugify from '@sindresorhus/slugify';
+
+const props = defineProps(["page"]);
+const titleSlug = computed(() => { return slugify(props.page.title)})
 </script>
 
 <style>

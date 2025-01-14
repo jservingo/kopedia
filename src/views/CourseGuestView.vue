@@ -1,7 +1,10 @@
 <template>
     <div v-if="course" class ="container-fluid container-course">
         <Header :title="course.title"></Header>
-        <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"></Unit>
+        <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"
+            :display_this="display_this"
+            @display-unit="displayUnit">
+        </Unit>
     </div>
 </template>
 
@@ -14,6 +17,7 @@ import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';
 
+let display_this = ref(-1)
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
@@ -28,6 +32,10 @@ const { course, getCourse } = useCourse()
 onMounted(() => {
     getCourse(id.value)
 })
+
+const displayUnit = (unit) => {
+    display_this.value = unit.id 
+}
 </script>
 
 <style scoped>

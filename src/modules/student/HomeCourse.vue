@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-fluid container-home-course-header">
-                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/student/course/${subscription.id}`">{{ subscription.title }}</RouterLink>
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/student/course/${titleSlug}/${subscription.id}`">{{ subscription.title }}</RouterLink>
                 </div>
                 <div class ="container-fluid container-home-course-progress ml-auto">
                     <div class="progress" style="height: 20px;">
@@ -18,8 +18,11 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { defineProps, computed } from 'vue';
+import slugify from '@sindresorhus/slugify';
 
 const props = defineProps(["subscription","index"]);
+const titleSlug = computed(() => { return slugify(props.subscription.title)})
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor

@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-fluid container-home-course-header">
-                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/guest/course/${course.id}`">{{ course.title }} - HomeCourse</RouterLink>
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/guest/course/${titleSlug}/${course.id}`">{{ course.title }} - HomeCourse</RouterLink>
                 </div>
                 <div class ="container-fluid container-home-course-buttons ml-auto">
                     <button class="btn btn-primary" @click="handleSuscribete">
@@ -21,6 +21,7 @@ import { defineProps, computed } from 'vue';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore.js';
+import slugify from '@sindresorhus/slugify';
 import alertify from 'alertifyjs';
 
 const props = defineProps(["course","index"]);
@@ -35,6 +36,7 @@ const bgGradient = computed(() => {
 
 const store = useAuthStore();
 const { isAuthenticated, user, token } = storeToRefs(store);
+const titleSlug = computed(() => { return slugify(props.course.title)})
 
 const handleSuscribete = () => {
     if (isAuthenticated.value) {

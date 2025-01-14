@@ -72,7 +72,7 @@ function calcularWidth() {
     width = cwidth-28
     container_options.value['width'] = cwidth+"px"
     item_options.value['width'] = width+"px"
-    console.log("WIDTH",width)
+    //console.log("WIDTH",width)
 }
 
 function windowResize() {

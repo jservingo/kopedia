@@ -1,14 +1,20 @@
 <template>
-    <div class="container-header">
-        <div class ="container-fluid container-card-title">
-            {{ title }} - CardHeader
+    <div class="container-header d-flex">
+        <div class ="container-fluid container-card-button">
+            <button @click="$emit('displayItems',card)" class="btn-display">
+                <img :src="btnDisplay"/>
+            </button>
+        </div>
+        <div class ="container-fluid container-card-title ml-auto">
+            {{ card.title }}
         </div>
     </div>
 </template>
 
 <script setup>
 import { defineProps, ref, computed } from 'vue';
-const props = defineProps(["title","display"]);
+
+const props = defineProps(["card","display"]);
 
 //Change button - or +
 const btnDisplay = computed(() => {

@@ -25,7 +25,7 @@ export default function useItemOptions() {
     else {
       cwidth = Math.floor(wwidth*0.8)
     }
-    console.log("cwidth",wwidth, cwidth)
+    //console.log("cwidth",wwidth, cwidth)
 
     //Calcular factor y pendiente m
     let factor = 0
@@ -35,9 +35,9 @@ export default function useItemOptions() {
       if (ewidth.substr(ewidth.length-1=="%")) {
         let porc = ewidth.substr(0,ewidth.length-1)
         porc = Math.min(porc,95)
-        console.log("porc",porc)
+        //console.log("porc",porc)
         factor = porc/100
-        console.log("factor",factor)
+        //console.log("factor",factor)
         m = (680*factor-382)/(680-410)
       }
     }
@@ -110,7 +110,7 @@ export default function useItemOptions() {
       width.value = Math.floor(cwidth*0.8)
     }
     
-    console.log("width",width.value)
+    //console.log("width",width.value)
     container_options.value['width'] = cwidth+"px"
     item_options.value['width'] = width.value+"px"        
   }

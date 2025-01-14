@@ -1,8 +1,10 @@
 <template>
     <div class="card card-container" :style="{background:bgGradient }">
         <div class="card-body">
-            <Header :title="unit.title" :display="display" @display-items="displayItems"></Header>
-            <Page v-for="(page) in pages" :page="page" v-show="display"></Page>
+            <Header :unit="unit" :display="display" 
+                @display-pages="displayPages">
+            </Header>
+            <Page v-for="(page) in pages" :page="page" v-show="displayThis"></Page>
         </div>
     </div>
 </template>
@@ -15,7 +17,9 @@ import useUnit from '@/composables/useUnitStudent';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
-const props = defineProps(["unit","index"]);
+const props = defineProps(["unit","index","display_this"]);
+const emit = defineEmits(['display-unit']) 
+
 //const bgColors=["#8ED6D5","#EFC7C5","#c8d4b6","#CFCDE2","#e5ce89","#FDD6AB"]
 const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
 //Change bgColor
@@ -38,11 +42,20 @@ onMounted(() => {
 })
 
 //Show or hide items
-const display = ref(true);
-const displayItems = (mode) => {  
+const display = ref(false);
+
+const displayPages = (unit) => {  
     display.value = !display.value;
-    console.log(display.value)
+    if (display.value) 
+        emit("display-unit",unit)
 }
+
+const displayThis = computed(() => {
+    if (display.value && props.unit.id==props.display_this)
+        return true
+    display.value = false
+    return false
+})
 </script>
 
 <style>

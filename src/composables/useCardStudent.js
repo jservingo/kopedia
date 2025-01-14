@@ -15,5 +15,16 @@ export default function useCard() {
         })
     } 
 
-    return { items, getItems } 
+    const updateUserLastCard = async (token, id) => { 
+        axios.get(`http://localhost:4000/api/student/user/update/card/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            //items.value = response.data.card.items;
+        })
+    } 
+
+    return { items, getItems, updateUserLastCard } 
 }

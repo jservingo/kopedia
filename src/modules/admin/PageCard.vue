@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-page-card-header">
-                    <RouterLink class="link-page-card link-underline link-underline-opacity-0" :to="`/admin/card/${card.id}`">{{ card.title }}</RouterLink>
+                    <RouterLink class="link-page-card link-underline link-underline-opacity-0" :to="`/admin/card/${titleSlug}/${card.id}`">{{ card.title }}</RouterLink>
                 </div>
                 <div class ="container-page-card-buttons">
                     <button @click="$emit('down-card',card)" class="btn btn-down">
@@ -30,8 +30,11 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { defineProps, computed } from 'vue';
+import slugify from '@sindresorhus/slugify';
 
 const props = defineProps(["card","index"]);
+const titleSlug = computed(() => { return slugify(props.card.title)})
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor

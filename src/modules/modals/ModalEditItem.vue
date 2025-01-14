@@ -43,7 +43,7 @@
           </form>  
         </div>
         <div class="modal-footer">
-          <input type="hidden" id="eid" name="edit_id" v-model="eitem.id">
+          <input type="hidden" id="eid" name="edit_id">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" @click="$emit('save')">
               Guardar

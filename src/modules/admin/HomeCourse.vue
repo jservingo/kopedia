@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-home-course-header">
-                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/admin/course/${course.id}`">{{ course.title }}</RouterLink>
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/admin/course/${titleSlug}/${course.id}`">{{ course.title }}</RouterLink>
                 </div>
                 <div class ="container-home-course-buttons">
                     <button @click="$emit('edit-course',course)" class="btn btn-edit">
@@ -21,8 +21,11 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { defineProps, computed } from 'vue';
+import slugify from '@sindresorhus/slugify';
 
 const props = defineProps(["course","index"]);
+const titleSlug = computed(() => { return slugify(props.course.title)})
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor

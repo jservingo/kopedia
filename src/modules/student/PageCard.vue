@@ -1,8 +1,10 @@
 <template>
     <div class="card card-container" :style="{background:bgGradient }">
         <div class="card-body">
-            <Header :title="card.title" :display="display" @display-items="displayItems"></Header>        
-            <Item v-for="item in items" :item="item" v-show="display"
+            <Header :card="card" :display="display" 
+                @display-items="displayItems">
+            </Header>        
+            <Item v-for="item in items" :item="item" v-show="displayThis"
                 @show-info="showInfo">
             </Item>
         </div>
@@ -17,8 +19,8 @@ import useCard from '@/composables/useCardStudent';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
-const props = defineProps(["card","index"]);
-const emit = defineEmits(['show-info']) 
+const props = defineProps(["card","index","display_this"]);
+const emit = defineEmits(['show-info','display-card']) 
 
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
@@ -34,7 +36,7 @@ const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
 
 //Get card
-const { items, getItems } = useCard()
+const { items, getItems, updateUserLastCard } = useCard()
 
 onMounted(() => {
     getItems(token.value, props.card.id)
@@ -46,10 +48,24 @@ function showInfo(info) {
 }
 
 //Show or hide items
-const display = ref(true);
-const displayItems = (mode) => {
+const display = ref(false)
+
+const displayItems = (card) => {
+    //console.log("displayItems",card.id)
     display.value = !display.value;
+    if (display.value) 
+        emit("display-card",card)
 }
+
+const displayThis = computed(() => {
+    if (display.value && props.card.id==props.display_this)
+    {
+        updateUserLastCard(token.value, props.card.id)
+        return true
+    }
+    display.value = false
+    return false
+})
 </script>
 
 <style>

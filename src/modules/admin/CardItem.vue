@@ -57,6 +57,7 @@ import { defineProps, computed } from 'vue';
 
 const props = defineProps(["item","index","voptions"]);
 const emit = defineEmits(['show-info','edit-item']) 
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor

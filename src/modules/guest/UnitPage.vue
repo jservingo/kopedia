@@ -1,20 +1,22 @@
 <template>
     <div class ="container-fluid container-unit-page">
-        <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/guest/page/${page.id}`">{{ page.title }} - UnitPage</RouterLink>
+        <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/guest/page/${titleSlug}/${page.id}`">{{ page.title }} - UnitPage</RouterLink>
     </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router';
-import { defineProps } from 'vue';
+import { defineProps, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
+import slugify from '@sindresorhus/slugify';
 
-defineProps(["page"]);
+const props = defineProps(["page"]);
 
 //Get store
 const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
+const titleSlug = computed(() => { return slugify(props.page.title)})
 </script>
 
 <style>

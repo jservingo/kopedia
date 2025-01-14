@@ -91,10 +91,6 @@ onMounted(() => {
     getClipboard(token.value)
 })
 
-const closeModalInfo = () => {
-    info_modal.hide()
-}
-
 const urlFile = computed((item) => {
     console.log(item)
     return `http://localhost:4000/uploads/${item.file}`;
