@@ -13,7 +13,7 @@
 import Header from './UnitHeader.vue'
 import Page from './UnitPage.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useUnit from '@/composables/useUnitStudent';
+import useUnit from '@/composables/student/useUnitStudent';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 

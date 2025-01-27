@@ -1,54 +1,64 @@
 <template>
-    <div v-if="course" class="container-fluid container-course">
-        <Header :course="course" 
-            @add-unit="showModalAddUnit"
+    <div v-if="unit" class="container-fluid container-course">
+        <Header :unit="unit" 
+            @add-page="showModalAddPage"
             @show-clipboard="showModalClipboard">
         </Header>
-        <Unit v-for="(unit,index) in course.units" :unit="unit" :index="index"
-            @down-unit="downUnit"
-            @up-unit="upUnit"
-            @edit-unit="showModalEditUnit"
-            @add-unit-to-clipboard="addUnitToClipboard"
-            @delete-unit="deleteUnit">
-        </Unit>
+        <Page v-for="(page,index) in unit.pages" :page="page" :index="index"
+            @down-page="downPage"
+            @up-page="upPage"
+            @edit-page="showModalEditPage" 
+            @add-page-to-clipboard="addPageToClipboard"
+            @delete-page="deletePage">
+        </Page>
     </div>
 
-    <ModalNew title="Crear unidad"
-        @save="saveModalAddUnit">
+    <ModalNew title="Crear página"
+        @save="saveModalAddPage">
     </ModalNew>
     
-    <ModalEdit title="Editar unidad"
-        @save="saveModalEditUnit">
+    <ModalEdit title="Editar página"
+        @save="saveModalEditPage">
     </ModalEdit>
     
     <ModalClipboard @save="saveModalClipboard">        
-        <div v-for="unit in units" class="row">
-            <div class="xcol-lg-12">
+        <div v-for="page in pages" class="row">
+            <div class="xcol-lg-6">
                 <div class="form-floating mb-2">
-                    <input type='checkbox' name='option' :value="unit.id"/>
-                    {{ unit.title }}
+                    <input type='checkbox' name='option' :value="page.id"/>
+                    {{ page.title }}
                 </div>
             </div>
-        </div>  
+        </div> 
     </ModalClipboard>
 </template>
 
 <script setup>
-import Header from '../modules/admin/CourseHeader.vue'
-import Unit from '../modules/admin/CourseUnit.vue'
-import ModalNew from "../modules/modals/ModalNew.vue";
-import ModalEdit from "../modules/modals/ModalEdit.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
-import { ref, onMounted } from 'vue';
-import useCourse from '../composables/useCourseAdmin';
-import useClipboardUnits from '@/composables/useClipboardUnits';
+import Header from '@/modules/admin/UnitHeader.vue'
+import Page from '@/modules/admin/UnitPage.vue'
+import ModalNew from "@/modules/modals/ModalNew.vue";
+import ModalEdit from "@/modules/modals/ModalEdit.vue";
+import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
+import { defineProps, ref, computed, onMounted } from 'vue';
+import useUnit from '@/composables/admin/useUnitAdmin';
+import useClipboardPages from '@/composables/admin/useClipboardPages';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
+
+const props = defineProps(["unit","index"]);
+//const bgColors=["#8ED6D5","#EFC7C5","#c8d4b6","#CFCDE2","#e5ce89","#FDD6AB"]
+const bgColors=["#7facab","#bba4a2","#a3ab99","#baac7f","#a8a8b5","#c9b194"]
+//Change bgColor
+const bgColor = bgColors[props.index % 6]
+//Change bgGradient
+const bgGradient = computed(() => {
+    return `linear-gradient(to right, #676B6A, ${bgColor})`;
+})
 
 //Get store
 const store = useAuthStore()
@@ -57,51 +67,51 @@ const { isAuthenticated, token } = storeToRefs(store);
 const route = useRoute()
 const id = ref('');
 id.value = route.params.id
-//Get course
-const { course, getCourse } = useCourse()
+//Get unit
+const { unit, getUnit } = useUnit()
 //Get Clipboard units
-const { units, getClipboard } = useClipboardUnits()
+const { pages, getClipboard } = useClipboardPages()
 const router = useRouter()
 
 let new_modal = null
 let edit_modal = null
 let clipboard_modal = null
-let edit_unit = ref({})
+let edit_page = ref({})
 
 onMounted(() => {
     new_modal = new Modal(document.getElementById('modalNew'))
     edit_modal = new Modal(document.getElementById('modalEdit'))
     clipboard_modal = new Modal(document.getElementById('modalClipboard'))
-    getCourse(token.value, id.value)
-    getClipboard(token.value)  
+    getUnit(token.value, id.value)
+    getClipboard(token.value)
 })
 
-const showModalAddUnit = () => {
+const showModalAddPage = () => {
     new_modal.show()
 }
 
-const saveModalAddUnit = () => {
+const saveModalAddPage = () => {
     if (isAuthenticated.value) {
         let title = document.getElementById("new_title").value
         title = title.substr(0,255)
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/create`, 
-            data: {"id_course":course.value.id,"title":title}, 
+            url: `http://localhost:4000/api/admin/page/create`, 
+            data: {"id_unit":unit.value.id, "title":title}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
         })
         .then(response => {
-            if (!response.data.unit.error) {
-                alertify.success("La unidad fue creada exitosamente")
+            if (!response.data.page.error) {
+                alertify.success("La página fue creada exitosamente")
                 document.getElementById('new_title').value = ""
-                router.push(`/admin/unit/${response.data.unit.id}`) 
-                //course.value.units.push(response.data.unit)
+                router.push(`/admin/page/${response.data.page.id}`)
+                //unit.value.pages.push(response.data.page)
                 new_modal.hide()           
             }
             else {
-                alertify.error("Error: No se pudo crear la unidad.")
+                alertify.error("Error: No se pudo crear la página")
             }
         })
     }
@@ -110,27 +120,27 @@ const saveModalAddUnit = () => {
     }
 };
 
-const addUnitToClipboard = (unit) => {
+const addPageToClipboard = (page) => {
     if (isAuthenticated.value) {
-        if (units.value.find(loopUnit => loopUnit.id==unit.id)) {
+        if (pages.value.find(loopPage => loopPage.id==page.id)) {
             alertify.warning("Esta unidad ya fue añadida al portapapeles")
             return; 
         }
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/clipboard/unit/add`, 
-            data: {"id_unit":unit.id}, 
+            url: `http://localhost:4000/api/admin/clipboard/page/add`, 
+            data: {"id_page":page.id}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
         })
         .then(response => {
             if (!response.data.error) {
-                units.value.push(unit)
-                alertify.success("La unidad fue añadida al portapapeles")       
+                pages.value.push(page)
+                alertify.success("La página fue añadida al portapapeles")       
             }
             else {
-                alertify.error("Error: No se pudo añadir la unidad al portapapeles")
+                alertify.error("Error: No se pudo añadir la página al portapapeles")
             }
         })
     }
@@ -148,27 +158,27 @@ const saveModalClipboard = () => {
         let checkboxes = document.getElementsByName('option');
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
-                const unit_id = checkboxes[i].value
-                if (course.value.units.find(unit => unit.id==unit_id)) {
+                const page_id = checkboxes[i].value
+                if (unit.value.pages.find(page => page.id==page_id)) {
                     break;
                 }
                 axios({
                     method: "post",
-                    url: `http://localhost:4000/api/admin/unit/update/course`, 
-                    data: {"id_unit":unit_id,"id_course":course.value.id}, 
+                    url: `http://localhost:4000/api/admin/page/update/unit`, 
+                    data: {"id_page":page_id,"id_unit":unit.value.id}, 
                     headers: {
                         'Authorization': `Bearer ${token.value}`
                     }
                 })
                 .then(response => {
                     if (!response.data.error) {
-                        const unit = response.data.unit
-                        course.value.units.push(unit)
-                        units.value = units.value.filter(loopItem => loopItem.id !== unit.id)
-                        alertify.success("La unidad fue añadida al curso")                               
+                        const page = response.data.page
+                        unit.value.pages.push(page)
+                        pages.value = pages.value.filter(loopItem => loopItem.id !== page.id)
+                        alertify.success("La página fue añadida a la unidad")                               
                     }
                     else {
-                        alertify.error("Error: No se pudo añadir la unidad al curso")
+                        alertify.error("Error: No se pudo añadir la página a la unidad")
                     }
                 })
             }
@@ -180,21 +190,21 @@ const saveModalClipboard = () => {
     clipboard_modal.hide()
 };
 
-const showModalEditUnit = (unit) => {
-    edit_unit.value = unit;
-    document.getElementById("edit_id").value = unit.id
-    document.getElementById("edit_title").value = unit.title
+const showModalEditPage = (page) => {
+    edit_page.value = page;
+    document.getElementById("edit_id").value = page.id
+    document.getElementById("edit_title").value = page.title
     edit_modal.show()
 }
 
-const saveModalEditUnit = () => {
+const saveModalEditPage = () => {
     if (isAuthenticated.value) {
         let id = document.getElementById("edit_id").value
         let title = document.getElementById("edit_title").value
         title = title.substr(0,255)
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/update`, 
+            url: `http://localhost:4000/api/admin/page/update`, 
             data: {"id":id, "title":title}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
@@ -202,12 +212,12 @@ const saveModalEditUnit = () => {
         })
         .then(response => {
             if (!response.data.error) {
-                edit_unit.value.title = title
-                alertify.success("La unidad fue modificada exitosamente")
+                edit_page.value.title = title
+                alertify.success("La página fue modificada exitosamente")
                 edit_modal.hide()            
             }
             else {
-                alertify.error("Error: No se pudo modificar la unidad")
+                alertify.error("Error: No se pudo modificar la página")
             }
         })
     }
@@ -216,19 +226,19 @@ const saveModalEditUnit = () => {
     }
 };
 
-const upUnit = (unit) => {
+const upPage = (page) => {
     if (isAuthenticated.value) {
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/update/up`, 
-            data: {"id":unit.id,"id_course":id.value}, 
+            url: `http://localhost:4000/api/admin/page/update/up`, 
+            data: {"id":page.id,"id_unit":id.value}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
         })
         .then(response => {
             if (!response.data.error) {
-                getCourse(token.value, id.value)
+                getUnit(token.value, id.value)
                 //alertify.success("La unidad fue modificada exitosamente")          
             }
             else {
@@ -238,19 +248,19 @@ const upUnit = (unit) => {
     }
 }
 
-const downUnit = (unit) => {
+const downPage = (page) => {
     if (isAuthenticated.value) {
         axios({
             method: "post",
-            url: `http://localhost:4000/api/admin/unit/update/down`, 
-            data: {"id":unit.id,"id_course":id.value}, 
+            url: `http://localhost:4000/api/admin/page/update/down`, 
+            data: {"id":page.id,"id_unit":id.value}, 
             headers: {
                 'Authorization': `Bearer ${token.value}`
             }
         })
         .then(response => {
             if (!response.data.error) {
-                getCourse(token.value, id.value)
+                getUnit(token.value, id.value)
                 //alertify.success("La unidad fue modificada exitosamente")        
             }
             else {
@@ -260,28 +270,28 @@ const downUnit = (unit) => {
     }
 }
 
-const deleteUnit = (unit) => {
+const deletePage = (page) => {
     if (isAuthenticated.value) {
         alertify.defaults.transition = "slide";
         alertify.defaults.theme.ok = "btn btn-primary";
         alertify.defaults.theme.cancel = "btn btn-danger";
         alertify.defaults.theme.input = "form-control";
-        alertify.confirm('Eliminar unidad', 'Esta seguro que desea eliminar esta unidad?', function() { 
+        alertify.confirm('Eliminar página', 'Esta seguro que desea eliminar esta página?', function() { 
             axios({
                 method: "post",
-                url: `http://localhost:4000/api/admin/unit/delete`, 
-                data: {"id": unit.id}, 
+                url: `http://localhost:4000/api/admin/page/delete`, 
+                data: {"id": page.id}, 
                 headers: {
                     'Authorization': `Bearer ${token.value}`
                 }
             })
             .then(response => {
                 if (!response.data.error) {
-                    course.value.units = course.value.units.filter((loopItem) => loopItem !== unit)
-                    alertify.success("La unidad fue eliminada")
+                    unit.value.pages = unit.value.pages.filter((loopItem) => loopItem !== page)
+                    alertify.success("La página fue eliminada")
                 }
                 else {
-                    alertify.error("Error: No se pudo eliminar la unidad")
+                    alertify.error("Error: No se pudo eliminar la página")
                 }
             })
         }, function() { 
@@ -294,8 +304,14 @@ const deleteUnit = (unit) => {
 };
 </script>
 
-<style scoped>
-.container-course {
-    display: block;
+<style>
+.card-container {
+    font-size: 17px;
+    padding: 0px;
+    padding-top: 3px;
+    margin-bottom: 12px;
+}
+.card-body {
+    padding: 0
 }
 </style>

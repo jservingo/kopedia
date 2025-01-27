@@ -11,7 +11,7 @@
 <script setup>
 import Header from './UnitHeader.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useUnit from '@/composables/useUnitAdmin';
+import useUnit from '@/composables/admin/useUnitAdmin';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 import { Modal } from "bootstrap";

@@ -5,7 +5,7 @@ export default function useClipboardItems() {
     const items = ref({})
 
     const getClipboard = async (token) => { 
-        console.log("getClipboard Items")
+        //console.log("getClipboard Items")
         axios.get(`http://localhost:4000/api/admin/clipboard/items`, {
             headers: {
               'Authorization': `Bearer ${token}`

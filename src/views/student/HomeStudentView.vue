@@ -1,17 +1,19 @@
 <template>
     <div v-if="info.subscriptions" class ="container-fluid container-home">
+        <LastCard></LastCard>
         <Header></Header>
         <CourseBox v-for="(subscription,index) in info.subscriptions" :subscription="subscription" :index="index"></CourseBox>
     </div>
 </template>
 
 <script setup>
-import Header from '../modules/student/HomeHeader.vue'
-import CourseBox from '../modules/student/HomeCourse.vue'
+import Header from '@/modules/student/HomeHeader.vue'
+import CourseBox from '@/modules/student/HomeCourse.vue'
+import LastCard from '@/modules/student/LastCard.vue' 
 import { ref, onMounted } from 'vue';
-import useHome from '../composables/useHomeStudent';
+import useHome from '@/composables/student/useHomeStudent';
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 
 //Get store
 const store = useAuthStore()

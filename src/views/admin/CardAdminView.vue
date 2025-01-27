@@ -43,19 +43,19 @@
 </template>
 
 <script setup>
-import Header from '../modules/admin/CardHeader.vue'
-import Item from '../modules/admin/CardItem.vue'
-import ModalNew from "../modules/modals/ModalNewItem.vue";
-import ModalEdit from "../modules/modals/ModalEditItem.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
-import ModalInfo from "../modules/modals/ModalInfo.vue";
+import Header from '@/modules/admin/CardHeader.vue'
+import Item from '@/modules/admin/CardItem.vue'
+import ModalNew from "@/modules/modals/ModalNewItem.vue";
+import ModalEdit from "@/modules/modals/ModalEditItem.vue";
+import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
+import ModalInfo from "@/modules/modals/ModalInfo.vue";
 import { ref, onMounted, computed } from 'vue';
-import useCard from '@/composables/useCardAdmin';
-import useClipboardItems from '@/composables/useClipboardItems';
+import useCard from '@/composables/admin/useCardAdmin';
+import useClipboardItems from '@/composables/admin/useClipboardItems';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';

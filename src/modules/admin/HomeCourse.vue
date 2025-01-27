@@ -3,7 +3,9 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-home-course-header">
-                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/admin/course/${titleSlug}/${course.id}`">{{ course.title }}</RouterLink>
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" 
+                        :to="`/admin/course/${course.id}/${titleSlug}`">{{ course.title }}
+                    </RouterLink>
                 </div>
                 <div class ="container-home-course-buttons">
                     <button @click="$emit('edit-course',course)" class="btn btn-edit">

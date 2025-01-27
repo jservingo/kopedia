@@ -88,7 +88,7 @@
 import Header from './CardHeader.vue'
 import Item from './CardItem.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useCard from '@/composables/useCardAdmin';
+import useCard from '@/composables/admin/useCardAdmin';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 import { Modal } from "bootstrap";

@@ -221,8 +221,8 @@
 import Header from '../modules/admin/CardHeader.vue'
 import Item from '../modules/admin/CardItem.vue'
 import { ref, onMounted, computed } from 'vue';
-import useCard from '@/composables/useCardAdmin';
-import useClipboardItems from '@/composables/useClipboardItems';
+import useCard from '@/composables/admin/useCardAdmin';
+import useClipboardItems from '@/composables/admin/useClipboardItems';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';

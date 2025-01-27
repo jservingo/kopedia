@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useUnit() {
+export default function useUnitStudent() {
     const pages = ref({})
 
     const getPages = async (token, id) => { 

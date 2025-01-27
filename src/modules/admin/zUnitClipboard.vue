@@ -45,7 +45,7 @@
 
 <script setup>
 import { defineProps, ref, onMounted } from 'vue';
-import useClipboardUnits from '@/composables/useClipboardUnits';
+import useClipboardUnits from '@/composables/admin/useClipboardUnits';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 

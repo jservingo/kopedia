@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useUnit() {
+export default function useUnitAdmin() {
     const unit = ref({})
 
     const getUnit = async (token, id) => { 

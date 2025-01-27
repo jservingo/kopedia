@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useCard() {
+export default function useCardAdmin() {
     const card = ref({})
 
     const getCard = async (token, id) => { 

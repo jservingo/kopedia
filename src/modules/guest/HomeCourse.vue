@@ -3,28 +3,52 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-fluid container-home-course-header">
-                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" :to="`/guest/course/${titleSlug}/${course.id}`">{{ course.title }} - HomeCourse</RouterLink>
+                    <RouterLink class="link-home-course link-underline link-underline-opacity-0" 
+                        :to="`/guest/course/${course.id}/${titleSlug}`">{{ course.title }} - HomeCourse
+                    </RouterLink>
+                    <span v-for="tag in tags" class="tag">
+                        {{ tag.name }}
+                    </span>
                 </div>
                 <div class ="container-fluid container-home-course-buttons ml-auto">
                     <button class="btn btn-primary" @click="handleSuscribete">
                         Suscríbete
                     </button>
                 </div>
-            </div>
+            </div>   
+            <Image :item="item" @show-info="showInfo"></Image>         
         </div>
     </div>
 </template>
 
 <script setup>
+import Image from '@/modules/Item/ItemImage.vue'
 import { RouterLink } from 'vue-router';
-import { defineProps, computed } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore.js';
 import slugify from '@sindresorhus/slugify';
 import alertify from 'alertifyjs';
 
+const emit = defineEmits(['show-info']) 
 const props = defineProps(["course","index"]);
+const store = useAuthStore();
+const { isAuthenticated, user, token } = storeToRefs(store);
+
+const titleSlug = computed(() => { return slugify(props.course.title)})
+let content = props.course.content ? props.course.content : "Descripcion del curso" 
+let file = props.course.file ? props.course.file : "363645453-curso.png" 
+let options = props.course.options ? props.course.options : "image-align:center;display-content:right" 
+const item = ref({content, file, options})
+let tags = ref([])
+
+if (props.course.tags) {
+    const stags = props.course.tags.split(",")
+    stags.forEach((tag) => tags.value.push({name: tag}))
+    console.log("tags",tags.value)
+}
+
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
 //Change bgColor
@@ -33,10 +57,6 @@ const bgColor = bgColors[props.index % 6]
 const bgGradient = computed(() => {
     return `linear-gradient(to right, #676B6A, ${bgColor})`;
 })
-
-const store = useAuthStore();
-const { isAuthenticated, user, token } = storeToRefs(store);
-const titleSlug = computed(() => { return slugify(props.course.title)})
 
 const handleSuscribete = () => {
     if (isAuthenticated.value) {
@@ -54,6 +74,11 @@ const handleSuscribete = () => {
   		alertify.error("Please login first");
     }
 };
+
+function showInfo(info) {
+    //console.log("Info captured:",info)
+    emit("show-info",info)
+}
 </script>
 
 <style scoped>

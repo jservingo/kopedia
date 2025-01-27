@@ -3,7 +3,9 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class ="container-page-card-header">
-                    <RouterLink class="link-page-card link-underline link-underline-opacity-0" :to="`/admin/card/${titleSlug}/${card.id}`">{{ card.title }}</RouterLink>
+                    <RouterLink class="link-page-card link-underline link-underline-opacity-0" 
+                        :to="`/admin/card/${card.id}/${titleSlug}`">{{ card.title }}
+                    </RouterLink>
                 </div>
                 <div class ="container-page-card-buttons">
                     <button @click="$emit('down-card',card)" class="btn btn-down">

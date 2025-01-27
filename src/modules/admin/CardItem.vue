@@ -48,11 +48,11 @@
 </template>
 
 <script setup>
-import Audio from '../Item/ItemAudio.vue'
-import Formula from '../Item/ItemFormula.vue'
-import Image from '../Item/ItemImage.vue'
-import Text from '../Item/ItemText.vue'
-import Video from '../Item/ItemVideo.vue'
+import Audio from '@/modules/Item/ItemAudio.vue'
+import Formula from '@/modules/Item/ItemFormula.vue'
+import Image from '@/modules/Item/ItemImage.vue'
+import Text from '@/modules/Item/ItemText.vue'
+import Video from '@/modules/Item/ItemVideo.vue'
 import { defineProps, computed } from 'vue';
 
 const props = defineProps(["item","index","voptions"]);

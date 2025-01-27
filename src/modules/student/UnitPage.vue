@@ -2,7 +2,9 @@
     <div class ="container-header">
         <div class ="d-flex">
             <div class ="container-fluid container-unit-page-header">
-                <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/student/page/${titleSlug}/${page.id}`">{{ page.title }}</RouterLink>
+                <RouterLink class="link-unit-page link-underline link-underline-opacity-0" 
+                    :to="`/student/page/${page.id}/-1/${titleSlug}`">{{ page.title }}
+                </RouterLink>
             </div>
             <div class ="container-fluid container-unit-page-progress ml-auto">
                 <div class="progress" style="height: 20px;">

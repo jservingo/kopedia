@@ -121,8 +121,8 @@
 import Header from '../modules/admin/UnitHeader.vue'
 import Page from '../modules/admin/UnitPage.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useUnit from '@/composables/useUnitAdmin';
-import useClipboardPages from '@/composables/useClipboardPages';
+import useUnit from '@/composables/admin/useUnitAdmin';
+import useClipboardPages from '@/composables/admin/useClipboardPages';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';

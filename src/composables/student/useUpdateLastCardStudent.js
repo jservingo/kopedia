@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useCard() {
+export default function useUpdateLastCardStudent() {
     const items = ref({})
 
     const getItems = async (token, id) => { 
-        axios.get(`http://localhost:4000/api/admin/card/${id}`, {
+        axios.get(`http://localhost:4000/api/student/card/${id}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

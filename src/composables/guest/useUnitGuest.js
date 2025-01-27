@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from "axios"
  
-export default function useUnit() {
+export default function useUnitGuest() {
     const pages = ref({})
 
     const getPages = async (id) => { 

@@ -15,7 +15,7 @@
 import Header from './CardHeader.vue'
 import Item from './CardItem.vue'
 import { defineProps, ref, computed, onMounted } from 'vue';
-import useCard from '@/composables/useCardGuest';
+import useCard from '@/composables/guest/useCardGuest';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 

@@ -34,18 +34,18 @@
 </template>
 
 <script setup>
-import Header from '../modules/admin/PageHeader.vue'
-import Card from '../modules/admin/PageCard.vue'
-import ModalNew from "../modules/modals/ModalNew.vue";
-import ModalEdit from "../modules/modals/ModalEdit.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
+import Header from '@/modules/admin/PageHeader.vue'
+import Card from '@/modules/admin/PageCard.vue'
+import ModalNew from "@/modules/modals/ModalNew.vue";
+import ModalEdit from "@/modules/modals/ModalEdit.vue";
+import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
 import { ref, onMounted } from 'vue';
-import usePage from '../composables/usePageAdmin';
-import useClipboardCards from '@/composables/useClipboardCards';
+import usePage from '@/composables/admin/usePageAdmin';
+import useClipboardCards from '@/composables/admin/useClipboardCards';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';

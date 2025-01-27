@@ -100,7 +100,7 @@
 import Header from '../modules/admin/HomeHeader.vue'
 import CourseBox from '../modules/admin/HomeCourse.vue'
 import { ref, onMounted } from 'vue';
-import useHome from '../composables/useHomeAdmin';
+import useHome from '../composables/admin/useHomeAdmin';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';

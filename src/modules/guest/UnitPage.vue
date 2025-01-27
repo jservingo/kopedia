@@ -1,6 +1,8 @@
 <template>
     <div class ="container-fluid container-unit-page">
-        <RouterLink class="link-unit-page link-underline link-underline-opacity-0" :to="`/guest/page/${titleSlug}/${page.id}`">{{ page.title }} - UnitPage</RouterLink>
+        <RouterLink class="link-unit-page link-underline link-underline-opacity-0" 
+            :to="`/guest/page/${page.id}/${titleSlug}`">{{ page.title }} - UnitPage
+        </RouterLink>
     </div>
 </template>
 
@@ -22,6 +24,8 @@ const titleSlug = computed(() => { return slugify(props.page.title)})
 <style>
 .container-unit-page {
     display: block;
+    padding-bottom: 6px;
+    padding-top: 6px;
     padding-bottom: 6px;
 }
 .link-unit-page {

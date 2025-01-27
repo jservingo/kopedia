@@ -92,8 +92,8 @@
 import Header from '../modules/admin/CourseHeader.vue'
 import Unit from '../modules/admin/CourseUnit.vue'
 import { ref, onMounted } from 'vue';
-import useCourse from '../composables/useCourseAdmin';
-import useClipboardUnits from '@/composables/useClipboardUnits';
+import useCourse from '../composables/admin/useCourseAdmin';
+import useClipboardUnits from '@/composables/admin/useClipboardUnits';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';

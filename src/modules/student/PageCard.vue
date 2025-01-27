@@ -1,6 +1,6 @@
 <template>
     <div class="card card-container" :style="{background:bgGradient }">
-        <div class="card-body">
+        <div class="card-body" :id="`card${card.id}`">
             <Header :card="card" :display="display" 
                 @display-items="displayItems">
             </Header>        
@@ -14,12 +14,12 @@
 <script setup>
 import Header from './CardHeader.vue'
 import Item from './CardItem.vue'
-import { defineProps, ref, computed, onMounted } from 'vue';
-import useCard from '@/composables/useCardStudent';
+import { defineProps, ref, computed, onMounted, onUpdated } from 'vue';
+import useCard from '@/composables/student/useUpdateLastCardStudent';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 
-const props = defineProps(["card","index","display_this"]);
+const props = defineProps(["card","index","display_this","display_last"]);
 const emit = defineEmits(['show-info','display-card']) 
 
 //backgroundColor:bgColor
@@ -40,21 +40,19 @@ const { items, getItems, updateUserLastCard } = useCard()
 
 onMounted(() => {
     getItems(token.value, props.card.id)
+    if(props.card.id==props.display_last) {
+        display.value = true
+    }
 })
-
-function showInfo(info) {
-    //console.log("Info captured:",info)
-    emit("show-info",info)
-}
 
 //Show or hide items
 const display = ref(false)
 
 const displayItems = (card) => {
-    //console.log("displayItems",card.id)
     display.value = !display.value;
-    if (display.value) 
+    if (display.value) {
         emit("display-card",card)
+    }
 }
 
 const displayThis = computed(() => {
@@ -66,6 +64,10 @@ const displayThis = computed(() => {
     display.value = false
     return false
 })
+
+function showInfo(info) {
+    emit("show-info",info)
+}
 </script>
 
 <style>
