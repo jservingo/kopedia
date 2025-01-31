@@ -16,17 +16,33 @@
                     </button>
                 </div>
             </div>
+            <Image :item="item" @show-info="showInfo"></Image>
         </div>
     </div>  
 </template>
 
 <script setup>
+import Image from '@/modules/Item/ItemImage.vue'
 import { RouterLink } from 'vue-router';
-import { defineProps, computed } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import slugify from '@sindresorhus/slugify';
 
+const emit = defineEmits(['show-info']) 
 const props = defineProps(["course","index"]);
 const titleSlug = computed(() => { return slugify(props.course.title)})
+
+let content = props.course.content ? props.course.content : "Descripcion del curso" 
+let file = props.course.file ? props.course.file : "363645453-curso.png" 
+let options = props.course.options ? props.course.options : "image-align:center;display-content:right" 
+const item = ref({content, file, options})
+let tags = ref([])
+
+//console.log("tags",props.subscription.tags)
+if (props.course.tags) {
+    const stags = props.course.tags.split(",")
+    stags.forEach((tag) => tags.value.push({name: tag}))
+    //console.log("tags",tags.value)
+}
 
 //backgroundColor:bgColor
 const bgColors=["#7facab","#bba4a2","#a3ab99","#a8a8b5","#baac7f","#c9b194"]
@@ -36,6 +52,11 @@ const bgColor = bgColors[props.index % 6]
 const bgGradient = computed(() => {
     return `linear-gradient(to right, #676B6A, ${bgColor})`;
 })
+
+function showInfo(info) {
+    //console.log("Info captured:",info)
+    emit("show-info",info)
+}
 </script>
 
 <style>
@@ -56,7 +77,7 @@ const bgGradient = computed(() => {
     line-height: 20px !important;
 }
 .link-home-course:hover {
-  color: rgb(30, 30, 255);;
+  color: rgb(30, 30, 255);
 }
 .container-home-course-header {
     font-size: 18px;

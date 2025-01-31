@@ -4,7 +4,7 @@
             <div class="d-flex">
                 <div class ="container-fluid container-home-course-header">
                     <RouterLink class="link-home-course link-underline link-underline-opacity-0" 
-                        :to="`/guest/course/${course.id}/${titleSlug}`">{{ course.title }} - HomeCourse
+                        :to="`/guest/course/${course.id}/${titleSlug}`">{{ course.title }}
                     </RouterLink>
                     <span v-for="tag in tags" class="tag">
                         {{ tag.name }}
@@ -122,5 +122,12 @@ function showInfo(info) {
 .btn-delete {
     background-color: #c57d93 !important;
     padding: 0;
+}
+.tag {
+    background-color: red;
+    border-radius: 10px;
+    padding: 3px 10px; 
+    margin-left: 10px;
+    width: 150px;
 }
 </style>

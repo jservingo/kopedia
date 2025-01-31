@@ -165,7 +165,7 @@ const saveModalAddContent = () => {
                 document.getElementById('options').value = ""
                 //document.getElementById('url').value = ""
                 card.value.items.push(response.data.item)
-                modal.hide()           
+                new_modal.hide()           
             }
             else {
                 alertify.error("Error: No se pudo crear el item")

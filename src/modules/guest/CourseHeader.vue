@@ -1,7 +1,7 @@
 <template>
     <div class ="container-header d-flex">
         <div class ="container-fluid container-course-header">
-            <span>{{ title }} - CourseHeader</span>
+            <span>{{ title }}</span>
         </div>
         <div class ="container-fluid container-course-buttons ml-auto">
             <button class="btn btn-primary" @click="handleSuscribete">

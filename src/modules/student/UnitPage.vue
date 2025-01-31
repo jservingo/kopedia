@@ -31,7 +31,7 @@ const titleSlug = computed(() => { return slugify(props.page.title)})
 }
 .container-unit-page-header {
     font-size: 18px;
-    color: whitesmoke;
+    color: whitesmoke !important;
     line-height: 20px !important;
 }
 .container-unit-page-progress { 

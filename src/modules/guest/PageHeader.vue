@@ -1,7 +1,7 @@
 <template>
     <div class ="container-header">
         <div class ="container-fluid container-page-header">
-            <div>{{ title }} - PageHeader</div>
+            <div>{{ title }}</div>
         </div>
     </div>
 </template>

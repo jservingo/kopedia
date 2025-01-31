@@ -1,14 +1,16 @@
 <template>
     <div class ="card card-course">
         <div class="card-body">
-            <div class ="container-fluid container-home-course-header">
+            <div class ="container-fluid container-last-card-header">
                 <h2>Deseas continuar viendo?</h2>
-                <RouterLink class="link-home-course link-underline link-underline-opacity-0" 
-                    :to="`/student/page/${last_card.id_page}/${last_card.id_card}/${last_card.title_slug}#card1`">
-                    &emsp;{{ last_card.course_title }}<br>
-                    &emsp;{{ last_card.unit_title }}<br>
-                    &emsp;{{ last_card.page_title }}?        
-                </RouterLink>
+                <div class="last-card" v-for="card in cards"> 
+                    <RouterLink class="link-last-card link-underline link-underline-opacity-0" 
+                        :to="`/student/page/${card.id_page}/${card.id_card}/ver-pagina#card1`">
+                        &emsp;{{ card.course_title }}<br>
+                        &emsp;{{ card.unit_title }}<br>
+                        &emsp;{{ card.page_title }}?        
+                    </RouterLink>
+                </div>
             </div>
         </div>
     </div>
@@ -28,10 +30,10 @@ const store = useAuthStore()
 const { isAuthenticated, token } = storeToRefs(store);
 
 //Get last_card
-const { last_card, getLastCard } = useLastCardStudent()
+const { cards, getLastCards } = useLastCardStudent()
 
 onMounted(() => {
-    getLastCard(token.value)
+    getLastCards(token.value)
 })
 </script>
 
@@ -49,21 +51,25 @@ onMounted(() => {
 .card-body {
     padding: 0
 }
-.link-home-course {
+.last-card {
+    background-color: rgb(188, 209, 187);
+    margin-bottom: 10px;
+}
+.link-last-card {
     font-size: 18px;
     color: rgb(14, 13, 13);
     line-height: 18px !important;
 }
-.link-home-course:hover {
+.link-last-card:hover {
   color: rgb(30, 30, 255);;
 }
-.container-home-course-header {
+.container-last-card-header {
     font-size: 18px;
     color: whitesmoke;
     line-height: 20px !important;
     margin-bottom: 6px;
 }
-.container-home-course-progress { 
+.container-last-card-progress { 
     font-size: 14px;
     color: whitesmoke;
     width: 110px;

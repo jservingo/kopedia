@@ -106,7 +106,7 @@ const saveModalAddPage = () => {
             if (!response.data.page.error) {
                 alertify.success("La página fue creada exitosamente")
                 document.getElementById('new_title').value = ""
-                router.push(`/admin/page/${response.data.page.id}`)
+                router.push(`/admin/page/${response.data.page.id}/page/page`)
                 //unit.value.pages.push(response.data.page)
                 new_modal.hide()           
             }

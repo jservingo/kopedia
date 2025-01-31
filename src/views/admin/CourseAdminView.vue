@@ -96,7 +96,7 @@ const saveModalAddUnit = () => {
             if (!response.data.unit.error) {
                 alertify.success("La unidad fue creada exitosamente")
                 document.getElementById('new_title').value = ""
-                router.push(`/admin/unit/${response.data.unit.id}`) 
+                router.push(`/admin/unit/${response.data.unit.id}/unit`) 
                 //course.value.units.push(response.data.unit)
                 new_modal.hide()           
             }

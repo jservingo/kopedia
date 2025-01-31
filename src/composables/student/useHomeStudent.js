@@ -2,9 +2,10 @@ import { ref } from 'vue'
 import axios from "axios"
  
 export default function useHomeStudent() {
-    const info = ref({})
+    const infoStudent = ref({})
+    const infoGuest = ref({})
 
-    const getInfo = async (token) => {
+    const getInfoStudent = async (token) => {
         //console.log("Enviar token", token); 
         axios.get('http://localhost:4000/api/student', {
             headers: {
@@ -12,9 +13,21 @@ export default function useHomeStudent() {
             }
         })
         .then(response => {
-            info.value = response.data;
+            infoStudent.value = response.data;
         })
     } 
 
-    return { info, getInfo } 
+    const getInfoGuest = async (token) => {
+        //console.log("Enviar token", token); 
+        axios.get('http://localhost:4000/api/student/courses', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            infoGuest.value = response.data;
+        })
+    }
+
+    return { infoStudent, infoGuest, getInfoStudent, getInfoGuest } 
 }

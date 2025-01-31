@@ -96,7 +96,7 @@ const saveModalAddCard = () => {
             if (!response.data.card.error) {
                 alertify.success("La tarjeta fue creada exitosamente")
                 document.getElementById('new_title').value = ""
-                router.push(`/admin/card/${response.data.card.id}`) 
+                router.push(`/admin/card/${response.data.card.id}/card`) 
                 //page.value.cards.push(response.data.card)
                 new_modal.hide()           
             }

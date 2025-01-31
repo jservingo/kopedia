@@ -6,7 +6,7 @@
                     <RouterLink class="link-home-course link-underline link-underline-opacity-0" 
                         :to="`/student/course/${subscription.id}/${titleSlug}`">{{ subscription.title }}
                     </RouterLink>
-                    <span v-for="tag in tags" class="tag">
+                    <span v-if="false" v-for="tag in tags" class="tag">
                         {{ tag.name }}
                     </span>
                 </div>
@@ -29,8 +29,8 @@ import slugify from '@sindresorhus/slugify';
 
 const emit = defineEmits(['show-info']) 
 const props = defineProps(["subscription","index"]);
-
 const titleSlug = computed(() => { return slugify(props.subscription.title)})
+
 let content = props.subscription.content ? props.subscription.content : "Descripcion del curso" 
 let file = props.subscription.file ? props.subscription.file : "363645453-curso.png" 
 let options = props.subscription.options ? props.subscription.options : "image-align:center;display-content:right" 
@@ -75,11 +75,11 @@ function showInfo(info) {
 }
 .link-home-course {
     font-size: 18px;
-    color: whitesmoke;
+    color: whitesmoke; 
     line-height: 18px !important;
 }
 .link-home-course:hover {
-  color: rgb(30, 30, 255);;
+  color: rgb(30, 30, 255);
 }
 .container-home-course-header {
     font-size: 18px;

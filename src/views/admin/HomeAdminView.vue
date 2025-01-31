@@ -74,7 +74,7 @@ const saveModalAddCourse = () => {
                 alertify.success("El curso fue creado exitosamente")
                 document.getElementById('new_title').value = ""
                 new_modal.hide()
-                router.push(`/admin/course/${response.data.course.id}`)            
+                router.push(`/admin/course/${response.data.course.id}/course`)            
             }
             else {
                 alertify.error("Error: No se pudo crear el curso.")
