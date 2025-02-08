@@ -14,6 +14,7 @@ export default function useHomeStudent() {
         })
         .then(response => {
             infoStudent.value = response.data;
+            console.log("infoStudent",infoStudent.value)
         })
     } 
 
