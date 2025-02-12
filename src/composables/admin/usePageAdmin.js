@@ -3,6 +3,7 @@ import axios from "axios"
  
 export default function usePageAdmin() {
     const page = ref({})
+    const auth_error = ref('')
 
     const getPage = async (token, id) => { 
         axios.get(`http://localhost:4000/api/admin/page/${id}`, {
@@ -11,9 +12,12 @@ export default function usePageAdmin() {
             }
         })
         .then(response => {
-            page.value = response.data.page;
+            if (!response.data.error)
+                page.value = response.data.page;
+            else
+                auth_error.value = response.data.mensaje
         })
     } 
 
-    return { page, getPage } 
+    return { page, auth_error, getPage } 
 }

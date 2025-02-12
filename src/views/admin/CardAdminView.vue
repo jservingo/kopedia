@@ -1,6 +1,7 @@
 <template>
     <div v-if="card" class ="container-fluid container-page">
-        <Header :card="card"
+        <Unauthorized v-if="auth_error"></Unauthorized>
+        <Header v-else :card="card"
             @add-item="showModalAddItem"
             @show-clipboard="showModalClipboard">
         </Header>
@@ -43,15 +44,17 @@
 </template>
 
 <script setup>
-import Header from '@/modules/admin/CardHeader.vue'
-import Item from '@/modules/admin/CardItem.vue'
-import ModalNew from "@/modules/modals/ModalNewItem.vue";
-import ModalEdit from "@/modules/modals/ModalEditItem.vue";
-import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
-import ModalInfo from "@/modules/modals/ModalInfo.vue";
-import { ref, onMounted, computed } from 'vue';
+import Header from '@/components/admin/CardHeader.vue'
+import Item from '@/components/admin/CardItem.vue'
+import Unauthorized from '@/components/UnauthorizedUser.vue'
+import ModalNew from "@/components/modals/ModalNewItem.vue";
+import ModalEdit from "@/components/modals/ModalEditItem.vue";
+import ModalClipboard from "@/components/modals/ModalClipboard.vue";
+import ModalInfo from "@/components/modals/ModalInfo.vue";
 import useCard from '@/composables/admin/useCardAdmin';
 import useClipboardItems from '@/composables/admin/useClipboardItems';
+
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -77,7 +80,7 @@ const route = useRoute()
 const id = ref('');
 id.value = route.params.id
 //Get card
-const { card, getCard } = useCard()
+const { card, auth_error, getCard } = useCard()
 //Get Clipboard items
 const { items, getClipboard } = useClipboardItems()
 const router = useRouter()

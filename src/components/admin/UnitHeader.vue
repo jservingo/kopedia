@@ -1,10 +1,11 @@
 <template>
     <div class="container-header d-flex">
-        <div class ="container-card-header">
-            <span>{{ card.title }}</span>
+        <div class ="container-unit-header">
+            <span>{{ unit.title }}</span>
+            <h3>Páginas</h3>
         </div>
-        <div class ="container-card-buttons">
-            <button @click="$emit('add-item')" class="btn btn-add">
+        <div class ="container-unit-buttons"> 
+            <button @click="$emit('add-page')" class="btn btn-add">
                 <img src="@/assets/add.svg"/>
             </button>&nbsp;
             <button @click="$emit('show-clipboard')" class="btn btn-clipboard">
@@ -15,8 +16,9 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-defineProps(["card"]);
+import { defineProps, computed } from 'vue';
+
+defineProps(["unit"]);
 </script>
 
 <style>
@@ -24,14 +26,13 @@ defineProps(["card"]);
     padding-top: 6px;
     padding-bottom: 6px;
 }
-.container-card-header {
+.container-unit-header {
     font-size: 22px;
     width: calc(100% - 98px);
     color: whitesmoke;
     line-height: 24px !important;
-    padding-left: 12px;
 }
-.container-card-buttons { 
+.container-unit-buttons { 
     font-size: 14px;
     color: whitesmoke;
     width: 92px;
@@ -43,5 +44,8 @@ defineProps(["card"]);
 .btn-clipboard {
     background-color: #b8c57d !important;
     padding: 0;
+}
+h3 {
+    font-size: 18px; 
 }
 </style>

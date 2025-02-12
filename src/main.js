@@ -1,5 +1,5 @@
 import './assets/main.css'
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle' 
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.js' 
 import alertify from 'alertifyjs/build/alertify.min.js' 
 import MathJax, { initMathJax, renderByMathjax } from "mathjax-vue3";
 

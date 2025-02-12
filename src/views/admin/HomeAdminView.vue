@@ -21,13 +21,14 @@
 
 <script setup>
 //v-model="ecourse.title"
-import Header from '@/modules/admin/HomeHeader.vue'
-import CourseBox from '@/modules/admin/HomeCourse.vue'
-import ModalNew from "@/modules/modals/ModalNew.vue";
-import ModalEdit from "@/modules/modals/ModalEdit.vue";
-import ModalInfo from "@/modules/modals/ModalInfo.vue";
-import { ref, onMounted } from 'vue';
+import Header from '@/components/admin/HomeHeader.vue'
+import CourseBox from '@/components/admin/HomeCourse.vue'
+import ModalNew from "@/components/modals/ModalNew.vue";
+import ModalEdit from "@/components/modals/ModalEdit.vue";
+import ModalInfo from "@/components/modals/ModalInfo.vue";
 import useHome from '@/composables/admin/useHomeAdmin';
+
+import { ref, onMounted } from 'vue';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';

@@ -41,10 +41,10 @@
 import { ref, onMounted, computed } from 'vue';
 import { Modal } from "bootstrap";
 import alertify from 'alertifyjs';
-import ModalInfo from "../modules/modals/ModalInfo.vue";
-import ModalNew from "../modules/modals/ModalNew.vue";
-import ModalEdit from "../modules/modals/ModalEdit.vue";
-import ModalClipboard from "../modules/modals/ModalClipboard.vue";
+import ModalInfo from "../components/modals/ModalInfo.vue";
+import ModalNew from "../components/modals/ModalNew.vue";
+import ModalEdit from "../components/modals/ModalEdit.vue";
+import ModalClipboard from "../components/modals/ModalClipboard.vue";
 
 let info_modal = null
 let new_modal = null

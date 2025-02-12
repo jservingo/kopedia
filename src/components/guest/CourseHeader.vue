@@ -1,7 +1,7 @@
 <template>
     <div class ="container-header d-flex">
         <div class ="container-fluid container-course-header">
-            <span>{{ title }}</span>
+            <span>{{ course.title }}</span>
         </div>
         <div class ="container-fluid container-course-buttons ml-auto">
             <button class="btn btn-primary" @click="handleSuscribete">
@@ -13,8 +13,23 @@
 
 <script setup>
 import { defineProps } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/authStore.js';
+import alertify from 'alertifyjs';
 
-defineProps(["title"]);
+const emit = defineEmits(['suscribirse']) 
+const props = defineProps(["course"]);
+const store = useAuthStore();
+const { isAuthenticated, user, token } = storeToRefs(store);
+
+const handleSuscribete = () => {
+    if (isAuthenticated.value) {
+        emit("suscribirse",props.course)
+    }
+    else {
+  		alertify.error("Please login first");
+    }    
+}
 </script>
 
 <style>

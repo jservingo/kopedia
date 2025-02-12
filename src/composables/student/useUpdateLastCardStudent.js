@@ -15,10 +15,20 @@ export default function useUpdateLastCardStudent() {
         })
     } 
 
-    const updateUserLastCard = async (token, id) => { 
+    const updateUserLastCard = async (token, id) => {
+        /* 
         axios.get(`http://localhost:4000/api/student/user/update/card/${id}`, {
             headers: {
-              'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        */
+        axios({
+            method: "post",
+            url: `http://localhost:4000/api/student/user/update/card`, 
+            data: {"id":id}, 
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {

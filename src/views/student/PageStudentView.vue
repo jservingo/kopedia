@@ -1,6 +1,7 @@
 <template>
     <div v-if="page" class ="container-fluid container-page">
-        <Header :title="page.title"></Header>
+        <Unauthorized v-if="auth_error"></Unauthorized>
+        <Header v-else :title="page.title"></Header>        
         <Card v-for="(card,index) in page.cards" :card="card" :index="index" 
             :display_this="display_this" :display_last="display_last"
             @show-info="showModalInfo"
@@ -12,11 +13,13 @@
 </template>
 
 <script setup>
-import Header from '@/modules/student/PageHeader.vue'
-import Card from '@/modules/student/PageCard.vue'
-import ModalInfo from "@/modules/modals/ModalInfo.vue";
-import { ref, onMounted } from 'vue';
+import Header from '@/components/student/PageHeader.vue'
+import Card from '@/components/student/PageCard.vue'
+import Unauthorized from '@/components/UnauthorizedUser.vue'
+import ModalInfo from "@/components/modals/ModalInfo.vue";
 import usePage from '@/composables/student/usePageStudent';
+
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
@@ -34,7 +37,7 @@ const route = useRoute()
 const id = ref('');
 id.value = route.params.id
 //Get page 
-const { page, getPage } = usePage()
+const { page, auth_error, getPage } = usePage()
 //Get id_card
 const id_card = ref(route.params.id_card)
 //console.log("id_card",id_card)

@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import Image from '@/modules/Item/ItemImage.vue'
+import Image from '@/components/Item/ItemImage.vue'
 import { RouterLink } from 'vue-router';
 import { defineProps, ref, computed } from 'vue';
 import slugify from '@sindresorhus/slugify';

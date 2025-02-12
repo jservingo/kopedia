@@ -3,6 +3,7 @@ import axios from "axios"
  
 export default function useCourseStudent() {
     const course = ref({})
+    const auth_error = ref('')
 
     const getCourse = async (token, id) => { 
         axios.get(`http://localhost:4000/api/student/course/${id}`, {
@@ -11,9 +12,12 @@ export default function useCourseStudent() {
             }
         })
         .then(response => {
-            course.value = response.data.course;
+            if (!response.data.error) 
+                course.value = response.data.course;
+            else
+                auth_error.value = response.data.mensaje
         })
     } 
 
-    return { course, getCourse } 
+    return { course, auth_error, getCourse } 
 }

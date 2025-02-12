@@ -2,6 +2,7 @@
     <div class="container-header d-flex">
         <div class ="container-course-header">
             <span>{{ course.title }}</span>
+            <h3>Unidades</h3>
         </div>
         <div class ="container-course-buttons"> 
             <button @click="$emit('add-unit')" class="btn btn-add">
@@ -42,5 +43,8 @@ defineProps(["course"]);
 .btn-clipboard {
     background-color: #b8c57d !important;
     padding: 0;
+}
+h3 {
+    font-size: 18px; 
 }
 </style>

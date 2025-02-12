@@ -1,6 +1,7 @@
 <template>
     <div v-if="page" class ="container-fluid container-page">
-        <Header :page="page"
+        <Unauthorized v-if="auth_error"></Unauthorized>
+        <Header v-else :page="page"
             @add-card="showModalAddCard"
             @show-clipboard="showModalClipboard">
         </Header>
@@ -34,14 +35,16 @@
 </template>
 
 <script setup>
-import Header from '@/modules/admin/PageHeader.vue'
-import Card from '@/modules/admin/PageCard.vue'
-import ModalNew from "@/modules/modals/ModalNew.vue";
-import ModalEdit from "@/modules/modals/ModalEdit.vue";
-import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
-import { ref, onMounted } from 'vue';
+import Header from '@/components/admin/PageHeader.vue'
+import Card from '@/components/admin/PageCard.vue'
+import Unauthorized from '@/components/UnauthorizedUser.vue'
+import ModalNew from "@/components/modals/ModalNew.vue";
+import ModalEdit from "@/components/modals/ModalEdit.vue";
+import ModalClipboard from "@/components/modals/ModalClipboard.vue";
 import usePage from '@/composables/admin/usePageAdmin';
 import useClipboardCards from '@/composables/admin/useClipboardCards';
+
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -63,7 +66,7 @@ const route = useRoute()
 const id = ref('');
 id.value = route.params.id
 //Get page 
-const { page, getPage } = usePage()
+const { page, auth_error, getPage } = usePage()
 //Get Clipboard cards
 const { cards, getClipboard } = useClipboardCards()
 const router = useRouter()

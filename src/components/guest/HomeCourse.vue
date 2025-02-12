@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import Image from '@/modules/Item/ItemImage.vue'
+import Image from '@/components/Item/ItemImage.vue'
 import { RouterLink } from 'vue-router';
 import { defineProps, ref, computed } from 'vue';
 import axios from "axios"
@@ -31,7 +31,7 @@ import { useAuthStore } from '@/stores/authStore.js';
 import slugify from '@sindresorhus/slugify';
 import alertify from 'alertifyjs';
 
-const emit = defineEmits(['show-info']) 
+const emit = defineEmits(['show-info','suscribirse']) 
 const props = defineProps(["course","index"]);
 const store = useAuthStore();
 const { isAuthenticated, user, token } = storeToRefs(store);
@@ -60,20 +60,12 @@ const bgGradient = computed(() => {
 
 const handleSuscribete = () => {
     if (isAuthenticated.value) {
-        console.log(token.value)
-        axios.get(`http://localhost:4000/api/student/subscription/add/${props.course.id}`, {
-            headers: {
-                'Authorization': `Bearer ${token.value}`
-            }
-        })
-        .then(response => {
-            //course.value = response.data.course[0];
-        })
+        emit("suscribirse",props.course)
     }
     else {
   		alertify.error("Please login first");
-    }
-};
+    }    
+}
 
 function showInfo(info) {
     //console.log("Info captured:",info)

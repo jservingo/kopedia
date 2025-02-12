@@ -2,7 +2,7 @@
     <div class ="container-fluid container-item">
         <Text v-if="item.type=='text'" :item="item"
             @show-info="showInfo">
-        </Text> 
+        </Text>
         <Image v-if="item.type=='image'" :item="item"
             @show-info="showInfo">
         </Image>
@@ -17,11 +17,11 @@
 </template>
 
 <script setup>
-import Audio from '@/modules/Item/ItemAudio.vue'
-import Formula from '@/modules/Item/ItemFormula.vue'
-import Image from '@/modules/Item/ItemImage.vue'
-import Text from '@/modules/Item/ItemText.vue'
-import Video from '@/modules/Item/ItemVideo.vue'
+import Audio from '@/components/Item/ItemAudio.vue'
+import Formula from '@/components/Item/ItemFormula.vue'
+import Image from '@/components/Item/ItemImage.vue'
+import Text from '@/components/Item/ItemText.vue'
+import Video from '@/components/Item/ItemVideo.vue'
 import { defineProps } from 'vue';
 
 defineProps(["item"]);

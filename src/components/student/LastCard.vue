@@ -54,6 +54,9 @@ onMounted(() => {
 .last-card {
     background-color: rgb(188, 209, 187);
     margin-bottom: 10px;
+    border-radius: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 .link-last-card {
     font-size: 18px;

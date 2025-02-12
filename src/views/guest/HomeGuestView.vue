@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import Header from '@/modules/guest/HomeHeader.vue'
-import CourseBox from '@/modules/guest/HomeCourse.vue'
+import Header from '@/components/guest/HomeHeader.vue'
+import CourseBox from '@/components/guest/HomeCourse.vue'
 import { ref, onMounted } from 'vue';
 import useHome from '@/composables/guest/useHomeGuest';
 import { storeToRefs } from 'pinia';

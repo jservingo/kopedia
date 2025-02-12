@@ -1,6 +1,7 @@
 <template>
     <div v-if="unit" class="container-fluid container-course">
-        <Header :unit="unit" 
+        <Unauthorized v-if="auth_error"></Unauthorized>
+        <Header v-else :unit="unit" 
             @add-page="showModalAddPage"
             @show-clipboard="showModalClipboard">
         </Header>
@@ -34,14 +35,16 @@
 </template>
 
 <script setup>
-import Header from '@/modules/admin/UnitHeader.vue'
-import Page from '@/modules/admin/UnitPage.vue'
-import ModalNew from "@/modules/modals/ModalNew.vue";
-import ModalEdit from "@/modules/modals/ModalEdit.vue";
-import ModalClipboard from "@/modules/modals/ModalClipboard.vue";
-import { defineProps, ref, computed, onMounted } from 'vue';
+import Header from '@/components/admin/UnitHeader.vue'
+import Page from '@/components/admin/UnitPage.vue'
+import Unauthorized from '@/components/UnauthorizedUser.vue'
+import ModalNew from "@/components/modals/ModalNew.vue";
+import ModalEdit from "@/components/modals/ModalEdit.vue";
+import ModalClipboard from "@/components/modals/ModalClipboard.vue";
 import useUnit from '@/composables/admin/useUnitAdmin';
 import useClipboardPages from '@/composables/admin/useClipboardPages';
+
+import { defineProps, ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from "axios"
 import { storeToRefs } from 'pinia';
@@ -68,7 +71,7 @@ const route = useRoute()
 const id = ref('');
 id.value = route.params.id
 //Get unit
-const { unit, getUnit } = useUnit()
+const { unit, auth_error, getUnit } = useUnit()
 //Get Clipboard units
 const { pages, getClipboard } = useClipboardPages()
 const router = useRouter()

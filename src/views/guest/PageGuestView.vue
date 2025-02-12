@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import Header from '@/modules/guest/PageHeader.vue'
-import Card from '@/modules/guest/PageCard.vue'
-import ModalInfo from "@/modules/modals/ModalInfo.vue";
+import Header from '@/components/guest/PageHeader.vue'
+import Card from '@/components/guest/PageCard.vue'
+import ModalInfo from "@/components/modals/ModalInfo.vue";
 import { ref, onMounted } from 'vue';
 import usePage from '@/composables/guest/usePageGuest';
 import { useRoute } from 'vue-router';

@@ -2,6 +2,7 @@
     <div class="container-header d-flex">
         <div class ="container-page-header"> 
             <span>{{ page.title }}</span>
+            <h3>Cards</h3>
         </div>
         <div class ="container-page-buttons">        
             <button @click="$emit('add-card')" class="btn btn-add">
@@ -42,5 +43,8 @@ defineProps(["page"]);
 .btn-clipboard {
     background-color: #b8c57d !important;
     padding: 0;
+}
+h3 {
+    font-size: 18px; 
 }
 </style>

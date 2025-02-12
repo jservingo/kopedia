@@ -1,8 +1,8 @@
 <template>
     <div class="center">
-        <h2>Error 404 - Page not found</h2>   
-        <h3>Esta página no existe</h3>        
-        <br>     
+        <h2>Error 401 - Unauthorized</h2>
+        <h3>Ud. no está autorizado</h3>
+        <br>
         <img src="@/assets/unauthorized.png"/>
     </div>
 </template>
